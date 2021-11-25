@@ -46,29 +46,66 @@ namespace constants
 		BASE,
 		FLAG,
 		BLACK,
-		GRAY
+		GRAY,
+		TILES_BLOCK
 	};
 
-	//fields
+	//tiles type
+	const int NUMBER_TYPE_OF_TILES = 16;
+	const int TILES_WIDTH = 32;
+	const int TILES_HEIGHT = 32;
+
+	enum Tiles
+	{
+		BRICK0000, 
+		BRICK1000, 
+		BRICK0100,
+		BRICK1100,
+		BRICK0010,
+		BRICK1010,
+		BRICK0110,
+		BRICK1110,
+		BRICK0001,
+		BRICK1001,
+		BRICK0101,
+		BRICK1101,
+		BRICK0011,
+		BRICK1011,
+		BRICK0111,
+		BRICK1111
+	};
+
+	//field1
 
 	const std::vector<std::vector<int>> field1
 	{
-		{(int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY },
-		{(int)constants::Blocks::GRAY , (int)constants::Blocks::BLACK,		(int)constants::Blocks::BLACK,		(int)constants::Blocks::BLACK,		(int)constants::Blocks::BLACK,		(int)constants::Blocks::BLACK,		(int)constants::Blocks::BLACK,		(int)constants::Blocks::BLACK,		(int)constants::Blocks::BLACK,		(int)constants::Blocks::BLACK,		(int)constants::Blocks::BLACK,		(int)constants::Blocks::BLACK,		(int)constants::Blocks::BLACK,		(int)constants::Blocks::BLACK, (int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY },
-		{(int)constants::Blocks::GRAY , (int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK, (int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY },
-		{(int)constants::Blocks::GRAY , (int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK, (int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY },
-		{(int)constants::Blocks::GRAY , (int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::METAL_ALL,	(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK, (int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY },
-		{(int)constants::Blocks::GRAY , (int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK, (int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY },
-		{(int)constants::Blocks::GRAY , (int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK, (int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY },
-		{(int)constants::Blocks::GRAY , (int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK, (int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY },
-		{(int)constants::Blocks::GRAY , (int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK, (int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY },
-		{(int)constants::Blocks::GRAY , (int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK, (int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY },
-		{(int)constants::Blocks::GRAY , (int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK, (int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY },
-		{(int)constants::Blocks::GRAY , (int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK, (int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY },
-		{(int)constants::Blocks::GRAY , (int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK, (int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY },
-		{(int)constants::Blocks::GRAY , (int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK, (int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY },
-		{(int)constants::Blocks::GRAY , (int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK,		(int)constants::Blocks::BRICK_ALL,	(int)constants::Blocks::BLACK, (int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY },
-		{(int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY ,		(int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY , (int)constants::Blocks::GRAY },
+		{(int)Blocks::GRAY , (int)Blocks::GRAY ,		(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,		(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,		(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY , (int)Blocks::GRAY },
+		{(int)Blocks::GRAY , (int)Blocks::BLACK,		(int)Blocks::BLACK,			(int)Blocks::BLACK,			(int)Blocks::BLACK,			(int)Blocks::BLACK,		(int)Blocks::BLACK,			(int)Blocks::BLACK,			(int)Blocks::BLACK,			(int)Blocks::BLACK,		(int)Blocks::BLACK,			(int)Blocks::BLACK,			(int)Blocks::BLACK,			(int)Blocks::BLACK,			(int)Blocks::GRAY , (int)Blocks::GRAY },
+		{(int)Blocks::GRAY , (int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::GRAY , (int)Blocks::GRAY },
+		{(int)Blocks::GRAY , (int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::GRAY , (int)Blocks::GRAY },
+		{(int)Blocks::GRAY , (int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::METAL_ALL,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::GRAY , (int)Blocks::GRAY },
+		{(int)Blocks::GRAY , (int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,		(int)Blocks::BRICK_UP,		(int)Blocks::BLACK,			(int)Blocks::BRICK_UP,		(int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::GRAY , (int)Blocks::GRAY },
+		{(int)Blocks::GRAY , (int)Blocks::BLACK,		(int)Blocks::BRICK_UP,		(int)Blocks::BLACK,			(int)Blocks::BRICK_UP,		(int)Blocks::BLACK,		(int)Blocks::BRICK_DOWN,	(int)Blocks::BLACK,			(int)Blocks::BRICK_DOWN,	(int)Blocks::BLACK,		(int)Blocks::BRICK_UP,		(int)Blocks::BLACK,			(int)Blocks::BRICK_UP,		(int)Blocks::BLACK,			(int)Blocks::GRAY , (int)Blocks::GRAY },
+		{(int)Blocks::GRAY , (int)Blocks::BRICK_DOWN,	(int)Blocks::BLACK,			(int)Blocks::BRICK_DOWN,	(int)Blocks::BRICK_DOWN,	(int)Blocks::BLACK,		(int)Blocks::BRICK_UP,		(int)Blocks::BLACK,			(int)Blocks::BRICK_UP,		(int)Blocks::BLACK,		(int)Blocks::BRICK_DOWN,	(int)Blocks::BRICK_DOWN,	(int)Blocks::BLACK,			(int)Blocks::BRICK_DOWN,	(int)Blocks::GRAY , (int)Blocks::GRAY },
+		{(int)Blocks::GRAY , (int)Blocks::METAL_UP,		(int)Blocks::BLACK,			(int)Blocks::BRICK_UP,		(int)Blocks::BRICK_UP,		(int)Blocks::BLACK,		(int)Blocks::BRICK_DOWN,	(int)Blocks::BLACK,			(int)Blocks::BRICK_DOWN,	(int)Blocks::BLACK,		(int)Blocks::BRICK_UP,		(int)Blocks::BRICK_UP,		(int)Blocks::BLACK,			(int)Blocks::METAL_UP,		(int)Blocks::GRAY , (int)Blocks::GRAY },
+		{(int)Blocks::GRAY , (int)Blocks::BLACK,		(int)Blocks::BRICK_DOWN,	(int)Blocks::BLACK,			(int)Blocks::BRICK_DOWN,	(int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::BRICK_ALL,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,		(int)Blocks::BRICK_DOWN,	(int)Blocks::BLACK,			(int)Blocks::BRICK_DOWN,	(int)Blocks::BLACK,			(int)Blocks::GRAY , (int)Blocks::GRAY },
+		{(int)Blocks::GRAY , (int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::GRAY , (int)Blocks::GRAY },
+		{(int)Blocks::GRAY , (int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::GRAY , (int)Blocks::GRAY },
+		{(int)Blocks::GRAY , (int)Blocks::BLACK,		(int)Blocks::BRICK_ALL, 	(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,		(int)Blocks::BRICK_UP,		(int)Blocks::BLACK,			(int)Blocks::BRICK_UP,		(int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::GRAY , (int)Blocks::GRAY },
+		{(int)Blocks::GRAY , (int)Blocks::BLACK,		(int)Blocks::BRICK_ALL, 	(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,		(int)Blocks::TILES_BLOCK,	(int)Blocks::BRICK_DOWN,	(int)Blocks::TILES_BLOCK,	(int)Blocks::BLACK,		(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::BRICK_ALL,		(int)Blocks::BLACK,			(int)Blocks::GRAY , (int)Blocks::GRAY },
+		{(int)Blocks::GRAY , (int)Blocks::BLACK,		(int)Blocks::BLACK,		    (int)Blocks::BLACK,			(int)Blocks::BLACK,			(int)Blocks::BLACK,		(int)Blocks::BRICK_RIGHT,	(int)Blocks::BASE,			(int)Blocks::BRICK_LEFT,	(int)Blocks::BLACK,		(int)Blocks::BLACK,			(int)Blocks::BLACK,			(int)Blocks::BLACK,			(int)Blocks::BLACK,			(int)Blocks::GRAY , (int)Blocks::GRAY },
+		{(int)Blocks::GRAY , (int)Blocks::GRAY ,		(int)Blocks::GRAY ,		    (int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,		(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,		(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY , (int)Blocks::GRAY },
 	};
 
+	//std::vector<std::vector<int>> tile1 (TILES_HEIGHT, std::vector<int>(TILES_WIDTH, -1));
+
+	/*std::vector<std::vector<int>> tile1[28][12] = (int)Tiles::BRICK0000;
+	std::vector<std::vector<int>> tile1[28][13] = (int)Tiles::BRICK0000;
+	std::vector<std::vector<int>> tile1[29][12] = (int)Tiles::BRICK0000;
+	std::vector<std::vector<int>> tile1[29][13] = (int)Tiles::BRICK1111;
+
+	std::vector<std::vector<int>> tile1[33][12] = (int)Tiles::BRICK0000;
+	std::vector<std::vector<int>> tile1[33][13] = (int)Tiles::BRICK0000;
+	std::vector<std::vector<int>> tile1[34][12] = (int)Tiles::BRICK1111;
+	std::vector<std::vector<int>> tile1[34][13] = (int)Tiles::BRICK0000;*/
 }

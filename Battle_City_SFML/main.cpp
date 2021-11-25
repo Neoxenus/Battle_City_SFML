@@ -3,14 +3,12 @@
 
 
 
-
 int main()
 {
     //hide console
     HWND Hide;
     AllocConsole();
     Hide = FindWindowA("ConsoleWindowClass", NULL);
-    ShowWindow(Hide, 0);
+    ShowWindow(Hide, 1);
     //
-
 }

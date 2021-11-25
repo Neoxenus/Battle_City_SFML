@@ -160,6 +160,10 @@
     <ClInclude Include="Field.h" />
     <ClInclude Include="Tank.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="sprites.png" />
+    <Image Include="tiles.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -18,7 +18,7 @@ void Field::draw(sf::RenderWindow& window)
 	for(int i = 0; i < constants::FIELD_HEIGHT; ++i)
 		for (int j = 0; j < constants::FIELD_WIDTH; ++j)
 		{
-			//sprites.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * blocks[i][j], 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
+			sprites.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * blocks[i][j], 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
 			sprites.setPosition(i * constants::BLOCK_LENGHT, j * constants::BLOCK_LENGHT);
 			window.draw(sprites);
 		}

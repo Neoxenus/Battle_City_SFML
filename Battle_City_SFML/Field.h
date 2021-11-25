@@ -4,11 +4,9 @@
 class Field
 {
 public: 
-	std::vector<std::vector<int>> blocks[constants::FIELD_HEIGHT][constants::FIELD_WIDTH];
+	std::vector<std::vector<int>> blocks;
 	Field();
 	~Field();
-
-private:
 	void draw(sf::RenderWindow& window);
 };
 

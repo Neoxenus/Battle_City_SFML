@@ -25,6 +25,6 @@ int main()
                 window.close();
         }
         window.clear(sf::Color::Black);
-        //field1.draw(window);
+        field1.draw(window);
     }
 }

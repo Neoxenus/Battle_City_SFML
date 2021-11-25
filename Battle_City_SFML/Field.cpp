@@ -2,14 +2,14 @@
 
 Field::Field()
 {
-	int field1[constants::FIELD_HEIGHT][constants::FIELD_WIDTH] = { 0 };
+	std::vector<std::vector<int>> blocks(constants::FIELD_HEIGHT, std::vector<int>(constants::FIELD_WIDTH));
 }
 
 Field::~Field()
 {
 }
 
-void Field::draw(sf::RenderWindow& window, int tiles[constants::FIELD_HEIGHT][constants::FIELD_WIDTH])
+void Field::draw(sf::RenderWindow& window)
 {
 	sf::Texture texture;
 	texture.loadFromFile("tiles.png");
@@ -18,8 +18,8 @@ void Field::draw(sf::RenderWindow& window, int tiles[constants::FIELD_HEIGHT][co
 	for(int i = 0; i < constants::FIELD_HEIGHT; ++i)
 		for (int j = 0; j < constants::FIELD_WIDTH; ++j)
 		{
-			sprites.setTextureRect(sf::IntRect(tiles[i][j] * constants::TILE_LENGHT, 0, constants::TILE_LENGHT, constants::TILE_LENGHT));
-			sprites.setPosition(i * constants::TILE_LENGHT, j * constants::TILE_LENGHT);
+			//sprites.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * blocks[i][j], 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
+			sprites.setPosition(i * constants::BLOCK_LENGHT, j * constants::BLOCK_LENGHT);
 			window.draw(sprites);
 		}
 }

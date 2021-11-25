@@ -4,10 +4,11 @@
 class Field
 {
 public: 
+	std::vector<std::vector<int>> blocks[constants::FIELD_HEIGHT][constants::FIELD_WIDTH];
 	Field();
 	~Field();
 
 private:
-	void draw(sf::RenderWindow& window, int tiles[constants::FIELD_HEIGHT][constants::FIELD_WIDTH]);
+	void draw(sf::RenderWindow& window);
 };
 

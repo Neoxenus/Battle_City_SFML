@@ -9,9 +9,11 @@ int main()
     HWND Hide;
     AllocConsole();
     Hide = FindWindowA("ConsoleWindowClass", NULL);
-    ShowWindow(Hide, 0);
+    ShowWindow(Hide, 1);
     //
-    Field field();
+
+    Field field1;
+    field1.blocks = constants::field1;
 
     sf::RenderWindow window(sf::VideoMode(256,256), "", sf::Style::Titlebar | sf::Style::Close);
     while (window.isOpen())
@@ -23,6 +25,6 @@ int main()
                 window.close();
         }
         window.clear(sf::Color::Black);
-        field.draw(window, field);
+        //field1.draw(window);
     }
 }

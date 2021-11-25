@@ -22,6 +22,7 @@ void Field::draw(sf::RenderWindow& window)
 		{
 			sprites.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * blocks[i][j], 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
 			sprites.setPosition(j * constants::BLOCK_LENGHT, i * constants::BLOCK_LENGHT);
+			sprites.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
 			window.draw(sprites);
 		}
 	window.display();

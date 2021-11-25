@@ -16,7 +16,12 @@ int main()
     field1.blocks = constants::field1;
 
     //768
-    sf::RenderWindow window(sf::VideoMode(256,256), "", sf::Style::Titlebar | sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode(768, 768), "", sf::Style::Titlebar | sf::Style::Close);
+
+    sf::View view = window.getDefaultView();
+    view.zoom(0.33f);
+    window.setView(view);
+
     while (window.isOpen())
     {
         sf::Event event;

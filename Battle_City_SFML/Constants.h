@@ -15,6 +15,9 @@ namespace constants
 		LEFT,
 	};
 
+	//offset
+	const int WINDOW_OFFSET = 256;
+
 	//field size
 	const int FIELD_WIDTH = 16;
 	const int FIELD_HEIGHT = 16;

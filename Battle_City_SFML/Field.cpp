@@ -12,13 +12,13 @@ Field::~Field()
 void Field::draw(sf::RenderWindow& window)
 {
 	sf::Texture texture;
-	texture.loadFromFile("tiles.png");
+	texture.loadFromFile("D:\Projects\Battle_City_SFML\Battle_City_SFML\tiles.png");
 	sf::Sprite sprites(texture);
 
 	for(int i = 0; i < constants::FIELD_HEIGHT; ++i)
 		for (int j = 0; j < constants::FIELD_WIDTH; ++j)
 		{
-			//sprites.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * blocks[i][j], 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
+			sprites.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * blocks[j][i], 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
 			sprites.setPosition(i * constants::BLOCK_LENGHT, j * constants::BLOCK_LENGHT);
 			window.draw(sprites);
 		}

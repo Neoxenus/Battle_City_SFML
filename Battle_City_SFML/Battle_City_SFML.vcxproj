@@ -156,6 +156,7 @@
     <ClCompile Include="Tank.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="Tank.h" />
   </ItemGroup>

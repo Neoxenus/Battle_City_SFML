@@ -14,4 +14,35 @@ namespace constants
 		RIGHT,
 		LEFT,
 	};
+
+	//field size
+	const int FIELD_WIDTH = 16;
+	const int FIELD_HEIGHT = 16;
+	const int TILE_LENGHT = 16;
+
+	//tiles type
+	const int NUMBER_TYPE_OF_TILES = 18;
+
+	enum class Tiles
+	{
+		BRICK_ALL,
+		BRICK_RIGHT,		
+		BRICK_DOWN,
+		BRICK_LEFT,		
+		BRICK_UP,	
+		METAL_ALL,
+		METAL_RIGHT,
+		METAL_DOWN,
+		METAL_LEFT,		
+		METAL_UP,
+		WATER1,
+		WATER2,
+		WATER3,
+		TREE,
+		ICE,
+		BASE,
+		FLAG,
+		EMPTY,
+	};
+
 }

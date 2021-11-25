@@ -20,10 +20,10 @@ namespace constants
 	const int FIELD_HEIGHT = 16;
 	const int TILE_LENGHT = 16;
 
-	//tiles type
-	const int NUMBER_TYPE_OF_TILES = 18;
+	//blocks type
+	const int NUMBER_TYPE_OF_BLOCKS = 18;
 
-	enum class Tiles
+	enum class Blocks
 	{
 		BRICK_ALL,
 		BRICK_RIGHT,		
@@ -42,7 +42,8 @@ namespace constants
 		ICE,
 		BASE,
 		FLAG,
-		EMPTY,
+		BLACK,
+		GRAY
 	};
 
 }

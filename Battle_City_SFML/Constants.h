@@ -18,7 +18,7 @@ namespace constants
 	//field size
 	const int FIELD_WIDTH = 16;
 	const int FIELD_HEIGHT = 16;
-	const int TILE_LENGHT = 16;
+	const int BLOCK_LENGHT = 16;
 
 	//blocks type
 	const int NUMBER_TYPE_OF_BLOCKS = 18;

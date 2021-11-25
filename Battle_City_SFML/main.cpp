@@ -11,7 +11,7 @@ int main()
     Hide = FindWindowA("ConsoleWindowClass", NULL);
     ShowWindow(Hide, 0);
     //
-    Field field1();
+    Field field();
 
     sf::RenderWindow window(sf::VideoMode(256,256), "", sf::Style::Titlebar | sf::Style::Close);
     while (window.isOpen())
@@ -22,5 +22,7 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+
+        field.draw(window, field);
     }
 }

@@ -36,12 +36,4 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="sprites.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="tiles.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
 </Project>

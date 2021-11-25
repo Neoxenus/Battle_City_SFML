@@ -9,7 +9,7 @@ int main()
     HWND Hide;
     AllocConsole();
     Hide = FindWindowA("ConsoleWindowClass", NULL);
-    ShowWindow(Hide, 1);
+    ShowWindow(Hide, 0);
     //
 
     Field field1;
@@ -33,4 +33,5 @@ int main()
         window.clear(sf::Color::Black);
         field1.draw(window);
     }
+    window.display();
 }

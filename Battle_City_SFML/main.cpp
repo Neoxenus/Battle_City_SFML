@@ -15,6 +15,7 @@ int main()
     Field field1;
     field1.blocks = constants::field1;
 
+    //768
     sf::RenderWindow window(sf::VideoMode(256,256), "", sf::Style::Titlebar | sf::Style::Close);
     while (window.isOpen())
     {

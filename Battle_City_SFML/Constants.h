@@ -16,8 +16,8 @@ namespace constants
 	const int DEFAULT_PLAYER_COORD_Y = 28;
 	//enemy
 	const int NUMBER_ENEMY_RESPAWN = 3;
-	const int DEFAULT_ENEMY_COORD_X[NUMBER_ENEMY_RESPAWN] {0,12,24};
-	const int DEFAULT_ENEMY_COORD_Y { 0};
+	const int DEFAULT_ENEMY_COORD_X[NUMBER_ENEMY_RESPAWN] {0,14,24};
+	const int DEFAULT_ENEMY_COORD_Y{ 2 };
 	//directions
 	enum class Directions
 	{

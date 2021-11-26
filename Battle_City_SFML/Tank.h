@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Constants.h"
+#include "Field.h"
+
 class Tank
 {
     //3,3,3,3,2,4,2,2 ;tank speed //pixel per 4 frames
@@ -39,6 +41,6 @@ public:
             }
         }
         int getTankSpeed();//pixel per 4 frames
-       // void draw(sf::RenderWindow& window);
+        void draw(sf::RenderWindow& window);
 };
 

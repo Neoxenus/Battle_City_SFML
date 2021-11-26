@@ -11,3 +11,8 @@ int Tank::getTankSpeed()
             return constants::tankSpeed[4 + tankType];
     }
 }
+
+void Tank::draw(sf::RenderWindow& window)
+{
+
+}

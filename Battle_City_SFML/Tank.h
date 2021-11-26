@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 #include "Constants.h"
 class Tank
 {
@@ -38,6 +39,6 @@ public:
             }
         }
         int getTankSpeed();//pixel per 4 frames
-
+        void draw(sf::RenderWindow& window);
 };
 

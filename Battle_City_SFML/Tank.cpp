@@ -136,5 +136,11 @@ bool Tank::collision_tank(Field& field, double X, double Y)
 
 void Tank::collision_bullet(Field& field, std::vector<Bullet>& bullets)
 {
-
+    int x0, y0;
+    for (int i = 0; i < bullets.size(); ++i)
+    {
+        //x0 = floor(bullets[i].);
+        //y0 = floor(bullets[i].),
+        //if(field.getField(x0, y0))
+    }
 }

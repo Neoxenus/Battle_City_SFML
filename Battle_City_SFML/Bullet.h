@@ -1,5 +1,6 @@
 #pragma once
-#include "Tank.h"
+#include "Constants.h"
+#include "SFML/Graphics.hpp"
 
 class Bullet
 {
@@ -8,7 +9,7 @@ private:
 	double coordX, coordY;
 	int speed;
 public:
-	Bullet(Tank& tank);
+	Bullet(constants::Directions direction, double coordX, double coordY, int tankType, bool isPlayer);
 	void draw(sf::RenderWindow& window);
 };
 

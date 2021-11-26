@@ -4,7 +4,11 @@ namespace constants
 {
 	//tank speed
 	const int NUMBER_TYPES_OF_TANKS = 8;
-	const int tankSpeed[NUMBER_TYPES_OF_TANKS] = { 3, 3, 3, 3, 2, 4, 2, 2 };
+	const int tankSpeed[NUMBER_TYPES_OF_TANKS] = { 3, 3, 3, 3, 2, 4, 2, 2 }; // pixels per 4 frames
+
+	//bullet speed
+	const int TYPE_OF_BULLETS_NUBMER = 2;
+	const int bulletSpeed[TYPE_OF_BULLETS_NUBMER] = { 6, 12 }; // pixels per 4 frames
 
 	const int NUMBER_PLAYERS_RESPAWN = 2;
 	//tank default coord
@@ -110,7 +114,7 @@ namespace constants
 		{METAL, BLACK    , METAL, BLACK    },
 		{METAL, METAL, BLACK    , BLACK    },//
 		{WATER1,WATER1,WATER1,WATER1},
-		{WATER2,WATER2,WATER2,WATER2},
+		{WATER2,WATER2,WATER2,WATER2},	
 		{WATER3,WATER3,WATER3,WATER3},
 		{TREE,TREE,TREE,TREE},
 		{ICE,ICE,ICE,ICE},

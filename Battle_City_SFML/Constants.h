@@ -33,12 +33,10 @@ namespace constants
 	//field size
 	const int FIELD_WIDTH = 32;
 	const int FIELD_HEIGHT = 32;
-	const int BLOCK_LENGHT = 16;
 
 	//blocks type
 	const int NUMBER_TYPE_OF_BLOCKS = 18;
-	const int BLOCK_HEIGHT = 16;
-	const int BLOCK_WIDTH = 16;
+	const int BLOCK_LENGHT = 16;
 
 	enum class Blocks
 	{

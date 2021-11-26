@@ -22,6 +22,7 @@ public:
     int getTankType();
     bool getIsPlayer();
     double getTankSpeed();//pixel per 1 second
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window); 
+    void control(sf::RenderWindow& window, Field field);
 };
 

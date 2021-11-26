@@ -134,7 +134,7 @@ void Tank::shot(sf::RenderWindow& window, std::vector<Bullet>& bullets)
 
 bool Tank::collision_tank(Field& field, double X, double Y)
 {
-    int x0 = floor(X), y0 = floor(Y), x1 = floor(X + 2), y1 = floor(Y + 2);
+    int x0 = floor(X), y0 = floor(Y), x1 = ceil(X + 2), y1 = ceil(Y + 2);
     for(int i = x0; i < x1; ++i)
         for (int j = y0; j < y1; ++j)
         {

@@ -13,7 +13,7 @@ namespace constants
 	const int NUMBER_PLAYERS_RESPAWN = 2;
 	//tank default coord
 	//player
-	const int DEFAULT_PLAYER_COORD_X[NUMBER_PLAYERS_RESPAWN] = { 10,14 };
+	const int DEFAULT_PLAYER_COORD_X[NUMBER_PLAYERS_RESPAWN] = { 10,18 };
 	const int DEFAULT_PLAYER_COORD_Y = 28;
 	//enemy
 	const int NUMBER_ENEMY_RESPAWN = 3;
@@ -23,9 +23,9 @@ namespace constants
 	enum class Directions
 	{
 		UP,
+		LEFT,
 		DOWN,
 		RIGHT,
-		LEFT,
 	};
 
 	//offset

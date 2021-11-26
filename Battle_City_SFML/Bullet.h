@@ -13,5 +13,6 @@ public:
 	void draw(sf::RenderWindow& window); 
 	double getCoordX();
 	double getCoordY();
+	constants::Directions getDirection();
 };
 

@@ -112,21 +112,17 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
             this->shot(window, bullets);
         }
     }
+    if (!collision(field, this->coordX, this->coordY))
+    {
+        this->coordX = prevX;
+        this->coordY = prevY;
+    }
 }
 
 void Tank::shot(sf::RenderWindow& window, std::vector<Bullet> bullets)
 {
     Bullet bullet(*this);
     bullets.push_back(bullet);
-}
-        }
-    } 
-    if (!collision(field, this->coordX, this->coordY))
-    {
-        this->coordX = prevX;
-        this->coordY = prevY;
-    }
-
 }
 
 bool Tank::collision(Field & field, double X, double Y)

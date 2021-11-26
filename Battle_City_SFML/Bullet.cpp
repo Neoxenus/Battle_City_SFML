@@ -1,10 +1,10 @@
 #include "Bullet.h"
 
-Bullet::Bullet(Tank& tank)
+Bullet::Bullet(constants::Directions direction, double coordX, double coordY, int tankType, bool isPlayer)
 {
-	direction = tank.getDirection();
-	coordX = tank.getCoordX(), coordY = tank.getCoordY();
-	speed = constants::bulletSpeed[tank.getTankType() + 4 * (tank.getIsPlayer() == false)];
+	this->direction = direction;
+	this->coordX = coordX, this->coordY = coordY;
+	this->speed = constants::bulletSpeed[tankType + 4 * (isPlayer == false)];
 }
 
 void Bullet::draw(sf::RenderWindow& window)

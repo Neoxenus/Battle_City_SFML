@@ -34,8 +34,7 @@ void Field::setField(const std::vector<std::vector<int>> level)
 			this->setField(j * 2, i * 2, constants::toTiles[level[i][j]][p++]);
 			this->setField(j * 2 + 1, i * 2, constants::toTiles[level[i][j]][p++]);
 			this->setField(j * 2, i * 2 + 1, constants::toTiles[level[i][j]][p++]);
-			this->setField(j * 2 + 1, i * 2 + 1, constants::toTiles[level[i][j]][p++]);
-				
+			this->setField(j * 2 + 1, i * 2 + 1, constants::toTiles[level[i][j]][p++]);				
 		}
 }
 
@@ -51,19 +50,43 @@ void Field::draw(sf::RenderWindow& window)
 
 	window.clear(sf::Color::White);
 
+	s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::GRAY, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
 	for(int i = 0; i < constants::FIELD_HEIGHT; ++i)
 		for (int j = 0; j < constants::FIELD_WIDTH; ++j)
 		{
-			s_block.setTextureRect(sf::IntRect(constants::TILES_LENGHT * field[i][j], 0, constants::TILES_LENGHT, constants::TILES_LENGHT));
-			s_block.setPosition(j * constants::TILES_LENGHT, i * constants::TILES_LENGHT);
-			s_block.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
-			window.draw(s_block);
+			if (i == 0 || i == 31 || j == 0 || j == 29 || j == 31)
+			{
+				s_default.setPosition(j/2 * constants::BLOCK_LENGHT, i/2 * constants::BLOCK_LENGHT);
+				s_default.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
+				window.draw(s_default);
+			}
+			else if (i == 1 || i == 32 || j == 1 || j == 30 || j == 32)
+			{
+				continue;
+			}
+			else
+			{
+				s_block.setTextureRect(sf::IntRect(constants::TILES_LENGHT * field[i][j], 0, constants::TILES_LENGHT, constants::TILES_LENGHT));
+				s_block.setPosition(j * constants::TILES_LENGHT, i * constants::TILES_LENGHT);
+				s_block.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
+				window.draw(s_block);
+			}
 		}
 
+	//BASE
 	s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::BASE, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
 	s_default.setPosition(7 * constants::BLOCK_LENGHT, 14 * constants::BLOCK_LENGHT);
 	s_default.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
 	window.draw(s_default);
 
-	
+	s_block.setTextureRect(sf::IntRect(constants::TILES_LENGHT * constants::Tiles::BRICK1111, 0, constants::TILES_LENGHT, constants::TILES_LENGHT));
+	s_block.setPosition(13 * constants::TILES_LENGHT, 27 * constants::TILES_LENGHT);
+	s_block.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
+	window.draw(s_block);
+
+	s_block.setTextureRect(sf::IntRect(constants::TILES_LENGHT * constants::Tiles::BRICK1111, 0, constants::TILES_LENGHT, constants::TILES_LENGHT));
+	s_block.setPosition(16 * constants::TILES_LENGHT, 27 * constants::TILES_LENGHT);
+	s_block.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
+	window.draw(s_block);
+	//
 }

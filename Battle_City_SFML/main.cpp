@@ -2,6 +2,7 @@
 #include "windows.h"
 #include "Field.h"
 #include "Design_mode.h"
+#include "Tank.h"
 
 
 int main()
@@ -15,7 +16,9 @@ int main()
 
     Field field1;
     field1.setField(constants::field1);
-    Design_mode designm;
+    //Design_mode designm;
+    Tank tank1;
+
 
     sf::RenderWindow window(sf::VideoMode(768, 768), "", sf::Style::Titlebar | sf::Style::Close);
 
@@ -44,7 +47,7 @@ int main()
 
         window.clear(sf::Color::Black);
         field1.draw(window);
-        
+        tank1.draw(window);
         window.display();
     }
     

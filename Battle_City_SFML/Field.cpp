@@ -45,16 +45,25 @@ void Field::draw(sf::RenderWindow& window)
 	texture_block.loadFromFile("tiles.png");
 	sf::Sprite s_block(texture_block);
 
+	sf::Texture texture_base;
+	texture_base.loadFromFile("sprites.png");
+	sf::Sprite s_default(texture_base);
+
 	window.clear(sf::Color::White);
 
-	for(int i = 0; i < constants::FIELD_HEIGHT; i += 2)
-		for (int j = 0; j < constants::FIELD_WIDTH; j += 2)
+	for(int i = 0; i < constants::FIELD_HEIGHT; ++i)
+		for (int j = 0; j < constants::FIELD_WIDTH; ++j)
 		{
-			s_block.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * field[i][j], 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
-			s_block.setPosition(j * constants::BLOCK_LENGHT, i * constants::BLOCK_LENGHT);
+			s_block.setTextureRect(sf::IntRect(constants::TILES_LENGHT * field[i][j], 0, constants::TILES_LENGHT, constants::TILES_LENGHT));
+			s_block.setPosition(j * constants::TILES_LENGHT, i * constants::TILES_LENGHT);
 			s_block.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
 			window.draw(s_block);
-
 		}
+
+	s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::BASE, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
+	s_default.setPosition(7 * constants::BLOCK_LENGHT, 14 * constants::BLOCK_LENGHT);
+	s_default.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
+	window.draw(s_default);
+
 	window.display();
 }

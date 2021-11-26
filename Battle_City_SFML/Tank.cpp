@@ -2,6 +2,7 @@
 
 Tank::Tank()
 {
+    alreadyShot = false;
     isPlayer = false;
     tankType = 0;
     direction = constants::Directions::UP;

@@ -56,5 +56,4 @@ void Field::draw(sf::RenderWindow& window)
 			window.draw(s_block);
 
 		}
-	window.display();
 }

@@ -65,5 +65,5 @@ void Field::draw(sf::RenderWindow& window)
 	s_default.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
 	window.draw(s_default);
 
-	window.display();
+		}
 }

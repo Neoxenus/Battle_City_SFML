@@ -32,14 +32,15 @@ int main()
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::KeyPressed)
-            {
-                if (event.key.code == sf::Keyboard::Tilde)
-                {
-                    window.close();
-                    //designm.draw_dm();
-                }
-            }
+            //if (event.type == sf::Event::KeyPressed)
+            //{
+            //    if (event.key.code == sf::Keyboard::Tilde)
+            //    {
+            //        window.close();
+            //        //designm.draw_dm();
+            //    }
+            //}
+            tank1.control(window, field1, event);
 
             if (event.type == sf::Event::Closed)
                 window.close();
@@ -48,7 +49,6 @@ int main()
         window.clear(sf::Color::Black);
         field1.draw(window);
         tank1.draw(window); // coord in tiles // spawn tank
-        tank1.control(window, field1);
         window.display();
     }
     

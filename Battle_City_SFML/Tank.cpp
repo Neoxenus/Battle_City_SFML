@@ -78,27 +78,46 @@ void Tank::draw(sf::RenderWindow& window)
 
 void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
 {
+    double prevX = this->coordX, prevY = this->coordY;
     if (event.type == sf::Event::KeyPressed)
     {
         if (event.key.code == sf::Keyboard::W)
         {
-            this->coordY--;
             this->direction = constants::Directions::UP;
+            this->coordY--;
         }
         else if (event.key.code == sf::Keyboard::S)
-        {
-            this->coordY++;
+        {            
             this->direction = constants::Directions::DOWN;
+            this->coordY++;
         }
         else if (event.key.code == sf::Keyboard::A)
-        {
-            this->coordX--;
+        {            
             this->direction = constants::Directions::LEFT;
+            this->coordX--;
         }
         else if (event.key.code == sf::Keyboard::D)
         {
-            this->coordX++;
             this->direction = constants::Directions::RIGHT;
+            this->coordX++;
         }
+    } 
+    if (!collision(field, this->coordX, this->coordY))
+    {
+        this->coordX = prevX;
+        this->coordY = prevY;
     }
+
+}
+
+bool Tank::collision(Field & field, double X, double Y)
+{
+    int x0 = floor(X), y0 = floor(Y), x1 = floor(X + 2), y1 = floor(Y + 2);
+    for(int i = x0; i < x1; ++i)
+        for (int j = y0; j < y1; ++j)
+        {
+            if (field.getField(i, j) != static_cast<int>(constants::Tiles::BLACK))
+                return(false);
+        }
+    return true;
 }

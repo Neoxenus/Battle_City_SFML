@@ -13,7 +13,7 @@ int main()
     HWND Hide;
     AllocConsole();
     Hide = FindWindowA("ConsoleWindowClass", NULL);
-    ShowWindow(Hide, 0);
+    ShowWindow(Hide, 1);
     //
 
     Field field1;

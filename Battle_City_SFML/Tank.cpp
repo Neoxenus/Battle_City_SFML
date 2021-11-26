@@ -17,7 +17,8 @@ Tank::Tank(bool isPlayer, int tankType)
     if (tankType < 0 || tankType > 3)
         tankType = 0;
     this->tankType = tankType;
-    direction = constants::Directions::UP;
+    direction = isPlayer?constants::Directions::UP : constants::Directions::DOWN;
+
     if (isPlayer)
     {
         coordX = constants::DEFAULT_PLAYER_COORD_X[0];
@@ -70,8 +71,11 @@ void Tank::draw(sf::RenderWindow& window)
 	sf::Texture texture_all;
 	texture_all.loadFromFile("allSprites.png");
 	sf::Sprite sprite_all(texture_all);
-	sprite_all.setTextureRect(sf::IntRect(2 * static_cast<int>(direction) * constants::BLOCK_LENGHT,
-        tankType * constants::BLOCK_LENGHT, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
+
+	sprite_all.setTextureRect(sf::IntRect(
+        8 * constants::BLOCK_LENGHT*(isPlayer == false) + 2 * static_cast<int>(direction) * constants::BLOCK_LENGHT,
+        4 * constants::BLOCK_LENGHT * (isPlayer == false) + tankType * constants::BLOCK_LENGHT,
+        constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
     sprite_all.setPosition(this->coordX * constants::TILES_LENGHT, this->coordY * constants::TILES_LENGHT);
     sprite_all.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
 	window.draw(sprite_all);
@@ -79,25 +83,27 @@ void Tank::draw(sf::RenderWindow& window)
 
 void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Bullet> bullets)
 {
+    double prevX = this->coordX, prevY = this->coordY;
     if (event.type == sf::Event::KeyPressed)
     {
         if (event.key.code == sf::Keyboard::W)
         {
-            this->coordY--;
             this->direction = constants::Directions::UP;
+            this->coordY--;
         }
         else if (event.key.code == sf::Keyboard::S)
-        {
-            this->coordY++;
+        {            
             this->direction = constants::Directions::DOWN;
+            this->coordY++;
         }
         else if (event.key.code == sf::Keyboard::A)
-        {
-            this->coordX--;
+        {            
             this->direction = constants::Directions::LEFT;
+            this->coordX--;
         }
         else if (event.key.code == sf::Keyboard::D)
         {
+            this->direction = constants::Directions::RIGHT;
             this->coordX++;
             this->direction = constants::Directions::RIGHT;
         }
@@ -112,4 +118,25 @@ void Tank::shot(sf::RenderWindow& window, std::vector<Bullet> bullets)
 {
     Bullet bullet(*this);
     bullets.push_back(bullet);
+}
+        }
+    } 
+    if (!collision(field, this->coordX, this->coordY))
+    {
+        this->coordX = prevX;
+        this->coordY = prevY;
+    }
+
+}
+
+bool Tank::collision(Field & field, double X, double Y)
+{
+    int x0 = floor(X), y0 = floor(Y), x1 = floor(X + 2), y1 = floor(Y + 2);
+    for(int i = x0; i < x1; ++i)
+        for (int j = y0; j < y1; ++j)
+        {
+            if (field.getField(i, j) != static_cast<int>(constants::Tiles::BLACK))
+                return(false);
+        }
+    return true;
 }

@@ -2,7 +2,8 @@
 
 Field::Field()
 {
-	std::vector<std::vector<int>> field(constants::FIELD_HEIGHT, std::vector<int>(constants::FIELD_WIDTH));
+	std::vector<std::vector<int>> field(constants::FIELD_HEIGHT, std::vector<int>(constants::FIELD_WIDTH, 0));
+	this->field = field;
 }
 
 Field::~Field()

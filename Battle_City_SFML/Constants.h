@@ -13,8 +13,8 @@ namespace constants
 	const int NUMBER_PLAYERS_RESPAWN = 2;
 	//tank default coord
 	//player
-	const int DEFAULT_PLAYER_COORD_X[NUMBER_PLAYERS_RESPAWN] = { 8,16 };
-	const int DEFAULT_PLAYER_COORD_Y = 26;
+	const int DEFAULT_PLAYER_COORD_X[NUMBER_PLAYERS_RESPAWN] = { 10,14 };
+	const int DEFAULT_PLAYER_COORD_Y = 28;
 	//enemy
 	const int NUMBER_ENEMY_RESPAWN = 3;
 	const int DEFAULT_ENEMY_COORD_X[NUMBER_ENEMY_RESPAWN] {0,12,24};

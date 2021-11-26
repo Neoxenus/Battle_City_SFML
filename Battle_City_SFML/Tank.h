@@ -8,11 +8,11 @@ class Tank
     //3,3,3,3,2,4,2,2 ;tank speed //pixel per 4 frames
 //2,4,4,4,2,2,4,2 ;bullet speed pixel per frame
 private:
-        bool isPlayer;//true - player
-        constants::Directions direction;
-        bool isMoving = false;
-        int tankType;//0 to 3
-        double coordX, coordY;
+    bool isPlayer;//true - player
+    constants::Directions direction;
+    bool isMoving = false;
+    int tankType;//0 to 3
+    double coordX, coordY;
 public:
     Tank();
     Tank(bool isPlayer, int tankType);

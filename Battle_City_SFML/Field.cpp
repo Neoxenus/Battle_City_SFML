@@ -37,17 +37,8 @@ void Field::setField(const std::vector<std::vector<int>> level)
 			this->setField(j * 2, i * 2 + 1, constants::toTiles[level[i][j]][p++]);
 			this->setField(j * 2 + 1, i * 2 + 1, constants::toTiles[level[i][j]][p++]);				
 		}
-	/*for (int i = 0; i < constants::FIELD_HEIGHT; ++i)
-	{
-		for (int j = 0; j < constants::FIELD_WIDTH; ++j)
-		{
-
-			std::cout << this->getField(j, i) << " ";
-			if (this->getField(j, i) == 22)
-				exit(j*100+i);
-		}
-		std::cout << "\n";
-	}*/
+	this->setField(13,27, constants::BRICK1111);
+	this->setField(16, 27, constants::BRICK1111);
 }
 
 void Field::draw(sf::RenderWindow& window)

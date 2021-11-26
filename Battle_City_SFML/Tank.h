@@ -39,6 +39,6 @@ public:
             }
         }
         int getTankSpeed();//pixel per 4 frames
-        void draw(sf::RenderWindow& window);
+       // void draw(sf::RenderWindow& window);
 };
 

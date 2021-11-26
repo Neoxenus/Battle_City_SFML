@@ -36,6 +36,8 @@ void Field::setField(const std::vector<std::vector<int>> level)
 			this->setField(j * 2, i * 2 + 1, constants::toTiles[level[i][j]][p++]);
 			this->setField(j * 2 + 1, i * 2 + 1, constants::toTiles[level[i][j]][p++]);				
 		}
+	this->setField(13,27, constants::BRICK1111);
+	this->setField(16, 27, constants::BRICK1111);
 }
 
 void Field::draw(sf::RenderWindow& window)

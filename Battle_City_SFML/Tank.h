@@ -38,7 +38,7 @@ public:
                 coordY = constants::DEFAULT_ENEMY_COORD_Y;
             }
         }
-        int getTankSpeed();//pixel per 4 frames
+        double getTankSpeed();//pixel per 1 second
        // void draw(sf::RenderWindow& window);
 };
 

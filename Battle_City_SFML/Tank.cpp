@@ -1,14 +1,14 @@
 #include "Tank.h"
 
-int Tank::getTankSpeed()
+double Tank::getTankSpeed()
 {
     {
         if (isPlayer)
         {
-            return constants::tankSpeed[tankType];
+            return constants::tankSpeed[tankType] * 16.0;
         }
         else
-            return constants::tankSpeed[4 + tankType];
+            return constants::tankSpeed[4 + tankType] * 16.0;
     }
 }
 

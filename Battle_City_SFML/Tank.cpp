@@ -112,7 +112,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
         {
             if (this->alreadyShot != this->maxShots)
             {
-                ++this->alreadyShot;
+                //++this->alreadyShot;
                 this->shot(window, bullets);
             }
         }
@@ -154,8 +154,17 @@ void Tank::collision_bullet(Field& field, std::vector<Bullet>& bullets)
         direction = bullets[i].getDirection();
         if (field.getField(x0, y0) == constants::Tiles::BRICK1111)
         {
-            if(direction == constants::Directions::UP)
-            field.setField(x0, y0, constants::Tiles::BRICK1100);
+            if (direction == constants::Directions::UP)
+            {
+                field.setField(x0, y0, constants::Tiles::BRICK1100);
+                if(field.getField(x0 + 1, y0) == constants::Tiles::BRICK1111)
+                field.setField(x0 + 1, y0, constants::Tiles::BRICK1100);
+
+                bullets.erase(bullets.begin() + i);
+            }
+        }
+        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1111)
+        {
             field.setField(x0 + 1, y0, constants::Tiles::BRICK1100);
             bullets.erase(bullets.begin() + i);
         }

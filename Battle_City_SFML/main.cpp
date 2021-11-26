@@ -44,6 +44,8 @@ int main()
 
         window.clear(sf::Color::Black);
         field1.draw(window);
+        
+        window.display();
     }
-    window.display();
+    
 }

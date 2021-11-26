@@ -34,6 +34,8 @@ namespace constants
 
 	//blocks type
 	const int NUMBER_TYPE_OF_BLOCKS = 18;
+	const int BLOCK_HEIGHT = 16;
+	const int BLOCK_WIDTH = 16;
 
 	enum class Blocks
 	{

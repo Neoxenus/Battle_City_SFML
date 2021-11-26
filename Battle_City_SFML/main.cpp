@@ -14,7 +14,7 @@ int main()
     //
 
     Field field1;
-    //field1.blocks = constants::field1;
+    field1.setField(constants::field1);
     Design_mode designm;
 
     sf::RenderWindow window(sf::VideoMode(768, 768), "", sf::Style::Titlebar | sf::Style::Close);
@@ -34,7 +34,7 @@ int main()
                 if (event.key.code == sf::Keyboard::Tilde)
                 {
                     window.close();
-                    designm.draw_dm(field1.blocks);
+                    //designm.draw_dm();
                 }
             }
 
@@ -43,7 +43,7 @@ int main()
         }
 
         window.clear(sf::Color::Black);
-        //field1.draw(window);
+        field1.draw(window);
     }
     window.display();
 }

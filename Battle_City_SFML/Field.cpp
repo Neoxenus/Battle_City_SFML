@@ -27,8 +27,8 @@ void Field::setField(int x, int y, constants::Tiles value)
 
 void Field::setField(const std::vector<std::vector<int>> level)
 {
-	for (int i = 0; i < constants::FIELD_HEIGHT; ++i)
-		for (int j = 0; j < constants::FIELD_WIDTH; ++j)
+	for (int i = 0; i < constants::BLOCK_HEIGHT; ++i)
+		for (int j = 0; j < constants::BLOCK_WIDTH; ++j)
 		{
 			int p = 0;
 			this->setField(j * 2, i * 2, constants::toTiles[level[i][j]][p++]);
@@ -50,7 +50,7 @@ void Field::draw(sf::RenderWindow& window)
 	for(int i = 0; i < constants::FIELD_HEIGHT; i += 2)
 		for (int j = 0; j < constants::FIELD_WIDTH; j += 2)
 		{
-			s_block.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * blocks[i][j], 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
+			s_block.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * field[i][j], 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
 			s_block.setPosition(j * constants::BLOCK_LENGHT, i * constants::BLOCK_LENGHT);
 			s_block.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
 			window.draw(s_block);

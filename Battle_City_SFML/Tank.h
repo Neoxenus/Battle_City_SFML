@@ -14,34 +14,14 @@ private:
         int tankType;//0 to 3
         double coordX, coordY;
 public:
-        Tank()
-        {
-            isPlayer = false;
-            tankType = 0;
-            direction = constants::Directions::UP;
-            coordX = constants::DEFAULT_ENEMY_COORD_X[1];
-            coordY = constants::DEFAULT_ENEMY_COORD_Y;
-        }
-        Tank(bool isPlayer, int tankType)
-        {
-            this->isPlayer = isPlayer;
-            if (tankType < 0 || tankType > 3)
-                tankType = 0;
-            this->tankType = tankType;
-            direction = constants::Directions::UP;
-            if (isPlayer)
-            {
-                coordX = constants::DEFAULT_PLAYER_COORD_X[0];
-                coordY = constants::DEFAULT_PLAYER_COORD_Y;
-            }
-            else
-            {
-                coordX = constants::DEFAULT_ENEMY_COORD_X[1];
-                coordY = constants::DEFAULT_ENEMY_COORD_Y;
-            }
-        }
-        double getTankSpeed();//pixel per 1 second
-        void draw(sf::RenderWindow& window);
-        void control(sf::RenderWindow& window, Field field);
+    Tank();
+    Tank(bool isPlayer, int tankType);
+    constants::Directions getDirection();
+    double getCoordX();
+    double getCoordY();
+    int getTankType();
+    bool getIsPlayer();
+    double getTankSpeed();//pixel per 1 second
+    void draw(sf::RenderWindow& window);
 };
 

@@ -70,40 +70,35 @@ void Tank::draw(sf::RenderWindow& window)
 	sf::Sprite sprite_all(texture_all);
 
 	sprite_all.setTextureRect(sf::IntRect(2 * static_cast<int>(direction) * constants::BLOCK_LENGHT,
-        2 * tankType * constants::BLOCK_LENGHT, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
+        tankType * constants::BLOCK_LENGHT, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
     sprite_all.setPosition(this->coordX * constants::TILES_LENGHT, this->coordY * constants::TILES_LENGHT);
     sprite_all.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
 	window.draw(sprite_all);
 }
 
-void Tank::control(sf::RenderWindow& window, Field field)
+void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
 {
-    sf::Event event;
-
-    while (window.pollEvent(event))
+    if (event.type == sf::Event::KeyPressed)
     {
-        if (event.type == sf::Event::KeyPressed)
+        if (event.key.code == sf::Keyboard::W)
         {
-            if (event.key.code == sf::Keyboard::W)
-            {
-                this->coordY--;
-                this->direction = constants::Directions::UP;
-            }
-            else if (event.key.code == sf::Keyboard::S)
-            {
-                this->coordY++;
-                this->direction = constants::Directions::DOWN;
-            }
-            else if (event.key.code == sf::Keyboard::A)
-            {
-                this->coordX--;
-                this->direction = constants::Directions::LEFT;
-            }
-            else if (event.key.code == sf::Keyboard::D)
-            {
-                this->coordX++;
-                this->direction = constants::Directions::RIGHT;
-            }
+            this->coordY--;
+            this->direction = constants::Directions::UP;
+        }
+        else if (event.key.code == sf::Keyboard::S)
+        {
+            this->coordY++;
+            this->direction = constants::Directions::DOWN;
+        }
+        else if (event.key.code == sf::Keyboard::A)
+        {
+            this->coordX--;
+            this->direction = constants::Directions::LEFT;
+        }
+        else if (event.key.code == sf::Keyboard::D)
+        {
+            this->coordX++;
+            this->direction = constants::Directions::RIGHT;
         }
     }
 }

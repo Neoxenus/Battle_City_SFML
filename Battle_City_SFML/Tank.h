@@ -2,7 +2,6 @@
 #include <SFML/Graphics.hpp>
 #include "Constants.h"
 #include "Field.h"
-#include "Bullet.h"
 
 class Tank
 {
@@ -25,7 +24,7 @@ public:
     double getTankSpeed();//pixel per 1 second
     void draw(sf::RenderWindow& window);
     bool collision(Field& field, double prevX, double prevY);
-    void control(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Bullet> bullets);
-    void shot(sf::RenderWindow& window, std::vector<Bullet> bullets);
+    void control(sf::RenderWindow& window, Field& field, sf::Event& event);
+    void shot(sf::RenderWindow& window);
 };
 

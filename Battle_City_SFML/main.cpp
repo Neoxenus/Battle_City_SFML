@@ -13,7 +13,7 @@ int main()
     HWND Hide;
     AllocConsole();
     Hide = FindWindowA("ConsoleWindowClass", NULL);
-    ShowWindow(Hide, 1);
+    ShowWindow(Hide, 0);
     //
 
     Field field1;
@@ -27,11 +27,10 @@ int main()
     sf::View view = window.getDefaultView();
     view.zoom(0.33f);
     window.setView(view);
-    
+    std::vector<Bullet> bullets;
 
     while (window.isOpen())
     {
-        std::vector<Bullet> bullets;
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -43,7 +42,7 @@ int main()
             //        //designm.draw_dm();
             //    }
             //}
-            tank1.control(window, field1, event, bullets);
+            tank1.control(window, field1, event);
 
             if (event.type == sf::Event::Closed)
                 window.close();

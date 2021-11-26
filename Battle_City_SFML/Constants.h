@@ -19,8 +19,8 @@ namespace constants
 	const int WINDOW_OFFSET = 256;
 
 	//field size
-	const int FIELD_WIDTH = 16;
-	const int FIELD_HEIGHT = 16;
+	const int FIELD_WIDTH = 32;
+	const int FIELD_HEIGHT = 32;
 	const int BLOCK_LENGHT = 16;
 
 	//blocks type
@@ -52,8 +52,7 @@ namespace constants
 
 	//tiles type
 	const int NUMBER_TYPE_OF_TILES = 16;
-	const int TILES_WIDTH = 32;
-	const int TILES_HEIGHT = 32;
+	const int TILES_LENGHT = 8;
 
 	enum Tiles
 	{

@@ -2,7 +2,8 @@
 
 Tank::Tank()
 {
-    alreadyShot = false;
+    alreadyShot = 0;
+    maxShots = 1;
     isPlayer = false;
     tankType = 0;
     direction = constants::Directions::UP;
@@ -107,7 +108,11 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
         }
         else if (event.key.code == sf::Keyboard::Space)
         {
-            this->shot(window, bullets);
+            if (this->alreadyShot != this->maxShots)
+            {
+                ++this->alreadyShot;
+                this->shot(window, bullets);
+            }
         }
     }
     if (!collision(field, this->coordX, this->coordY))

@@ -47,3 +47,8 @@ double Bullet::getCoordY()
 {
 	return coordY;
 }
+
+constants::Directions Bullet::getDirection()
+{
+	return direction;
+}

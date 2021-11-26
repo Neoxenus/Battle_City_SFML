@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "Constants.h"
 #include "Field.h"
+#include "Bullet.h"
 
 class Tank
 {
@@ -25,5 +26,7 @@ public:
     void draw(sf::RenderWindow& window);
     void control(sf::RenderWindow& window, Field& field, sf::Event& event);
     bool collision(Field& field, double prevX, double prevY);
+    void control(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Bullet> bullets);
+    void shot(sf::RenderWindow& window, std::vector<Bullet> bullets);
 };
 

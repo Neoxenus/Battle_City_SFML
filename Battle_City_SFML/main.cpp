@@ -3,6 +3,8 @@
 #include "Field.h"
 #include "Design_mode.h"
 #include "Tank.h"
+#include "Bullet.h"
+#include <vector>
 
 
 int main()
@@ -29,6 +31,7 @@ int main()
 
     while (window.isOpen())
     {
+        std::vector<Bullet> bullets;
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -40,15 +43,16 @@ int main()
             //        //designm.draw_dm();
             //    }
             //}
-            tank1.control(window, field1, event);
+            tank1.control(window, field1, event, bullets);
 
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-
         window.clear(sf::Color::Black);
         field1.draw(window);
         tank1.draw(window); // coord in tiles // spawn tank
+        for (int i = 0; i < bullets.size(); ++i)
+            bullets[i].draw(window);
         window.display();
     }
     

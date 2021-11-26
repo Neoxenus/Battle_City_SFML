@@ -1,4 +1,6 @@
 #include "Tank.h"
+#include "Bullet.h"
+#include <vector>
 
 Tank::Tank()
 {
@@ -68,7 +70,6 @@ void Tank::draw(sf::RenderWindow& window)
 	sf::Texture texture_all;
 	texture_all.loadFromFile("allSprites.png");
 	sf::Sprite sprite_all(texture_all);
-
 	sprite_all.setTextureRect(sf::IntRect(2 * static_cast<int>(direction) * constants::BLOCK_LENGHT,
         tankType * constants::BLOCK_LENGHT, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
     sprite_all.setPosition(this->coordX * constants::TILES_LENGHT, this->coordY * constants::TILES_LENGHT);
@@ -76,7 +77,7 @@ void Tank::draw(sf::RenderWindow& window)
 	window.draw(sprite_all);
 }
 
-void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
+void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Bullet> bullets)
 {
     if (event.type == sf::Event::KeyPressed)
     {
@@ -100,5 +101,15 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
             this->coordX++;
             this->direction = constants::Directions::RIGHT;
         }
+        else if (event.key.code == sf::Keyboard::Space)
+        {
+            this->shot(window, bullets);
+        }
     }
+}
+
+void Tank::shot(sf::RenderWindow& window, std::vector<Bullet> bullets)
+{
+    Bullet bullet(*this);
+    bullets.push_back(bullet);
 }

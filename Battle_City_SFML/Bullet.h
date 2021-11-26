@@ -9,6 +9,6 @@ private:
 	int speed;
 public:
 	Bullet(Tank tank);
-	void draw();
+	void draw(sf::RenderWindow& window);
 };
 

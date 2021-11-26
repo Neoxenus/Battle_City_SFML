@@ -28,8 +28,8 @@ void Field::setField(int x, int y, constants::Tiles value)
 
 void Field::setField(const std::vector<std::vector<int>> level)
 {
-	for (int i = 0; i < constants::BLOCK_HEIGHT; ++i)
-		for (int j = 0; j < constants::BLOCK_WIDTH; ++j)
+	for (int i = 0; i < constants::FIELD_HEIGHT / 2; ++i)
+		for (int j = 0; j < constants::FIELD_HEIGHT / 2; ++j)
 		{
 			int p = 0;
 			this->setField(j * 2, i * 2, constants::toTiles[level[i][j]][p++]);

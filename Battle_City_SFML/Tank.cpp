@@ -91,22 +91,22 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
         if (event.key.code == sf::Keyboard::W)
         {
             this->direction = constants::Directions::UP;
-            this->coordY--;
+            this->coordY-=(this->getTankSpeed()*constants::delay);
         }
         else if (event.key.code == sf::Keyboard::S)
         {            
             this->direction = constants::Directions::DOWN;
-            this->coordY++;
+            this->coordY+= (this->getTankSpeed() * constants::delay);
         }
         else if (event.key.code == sf::Keyboard::A)
         {            
             this->direction = constants::Directions::LEFT;
-            this->coordX--;
+            this->coordX-= (this->getTankSpeed() * constants::delay);
         }
         else if (event.key.code == sf::Keyboard::D)
         {
             this->direction = constants::Directions::RIGHT;
-            this->coordX++;
+            this->coordX+= (this->getTankSpeed() * constants::delay);
         }
         else if (event.key.code == sf::Keyboard::Space)
         {
@@ -128,6 +128,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
 void Tank::shot(sf::RenderWindow& window, std::vector<Bullet>& bullets)
 {
     Bullet bullet(this->getDirection(), this->getCoordX(), this->getCoordY(), this->getTankType(), this->getIsPlayer());
+
     bullets.push_back(bullet);
 }
 
@@ -147,10 +148,10 @@ void Tank::collision_bullet(Field& field, std::vector<Bullet>& bullets)
 {
     int x0, y0;
     constants::Directions direction;
-    for (int i = 0; i < bullets.size(); ++i)
+     for (int i = 0; i < bullets.size(); ++i)
     {
-        x0 = floor(bullets[i].getCoordX());
-        y0 = floor(bullets[i].getCoordY());
+        x0 = ceil(bullets[i].getCoordX());
+        y0 = ceil(bullets[i].getCoordY());
         direction = bullets[i].getDirection();
         if (field.getField(x0, y0) == constants::Tiles::BRICK1111)
         {
@@ -158,7 +159,7 @@ void Tank::collision_bullet(Field& field, std::vector<Bullet>& bullets)
             {
                 field.setField(x0, y0, constants::Tiles::BRICK1100);
                 if(field.getField(x0 + 1, y0) == constants::Tiles::BRICK1111)
-                field.setField(x0 + 1, y0, constants::Tiles::BRICK1100);
+                    field.setField(x0 + 1, y0, constants::Tiles::BRICK1100);
 
                 bullets.erase(bullets.begin() + i);
             }

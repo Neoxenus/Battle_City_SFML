@@ -12,7 +12,7 @@ private:
         constants::Directions direction;
         bool isMoving = false;
         int tankType;//0 to 3
-        int coordX, coordY;
+        double coordX, coordY;
 public:
         Tank()
         {

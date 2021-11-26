@@ -131,7 +131,7 @@ bool Tank::collision(Field & field, double X, double Y)
     for(int i = x0; i < x1; ++i)
         for (int j = y0; j < y1; ++j)
         {
-            if (field.getField(i, j) != static_cast<int>(constants::Tiles::BLACK))
+            if (field.getField(i, j) != static_cast<int>(constants::Tiles::BLACK) || field.getField(i, j) != static_cast<int>(constants::Tiles::ICE) || field.getField(i, j) != static_cast<int>(constants::Tiles::TREE))
                 return(false);
         }
     return true;

@@ -13,6 +13,8 @@ Tank::Tank()
 
 Tank::Tank(bool isPlayer, int tankType)
 {
+    alreadyShot = 0;
+    maxShots = 1;
     this->isPlayer = isPlayer;
     if (tankType < 0 || tankType > 3)
         tankType = 0;

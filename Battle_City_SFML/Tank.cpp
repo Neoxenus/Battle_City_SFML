@@ -26,3 +26,32 @@ void Tank::draw(sf::RenderWindow& window)
     sprite_all.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
 	window.draw(sprite_all);
 }
+
+void Tank::control(sf::RenderWindow& window, Field field)
+{
+    sf::Event event;
+
+    while (window.pollEvent(event))
+    {
+        if (event.type == sf::Event::KeyPressed)
+        {
+            if (event.key.code == sf::Keyboard::W)
+            {
+                //if()
+                this->coordY--;
+            }
+            else if (event.key.code == sf::Keyboard::S)
+            {
+                this->coordY++;
+            }
+            else if (event.key.code == sf::Keyboard::A)
+            {
+                this->coordX--;
+            }
+            else if (event.key.code == sf::Keyboard::D)
+            {
+                this->coordX++;
+            }
+        }
+    }
+}

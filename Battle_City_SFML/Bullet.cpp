@@ -18,13 +18,13 @@ void Bullet::draw(sf::RenderWindow& window)
 			6 * constants::BLOCK_LENGHT + 5, 5, 6));
 		if (direction == constants::Directions::UP)
 		{
-			this->coordY -= 0.4;
+			this->coordY -= 0.1;
 			sprite_all.setPosition(this->coordX * constants::TILES_LENGHT +
 				static_cast<int>(constants::BLOCK_LENGHT) / 2 - 3, this->coordY * constants::TILES_LENGHT - 5);
 		}
 		else
 		{
-			this->coordY += 0.4;
+			this->coordY += 0.1;
 			sprite_all.setPosition(this->coordX * constants::TILES_LENGHT +
 				static_cast<int>(constants::BLOCK_LENGHT) / 2 - 3,
 				this->coordY++ * constants::TILES_LENGHT + static_cast<int>(constants::BLOCK_LENGHT));
@@ -36,13 +36,13 @@ void Bullet::draw(sf::RenderWindow& window)
 			6 * constants::BLOCK_LENGHT + 5, 6, 5));
 		if (direction == constants::Directions::LEFT)
 		{
-			this->coordX -= 0.4;
+			this->coordX -= 0.1;
 			sprite_all.setPosition(this->coordX * constants::TILES_LENGHT - 5,
 				this->coordY * constants::TILES_LENGHT + static_cast<int>(constants::BLOCK_LENGHT) / 2 - 3);
 		}
 		else
 		{
-			this->coordX += 0.4;
+			this->coordX += 0.1;
 			sprite_all.setPosition(this->coordX * constants::TILES_LENGHT + constants::BLOCK_LENGHT, this->coordY * constants::TILES_LENGHT + static_cast<int>(constants::BLOCK_LENGHT) / 2 - 3);
 		}
 	}

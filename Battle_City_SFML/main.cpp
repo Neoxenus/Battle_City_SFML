@@ -5,7 +5,7 @@
 #include "Tank.h"
 #include "Bullet.h"
 #include <vector>
-
+#include <iostream>
 
 int main()
 {
@@ -13,7 +13,7 @@ int main()
     HWND Hide;
     AllocConsole();
     Hide = FindWindowA("ConsoleWindowClass", NULL);
-    ShowWindow(Hide, 0);
+    ShowWindow(Hide, 1);
     //
 
     Field field1;
@@ -21,6 +21,15 @@ int main()
     //Design_mode designm;
     Tank tank1(true , 0);
     std::vector<Bullet> bullets;
+
+    for (int i = 0; i < constants::FIELD_HEIGHT; ++i)
+    {
+        for (int j = 0; j < constants::FIELD_WIDTH; ++j)
+        {
+            std::cout << field1.getField(j, i) << " ";
+        }
+        std::cout << "\n";
+    }
 
     sf::RenderWindow window(sf::VideoMode(768, 768), "", sf::Style::Titlebar | sf::Style::Close);
 

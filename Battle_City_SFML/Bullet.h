@@ -5,8 +5,10 @@ class Bullet
 {
 private:
 	constants::Directions direction;
-	int coordX, coordY;
+	double coordX, coordY;
+	int speed;
 public:
-
+	Bullet(Tank tank);
+	void draw();
 };
 

@@ -27,7 +27,6 @@ int main()
     sf::View view = window.getDefaultView();
     view.zoom(0.33f);
     window.setView(view);
-    std::vector<Bullet> bullets;
 
     while (window.isOpen())
     {

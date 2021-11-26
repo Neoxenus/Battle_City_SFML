@@ -6,6 +6,15 @@ namespace constants
 	const int NUMBER_TYPES_OF_TANKS = 8;
 	const int tankSpeed[NUMBER_TYPES_OF_TANKS] = { 3, 3, 3, 3, 2, 4, 2, 2 };
 
+	const int NUMBER_PLAYERS_RESPAWN = 2;
+	//tank default coord
+	//player
+	const int DEFAULT_PLAYER_COORD_X[NUMBER_PLAYERS_RESPAWN] = { 8,16 };
+	const int DEFAULT_PLAYER_COORD_Y = 26;
+	//enemy
+	const int NUMBER_ENEMY_RESPAWN = 3;
+	const int DEFAULT_ENEMY_COORD_X[NUMBER_ENEMY_RESPAWN] {0,12,24};
+	const int DEFAULT_ENEMY_COORD_Y { 0};
 	//directions
 	enum class Directions
 	{
@@ -51,12 +60,12 @@ namespace constants
 	};
 
 	//tiles type
-	const int NUMBER_TYPE_OF_TILES = 16;
+	const int NUMBER_TYPE_OF_TILES = 22;
 	const int TILES_LENGHT = 8;
 
 	enum Tiles
 	{
-		BRICK0000, 
+		BLACK,
 		BRICK1000, 
 		BRICK0100,
 		BRICK1100,
@@ -71,7 +80,41 @@ namespace constants
 		BRICK0011,
 		BRICK1011,
 		BRICK0111,
-		BRICK1111
+		BRICK1111,
+		METAL,
+		TREE,
+		ICE,
+		WATER1,
+		WATER2,
+		WATER3,
+		//other tiles that we dont draw
+		BASE,
+		FLAG,
+		GRAY,
+	};
+	
+	const std::vector<std::vector<Tiles>> toTiles
+	{
+		{BRICK1111, BRICK1111, BRICK1111, BRICK1111},//BRICK_ALL,
+		{BLACK,     BRICK1111, BLACK    , BRICK1111},//BRICK_RIGHT,
+		{BRICK1111, BRICK1111, BLACK    , BLACK    },//BRICK_DOWN
+		{BRICK1111, BLACK    , BRICK1111, BLACK    },//BRICK_LEFT
+		{BLACK    , BLACK    , BRICK1111, BRICK1111},//BRICK_UP,
+
+		{METAL, METAL, METAL, METAL},//metal
+		{BLACK,     METAL, BLACK    , METAL},
+		{METAL, METAL, BLACK    , BLACK    },
+		{METAL, BLACK    , METAL, BLACK    },
+		{BLACK    , BLACK    , METAL, METAL},//
+		{WATER1,WATER1,WATER1,WATER1},
+		{WATER2,WATER2,WATER2,WATER2},
+		{WATER3,WATER3,WATER3,WATER3},
+		{TREE,TREE,TREE,TREE},
+		{ICE,ICE,ICE,ICE},
+		{BASE,BASE,BASE,BASE},
+		{FLAG,FLAG,FLAG,FLAG},
+		{BLACK,BLACK,BLACK,BLACK},
+		{GRAY,GRAY,GRAY,GRAY},
 	};
 
 	//field1

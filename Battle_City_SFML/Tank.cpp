@@ -87,18 +87,22 @@ void Tank::control(sf::RenderWindow& window, Field field)
             if (event.key.code == sf::Keyboard::W)
             {
                 this->coordY--;
+                this->direction = constants::Directions::UP;
             }
             else if (event.key.code == sf::Keyboard::S)
             {
                 this->coordY++;
+                this->direction = constants::Directions::DOWN;
             }
             else if (event.key.code == sf::Keyboard::A)
             {
                 this->coordX--;
+                this->direction = constants::Directions::LEFT;
             }
             else if (event.key.code == sf::Keyboard::D)
             {
                 this->coordX++;
+                this->direction = constants::Directions::RIGHT;
             }
         }
     }

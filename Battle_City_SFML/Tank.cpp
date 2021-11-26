@@ -1,5 +1,4 @@
 #include "Tank.h"
-#include "Bullet.h"
 
 Tank::Tank()
 {
@@ -80,7 +79,7 @@ void Tank::draw(sf::RenderWindow& window)
 	window.draw(sprite_all);
 }
 
-void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Bullet>& bullets)
+void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
 {
     double prevX = this->coordX, prevY = this->coordY;
     if (event.type == sf::Event::KeyPressed)
@@ -107,7 +106,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
         }
         else if (event.key.code == sf::Keyboard::Space)
         {
-            this->shot(window, bullets);
+            this->shot(window);
         }
     }
     if (!collision(field, this->coordX, this->coordY))
@@ -117,13 +116,13 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
     }
 }
 
-void Tank::shot(sf::RenderWindow& window, std::vector<Bullet>& bullets)
+void Tank::shot(sf::RenderWindow& window)
 {
-    Bullet bullet(*this);
-    bullets.push_back(bullet);
+    //Bullet bullet(*this);
+   // bullets.push_back(bullet);
 }
 
-bool Tank::collision(Field & field, double X, double Y)
+bool Tank::collision(Field& field, double X, double Y)
 {
     int x0 = floor(X), y0 = floor(Y), x1 = floor(X + 2), y1 = floor(Y + 2);
     for(int i = x0; i < x1; ++i)

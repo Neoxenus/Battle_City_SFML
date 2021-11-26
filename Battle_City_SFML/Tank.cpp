@@ -2,6 +2,7 @@
 
 Tank::Tank()
 {
+    alreadyShot = false;
     isPlayer = false;
     tankType = 0;
     direction = constants::Directions::UP;
@@ -109,11 +110,12 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
             this->shot(window, bullets);
         }
     }
-    if (!collision_tank(field, this->coordX, this->coordY))
+    if (collision_tank(field, this->coordX, this->coordY))
     {
         this->coordX = prevX;
         this->coordY = prevY;
     }
+    collision_bullet(field, bullets);
 }
 
 void Tank::shot(sf::RenderWindow& window, std::vector<Bullet>& bullets)
@@ -129,9 +131,9 @@ bool Tank::collision_tank(Field& field, double X, double Y)
         for (int j = y0; j < y1; ++j)
         {
             if (field.getField(i, j) != static_cast<int>(constants::Tiles::BLACK) && field.getField(i, j) != static_cast<int>(constants::Tiles::ICE) && field.getField(i, j) != static_cast<int>(constants::Tiles::TREE))
-                return(false);
+                return true;
         }
-    return true;
+    return false;
 }
 
 void Tank::collision_bullet(Field& field, std::vector<Bullet>& bullets)
@@ -139,8 +141,13 @@ void Tank::collision_bullet(Field& field, std::vector<Bullet>& bullets)
     int x0, y0;
     for (int i = 0; i < bullets.size(); ++i)
     {
-        //x0 = floor(bullets[i].);
-        //y0 = floor(bullets[i].),
-        //if(field.getField(x0, y0))
+        x0 = floor(bullets[i].getCoordX());
+        y0 = floor(bullets[i].getCoordY());
+        //bullets[i].
+        if (field.getField(x0, y0) == constants::Tiles::BRICK1111)
+        {
+            field.setField(x0, y0, constants::Tiles::BRICK1100);
+            bullets.erase(bullets.begin() + i);
+        }
     }
 }

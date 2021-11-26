@@ -10,6 +10,8 @@ private:
 	int speed;
 public:
 	Bullet(constants::Directions direction, double coordX, double coordY, int tankType, bool isPlayer);
-	void draw(sf::RenderWindow& window);
+	void draw(sf::RenderWindow& window); 
+	double getCoordX();
+	double getCoordY();
 };
 

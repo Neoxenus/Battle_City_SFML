@@ -37,3 +37,13 @@ void Bullet::draw(sf::RenderWindow& window)
 	sprite_all.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
 	window.draw(sprite_all);
 }
+
+double Bullet::getCoordX()
+{
+	return coordX;
+}
+
+double Bullet::getCoordY()
+{
+	return coordY;
+}

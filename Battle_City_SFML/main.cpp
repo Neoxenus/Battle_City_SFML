@@ -20,14 +20,13 @@ int main()
     field1.setField(constants::field1);
     //Design_mode designm;
     Tank tank1(true , 0);
-
+    std::vector<Bullet> bullets;
 
     sf::RenderWindow window(sf::VideoMode(768, 768), "", sf::Style::Titlebar | sf::Style::Close);
 
     sf::View view = window.getDefaultView();
     view.zoom(0.33f);
     window.setView(view);
-    std::vector<Bullet> bullets;
 
     while (window.isOpen())
     {

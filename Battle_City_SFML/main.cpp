@@ -20,7 +20,7 @@ int main()
     field1.setField(constants::field1);
     //Design_mode designm;
     Tank tank1(true , 0);
-
+    std::vector<Bullet> bullets;
 
     sf::RenderWindow window(sf::VideoMode(768, 768), "", sf::Style::Titlebar | sf::Style::Close);
 
@@ -31,7 +31,6 @@ int main()
 
     while (window.isOpen())
     {
-        std::vector<Bullet> bullets;
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -43,7 +42,8 @@ int main()
             //        //designm.draw_dm();
             //    }
             //}
-            tank1.control(window, field1, event, bullets);
+             
+            //tank1.control(window, field1, event, bullets);
 
             if (event.type == sf::Event::Closed)
                 window.close();

@@ -1,6 +1,6 @@
 #pragma once
-#include "Constants.h"
 #include "Tank.h"
+
 class Bullet
 {
 private:
@@ -8,7 +8,7 @@ private:
 	double coordX, coordY;
 	int speed;
 public:
-	Bullet(Tank tank);
+	Bullet(Tank& tank);
 	void draw(sf::RenderWindow& window);
 };
 

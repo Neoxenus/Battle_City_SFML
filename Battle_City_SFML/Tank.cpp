@@ -1,6 +1,5 @@
 #include "Tank.h"
 #include "Bullet.h"
-#include <vector>
 
 Tank::Tank()
 {
@@ -81,7 +80,7 @@ void Tank::draw(sf::RenderWindow& window)
 	window.draw(sprite_all);
 }
 
-void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Bullet> bullets)
+void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Bullet>& bullets)
 {
     double prevX = this->coordX, prevY = this->coordY;
     if (event.type == sf::Event::KeyPressed)
@@ -105,7 +104,6 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
         {
             this->direction = constants::Directions::RIGHT;
             this->coordX++;
-            this->direction = constants::Directions::RIGHT;
         }
         else if (event.key.code == sf::Keyboard::Space)
         {
@@ -119,7 +117,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
     }
 }
 
-void Tank::shot(sf::RenderWindow& window, std::vector<Bullet> bullets)
+void Tank::shot(sf::RenderWindow& window, std::vector<Bullet>& bullets)
 {
     Bullet bullet(*this);
     bullets.push_back(bullet);
@@ -131,7 +129,7 @@ bool Tank::collision(Field & field, double X, double Y)
     for(int i = x0; i < x1; ++i)
         for (int j = y0; j < y1; ++j)
         {
-            if (field.getField(i, j) != static_cast<int>(constants::Tiles::BLACK) || field.getField(i, j) != static_cast<int>(constants::Tiles::ICE) || field.getField(i, j) != static_cast<int>(constants::Tiles::TREE))
+            if (field.getField(i, j) != static_cast<int>(constants::Tiles::BLACK) && field.getField(i, j) != static_cast<int>(constants::Tiles::ICE) && field.getField(i, j) != static_cast<int>(constants::Tiles::TREE))
                 return(false);
         }
     return true;

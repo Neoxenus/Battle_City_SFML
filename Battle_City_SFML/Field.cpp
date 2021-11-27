@@ -1,5 +1,5 @@
 #include "Field.h"
-#include <iostream>
+//#include <iostream>
 
 Field::Field()
 {
@@ -63,9 +63,17 @@ void Field::draw(sf::RenderWindow& window)
 				s_default.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
 				window.draw(s_default);
 			}
-			else if (i == 1 || i == 32 || j == 1 || j == 30 || j == 32)
+			else if (i == 1 || i == 32 || j == 1 || j == 30 || j == 32 || (i == 28 && j == 15) || (i == 29 && j == 14) || (i == 29 && j == 15))
 			{
 				continue;
+			}
+			else if (i == 28 && j == 14)
+			{
+				s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::BASE, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
+				s_default.setPosition(j/2 * constants::BLOCK_LENGHT, i/2 * constants::BLOCK_LENGHT);
+				s_default.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
+				window.draw(s_default);
+				s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::GRAY, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
 			}
 			else
 			{
@@ -76,7 +84,7 @@ void Field::draw(sf::RenderWindow& window)
 			}
 		}
 
-	//BASE
+	/*BASE
 	s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::BASE, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
 	s_default.setPosition(7 * constants::BLOCK_LENGHT, 14 * constants::BLOCK_LENGHT);
 	s_default.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
@@ -91,5 +99,5 @@ void Field::draw(sf::RenderWindow& window)
 	s_block.setPosition(16 * constants::TILES_LENGHT, 27 * constants::TILES_LENGHT);
 	s_block.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
 	window.draw(s_block);
-	//
+	*/
 }

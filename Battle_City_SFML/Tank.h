@@ -13,7 +13,8 @@ private:
     constants::Directions direction;
     bool isMoving = false;
     int tankType;//0 to 3
-    double coordX, coordY;
+    double coordX, coordY;//coords with step 0.5 tiles
+    double subCoordX, subCoordY;//absolute coords for drawing
 public:
     Tank();
     Tank(bool isPlayer, int tankType);

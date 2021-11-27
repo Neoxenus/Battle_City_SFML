@@ -7,8 +7,8 @@ Tank::Tank()
     isPlayer = false;
     tankType = 0;
     direction = constants::Directions::UP;
-    coordX = constants::DEFAULT_ENEMY_COORD_X[1];
-    coordY = constants::DEFAULT_ENEMY_COORD_Y;
+    subCoordX = coordX = constants::DEFAULT_ENEMY_COORD_X[1];
+    subCoordY = coordY = constants::DEFAULT_ENEMY_COORD_Y;
 }
 
 Tank::Tank(bool isPlayer, int tankType)
@@ -23,13 +23,13 @@ Tank::Tank(bool isPlayer, int tankType)
 
     if (isPlayer)
     {
-        coordX = constants::DEFAULT_PLAYER_COORD_X[0];
-        coordY = constants::DEFAULT_PLAYER_COORD_Y;
+        subCoordX = coordX = constants::DEFAULT_PLAYER_COORD_X[0];
+        subCoordY = coordY = constants::DEFAULT_PLAYER_COORD_Y;
     }
     else
     {
-        coordX = constants::DEFAULT_ENEMY_COORD_X[1];
-        coordY = constants::DEFAULT_ENEMY_COORD_Y;
+       subCoordX = coordX = constants::DEFAULT_ENEMY_COORD_X[1];
+       subCoordY = coordY = constants::DEFAULT_ENEMY_COORD_Y;
     }
 }
 
@@ -78,7 +78,7 @@ void Tank::draw(sf::RenderWindow& window)
         8 * constants::BLOCK_LENGHT*(isPlayer == false) + 2 * static_cast<int>(direction) * constants::BLOCK_LENGHT,
         4 * constants::BLOCK_LENGHT * (isPlayer == false) + tankType * constants::BLOCK_LENGHT,
         constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
-    sprite_all.setPosition(this->coordX * constants::TILES_LENGHT, this->coordY * constants::TILES_LENGHT);
+    sprite_all.setPosition(this->subCoordX * constants::TILES_LENGHT, this->subCoordY * constants::TILES_LENGHT);
     sprite_all.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
 	window.draw(sprite_all);
 }
@@ -91,22 +91,46 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
         if (event.key.code == sf::Keyboard::W)
         {
             this->direction = constants::Directions::UP;
-            this->coordY-=(this->getTankSpeed()*constants::delay);
+            this->subCoordY -= getTankSpeed()*constants::delay;
+            this->subCoordX = this->coordX;
+            if (this->subCoordY <= this->coordY)
+            {
+                this->coordY -= 0.5;
+            }  
+
         }
         else if (event.key.code == sf::Keyboard::S)
         {            
             this->direction = constants::Directions::DOWN;
-            this->coordY+= (this->getTankSpeed() * constants::delay);
+            
+            this->subCoordY += getTankSpeed() * constants::delay;
+            this->subCoordX = this->coordX;
+            if (subCoordY >= coordY)
+            {
+                this->coordY += 0.5;
+            }
         }
         else if (event.key.code == sf::Keyboard::A)
         {            
             this->direction = constants::Directions::LEFT;
-            this->coordX-= (this->getTankSpeed() * constants::delay);
+            
+            this->subCoordX -= getTankSpeed() * constants::delay;
+            this->subCoordY = this->coordY;
+            if (subCoordX <= coordX)
+            {
+                this->coordX -= 0.5;
+            }
         }
         else if (event.key.code == sf::Keyboard::D)
         {
             this->direction = constants::Directions::RIGHT;
-            this->coordX+= (this->getTankSpeed() * constants::delay);
+            
+            this->subCoordX += getTankSpeed() * constants::delay;
+            this->subCoordY = this->coordY;
+            if (subCoordX >= coordX)
+            {
+                this->coordX += 0.5;
+            }
         }
         else if (event.key.code == sf::Keyboard::Space)
         {
@@ -119,8 +143,8 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
     }
     if (collision_tank(field, this->coordX, this->coordY))
     {
-        this->coordX = prevX;
-        this->coordY = prevY;
+        this->subCoordX = this->coordX = prevX;
+        this->subCoordY = this->coordY = prevY;
     }
 }
 
@@ -133,7 +157,7 @@ void Tank::shot(sf::RenderWindow& window, std::vector<Bullet>& bullets)
 
 bool Tank::collision_tank(Field& field, double X, double Y)
 {
-    int x0 = floor(X), y0 = floor(Y), x1 = ceil(X + 2), y1 = ceil(Y + 2);
+    int x0 = X, y0 = Y, x1 = ceil(X + 2), y1 = ceil(Y + 2);
     for(int i = x0; i < x1; ++i)
         for (int j = y0; j < y1; ++j)
         {

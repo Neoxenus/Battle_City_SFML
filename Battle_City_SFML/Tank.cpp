@@ -122,7 +122,6 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
         this->coordX = prevX;
         this->coordY = prevY;
     }
-    collision_bullet(field, bullets);
 }
 
 void Tank::shot(sf::RenderWindow& window, std::vector<Bullet>& bullets)
@@ -146,16 +145,22 @@ bool Tank::collision_tank(Field& field, double X, double Y)
 
 void Tank::collision_bullet(Field& field, std::vector<Bullet>& bullets)
 {
-    int x0, y0;
+    int x0, y0, xr, yd;
     constants::Directions direction;
      for (int i = 0; i < bullets.size(); ++i)
     {
-        x0 = ceil(bullets[i].getCoordX());
-        y0 = ceil(bullets[i].getCoordY());
+        x0 = floor(bullets[i].getCoordX());
+        y0 = floor(bullets[i].getCoordY());
+        xr = floor(bullets[i].getCoordX() + 5.0 / 8) + 2;//+ 6.0 / 8);
+        yd = floor(bullets[i].getCoordY() + 3.0 / 8) + 2;//+ 6.0 / 8);
         direction = bullets[i].getDirection();
-        if (field.getField(x0, y0) == constants::Tiles::BRICK1111)
+  
+        //if(bullets[i].getCoordX() < 2.625 || bullets[i].getCoordX() > 25.375 || bullets[i].getCoordY() < 2.575 || bullets[i].getCoordY() > 27.325)
+        //    bullets.erase(bullets.begin() + i);
+
+        if (direction == constants::Directions::UP)
         {
-            if (direction == constants::Directions::UP)
+            if (field.getField(x0, y0) == constants::Tiles::BRICK1111)
             {
                 field.setField(x0, y0, constants::Tiles::BRICK1100);
                 if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1111)
@@ -163,15 +168,381 @@ void Tank::collision_bullet(Field& field, std::vector<Bullet>& bullets)
 
                 bullets.erase(bullets.begin() + i);
             }
-            else if (direction == constants::Directions::DOWN)
+            else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1111)
             {
-                field.setField(x0, y0, constants::Tiles::BRICK0011);
-                if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1111)
-                    field.setField(x0 + 1, y0, constants::Tiles::BRICK0011);
+                field.setField(x0 + 1, y0, constants::Tiles::BRICK1100);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            //2
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK1100)
+            {
+                field.setField(x0, y0, constants::Tiles::BLACK);
+                if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1100)
+                    field.setField(x0 + 1, y0, constants::Tiles::BLACK);
 
                 bullets.erase(bullets.begin() + i);
             }
-            else if (direction == constants::Directions::LEFT)
+            else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1100)
+            {
+                field.setField(x0 + 1, y0, constants::Tiles::BLACK);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK0011)
+            {
+                field.setField(x0, y0, constants::Tiles::BLACK);
+                if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0011)
+                    field.setField(x0 + 1, y0, constants::Tiles::BLACK);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0011)
+            {
+                field.setField(x0 + 1, y0, constants::Tiles::BLACK);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK1010)
+            {
+                field.setField(x0, y0, constants::Tiles::BRICK1000);
+                if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1010)
+                    field.setField(x0 + 1, y0, constants::Tiles::BRICK1000);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1010)
+            {
+                field.setField(x0 + 1, y0, constants::Tiles::BRICK1000);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK0101)
+            {
+                field.setField(x0, y0, constants::Tiles::BRICK0100);
+                if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0101)
+                    field.setField(x0 + 1, y0, constants::Tiles::BRICK0100);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0101)
+            {
+                field.setField(x0 + 1, y0, constants::Tiles::BRICK0100);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            //3
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK0111)
+            {
+                field.setField(x0, y0, constants::Tiles::BRICK0100);
+                if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0111)
+                    field.setField(x0 + 1, y0, constants::Tiles::BRICK0100);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0111)
+            {
+                field.setField(x0 + 1, y0, constants::Tiles::BRICK0100);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK1011)
+            {
+                field.setField(x0, y0, constants::Tiles::BRICK1000);
+                if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1011)
+                    field.setField(x0 + 1, y0, constants::Tiles::BRICK1000);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1011)
+            {
+                field.setField(x0 + 1, y0, constants::Tiles::BRICK1000);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK1101)
+            {
+                field.setField(x0, y0, constants::Tiles::BRICK1100);
+                if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1101)
+                    field.setField(x0 + 1, y0, constants::Tiles::BRICK1100);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1101)
+            {
+                field.setField(x0 + 1, y0, constants::Tiles::BRICK1100);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK1110)
+            {
+            field.setField(x0, y0, constants::Tiles::BRICK1100);
+            if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1110)
+                field.setField(x0 + 1, y0, constants::Tiles::BRICK1100);
+
+            bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1110)
+            {
+            field.setField(x0 + 1, y0, constants::Tiles::BRICK1100);
+            bullets.erase(bullets.begin() + i);
+            }
+
+
+            //1
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK1000)
+            {
+            field.setField(x0, y0, constants::Tiles::BLACK);
+            if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1000)
+                field.setField(x0 + 1, y0, constants::Tiles::BLACK);
+
+            bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1000)
+            {
+            field.setField(x0 + 1, y0, constants::Tiles::BLACK);
+            bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK0100)
+            {
+            field.setField(x0, y0, constants::Tiles::BLACK);
+            if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0100)
+                field.setField(x0 + 1, y0, constants::Tiles::BLACK);
+
+            bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0100)
+            {
+            field.setField(x0 + 1, y0, constants::Tiles::BLACK);
+            bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK0010)
+            {
+            field.setField(x0, y0, constants::Tiles::BLACK);
+            if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0010)
+                field.setField(x0 + 1, y0, constants::Tiles::BLACK);
+
+            bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0010)
+            {
+            field.setField(x0 + 1, y0, constants::Tiles::BLACK);
+            bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK0001)
+            {
+            field.setField(x0, y0, constants::Tiles::BLACK);
+            if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0001)
+                field.setField(x0 + 1, y0, constants::Tiles::BLACK);
+
+            bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0001)
+            {
+            field.setField(x0 + 1, y0, constants::Tiles::BLACK);
+            bullets.erase(bullets.begin() + i);
+            }
+        }
+
+        else if (direction == constants::Directions::DOWN)
+        {
+            if (field.getField(x0, yd) == constants::Tiles::BRICK1111)
+            {
+                field.setField(x0, yd, constants::Tiles::BRICK0011);
+                if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1111)
+                    field.setField(x0 + 1, yd, constants::Tiles::BRICK0011);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1111)
+            {
+                field.setField(x0 + 1, yd, constants::Tiles::BRICK0011);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            //2
+
+            else if (field.getField(x0, yd) == constants::Tiles::BRICK1100)
+            {
+                field.setField(x0, yd, constants::Tiles::BLACK);
+                if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1100)
+                    field.setField(x0 + 1, yd, constants::Tiles::BLACK);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1100)
+            {
+                field.setField(x0 + 1, yd, constants::Tiles::BLACK);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, yd) == constants::Tiles::BRICK0011)
+            {
+                field.setField(x0, yd, constants::Tiles::BLACK);
+                if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0011)
+                    field.setField(x0 + 1, yd, constants::Tiles::BLACK);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0011)
+            {
+                field.setField(x0 + 1, yd, constants::Tiles::BLACK);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, yd) == constants::Tiles::BRICK1010)
+            {
+                field.setField(x0, yd, constants::Tiles::BRICK0010);
+                if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1010)
+                    field.setField(x0 + 1, yd, constants::Tiles::BRICK0010);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1010)
+            {
+                field.setField(x0 + 1, yd, constants::Tiles::BRICK0010);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, yd) == constants::Tiles::BRICK0101)
+            {
+                field.setField(x0, yd, constants::Tiles::BRICK0001);
+                if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0101)
+                    field.setField(x0 + 1, yd, constants::Tiles::BRICK0001);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0101)
+            {
+                field.setField(x0 + 1, yd, constants::Tiles::BRICK0001);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            //3
+
+            else if (field.getField(x0, yd) == constants::Tiles::BRICK0111)
+            {
+                field.setField(x0, yd, constants::Tiles::BRICK0011);
+                if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0111)
+                    field.setField(x0 + 1, yd, constants::Tiles::BRICK0011);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0111)
+            {
+                field.setField(x0 + 1, yd, constants::Tiles::BRICK0011);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, yd) == constants::Tiles::BRICK1011)
+            {
+                field.setField(x0, yd, constants::Tiles::BRICK0011);
+                if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1011)
+                    field.setField(x0 + 1, yd, constants::Tiles::BRICK0011);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1011)
+            {
+                field.setField(x0 + 1, yd, constants::Tiles::BRICK0011);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, yd) == constants::Tiles::BRICK1101)
+            {
+                field.setField(x0, yd, constants::Tiles::BRICK0001);
+                if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1101)
+                    field.setField(x0 + 1, yd, constants::Tiles::BRICK0001);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1101)
+            {
+                field.setField(x0 + 1, yd, constants::Tiles::BRICK0001);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, yd) == constants::Tiles::BRICK1110)
+            {
+                field.setField(x0, yd, constants::Tiles::BRICK0010);
+                if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1110)
+                    field.setField(x0 + 1, yd, constants::Tiles::BRICK0010);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1110)
+            {
+                field.setField(x0 + 1, yd, constants::Tiles::BRICK0010);
+                bullets.erase(bullets.begin() + i);
+            }
+
+
+            //1
+            else if (field.getField(x0, yd) == constants::Tiles::BRICK1000)
+            {
+                field.setField(x0, yd, constants::Tiles::BLACK);
+                if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1000)
+                    field.setField(x0 + 1, yd, constants::Tiles::BLACK);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1000)
+            {
+                field.setField(x0 + 1, yd, constants::Tiles::BLACK);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, yd) == constants::Tiles::BRICK0100)
+            {
+                field.setField(x0, yd, constants::Tiles::BLACK);
+                if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0100)
+                    field.setField(x0 + 1, yd, constants::Tiles::BLACK);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0100)
+            {
+                field.setField(x0 + 1, yd, constants::Tiles::BLACK);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, yd) == constants::Tiles::BRICK0010)
+            {
+                field.setField(x0, yd, constants::Tiles::BLACK);
+                if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0010)
+                    field.setField(x0 + 1, yd, constants::Tiles::BLACK);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0010)
+            {
+                field.setField(x0 + 1, yd, constants::Tiles::BLACK);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, yd) == constants::Tiles::BRICK0001)
+            {
+                field.setField(x0, yd, constants::Tiles::BLACK);
+                if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0001)
+                    field.setField(x0 + 1, yd, constants::Tiles::BLACK);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0001)
+            {
+                field.setField(x0 + 1, yd, constants::Tiles::BLACK);
+                bullets.erase(bullets.begin() + i);
+            }
+        }
+
+        else if (direction == constants::Directions::LEFT)
+        {
+            if (field.getField(x0, y0) == constants::Tiles::BRICK1111)
             {
                 field.setField(x0, y0, constants::Tiles::BRICK1010);
                 if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1111)
@@ -179,38 +550,374 @@ void Tank::collision_bullet(Field& field, std::vector<Bullet>& bullets)
 
                 bullets.erase(bullets.begin() + i);
             }
-            else if (direction == constants::Directions::RIGHT)
-            {
-                field.setField(x0, y0, constants::Tiles::BRICK0101);
-                if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1111)
-                    field.setField(x0, y0 + 1, constants::Tiles::BRICK0101);
-
-                bullets.erase(bullets.begin() + i);
-            }
-        }
-        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1111)
-        {
-            if (direction == constants::Directions::UP)
-            {
-                field.setField(x0 + 1, y0, constants::Tiles::BRICK1100);
-                bullets.erase(bullets.begin() + i);
-            }
-            else if (direction == constants::Directions::DOWN)
-            {
-                field.setField(x0 + 1, y0, constants::Tiles::BRICK0011);
-                bullets.erase(bullets.begin() + i);
-            }
-        }
-        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1111)
-        {
-             if (direction == constants::Directions::LEFT)
+            else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1111)
             {
                 field.setField(x0, y0 + 1, constants::Tiles::BRICK1010);
                 bullets.erase(bullets.begin() + i);
             }
-            else if (direction == constants::Directions::RIGHT)
+
+            //2
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK1100)
             {
-                field.setField(x0, y0 + 1, constants::Tiles::BRICK0101);
+                field.setField(x0, y0, constants::Tiles::BRICK1000);
+                if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1100)
+                    field.setField(x0, y0 + 1, constants::Tiles::BRICK1000);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1100)
+            {
+                field.setField(x0, y0 + 1, constants::Tiles::BRICK1000);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK0011)
+            {
+                field.setField(x0, y0, constants::Tiles::BRICK0010);
+                if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0011)
+                    field.setField(x0, y0 + 1, constants::Tiles::BRICK0010);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0011)
+            {
+                field.setField(x0, y0 + 1, constants::Tiles::BRICK0010);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK1010)
+            {
+                field.setField(x0, y0, constants::Tiles::BLACK);
+                if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1010)
+                    field.setField(x0, y0 + 1, constants::Tiles::BLACK);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1010)
+            {
+                field.setField(x0, y0 + 1, constants::Tiles::BLACK);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK0101)
+            {
+                field.setField(x0, y0, constants::Tiles::BLACK);
+                if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0101)
+                    field.setField(x0, y0 + 1, constants::Tiles::BLACK);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0101)
+            {
+                field.setField(x0, y0 + 1, constants::Tiles::BLACK);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            //3
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK0111)
+            {
+                field.setField(x0, y0, constants::Tiles::BRICK0010);
+                if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0111)
+                    field.setField(x0, y0 + 1, constants::Tiles::BRICK0010);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0111)
+            {
+                field.setField(x0, y0 + 1, constants::Tiles::BRICK0010);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK1011)
+            {
+                field.setField(x0, y0, constants::Tiles::BRICK1010);
+                if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1011)
+                    field.setField(x0, y0 + 1, constants::Tiles::BRICK1010);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1011)
+            {
+                field.setField(x0, y0 + 1, constants::Tiles::BRICK1010);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK1101)
+            {
+                field.setField(x0, y0, constants::Tiles::BRICK1000);
+                if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1101)
+                    field.setField(x0, y0 + 1, constants::Tiles::BRICK1000);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1101)
+            {
+                field.setField(x0, y0 + 1, constants::Tiles::BRICK1000);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK1110)
+            {
+                field.setField(x0, y0, constants::Tiles::BRICK1000);
+                if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1110)
+                    field.setField(x0, y0 + 1, constants::Tiles::BRICK1000);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1110)
+            {
+                field.setField(x0, y0 + 1, constants::Tiles::BRICK1000);
+                bullets.erase(bullets.begin() + i);
+            }
+
+
+            //1
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK1000)
+            {
+                field.setField(x0, y0, constants::Tiles::BLACK);
+                if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1000)
+                    field.setField(x0, y0 + 1, constants::Tiles::BLACK);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1000)
+            {
+                field.setField(x0, y0 + 1, constants::Tiles::BLACK);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK0100)
+            {
+                field.setField(x0, y0, constants::Tiles::BLACK);
+                if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0100)
+                    field.setField(x0, y0 + 1, constants::Tiles::BLACK);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0100)
+            {
+                field.setField(x0, y0 + 1, constants::Tiles::BLACK);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK0010)
+            {
+                field.setField(x0, y0, constants::Tiles::BLACK);
+                if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0010)
+                    field.setField(x0, y0 + 1, constants::Tiles::BLACK);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0010)
+            {
+                field.setField(x0, y0 + 1, constants::Tiles::BLACK);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(x0, y0) == constants::Tiles::BRICK0001)
+            {
+                field.setField(x0, y0, constants::Tiles::BLACK);
+                if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0001)
+                    field.setField(x0, y0 + 1, constants::Tiles::BLACK);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0001)
+            {
+                field.setField(x0, y0 + 1, constants::Tiles::BLACK);
+                bullets.erase(bullets.begin() + i);
+            }
+        }
+
+        else if (direction == constants::Directions::RIGHT)
+        {
+            if (field.getField(xr, y0) == constants::Tiles::BRICK1111)
+            {
+                field.setField(xr, y0, constants::Tiles::BRICK0101);
+                if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1111)
+                    field.setField(xr, y0 + 1, constants::Tiles::BRICK0101);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1111)
+            {
+                field.setField(xr, y0 + 1, constants::Tiles::BRICK0101);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            //2
+
+            else if (field.getField(xr, y0) == constants::Tiles::BRICK1100)
+            {
+                field.setField(xr, y0, constants::Tiles::BRICK0100);
+                if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1100)
+                    field.setField(xr, y0 + 1, constants::Tiles::BRICK0100);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1100)
+            {
+                field.setField(xr, y0 + 1, constants::Tiles::BRICK0100);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(xr, y0) == constants::Tiles::BRICK0011)
+            {
+                field.setField(xr, y0, constants::Tiles::BRICK0001);
+                if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0011)
+                    field.setField(xr, y0 + 1, constants::Tiles::BRICK0001);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0011)
+            {
+                field.setField(xr, y0 + 1, constants::Tiles::BRICK0001);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(xr, y0) == constants::Tiles::BRICK1010)
+            {
+                field.setField(xr, y0, constants::Tiles::BLACK);
+                if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1010)
+                    field.setField(xr, y0 + 1, constants::Tiles::BLACK);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1010)
+            {
+                field.setField(xr, y0 + 1, constants::Tiles::BLACK);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(xr, y0) == constants::Tiles::BRICK0101)
+            {
+                field.setField(xr, y0, constants::Tiles::BLACK);
+                if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0101)
+                    field.setField(xr, y0 + 1, constants::Tiles::BLACK);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0101)
+            {
+                field.setField(xr, y0 + 1, constants::Tiles::BLACK);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            //3
+
+            else if (field.getField(xr, y0) == constants::Tiles::BRICK0111)
+            {
+                field.setField(xr, y0, constants::Tiles::BRICK0101);
+                if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0111)
+                    field.setField(xr, y0 + 1, constants::Tiles::BRICK0101);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0111)
+            {
+                field.setField(xr, y0 + 1, constants::Tiles::BRICK0101);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(xr, y0) == constants::Tiles::BRICK1011)
+            {
+                field.setField(xr, y0, constants::Tiles::BRICK0001);
+                if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1011)
+                    field.setField(xr, y0 + 1, constants::Tiles::BRICK0001);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1011)
+            {
+                field.setField(xr, y0 + 1, constants::Tiles::BRICK0001);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(xr, y0) == constants::Tiles::BRICK1101)
+            {
+                field.setField(xr, y0, constants::Tiles::BRICK0101);
+                if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1101)
+                    field.setField(xr, y0 + 1, constants::Tiles::BRICK0101);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1101)
+            {
+                field.setField(xr, y0 + 1, constants::Tiles::BRICK0101);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(xr, y0) == constants::Tiles::BRICK1110)
+            {
+                field.setField(xr, y0, constants::Tiles::BRICK0100);
+                if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1110)
+                    field.setField(xr, y0 + 1, constants::Tiles::BRICK0100);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1110)
+            {
+                field.setField(xr, y0 + 1, constants::Tiles::BRICK0100);
+                bullets.erase(bullets.begin() + i);
+            }
+
+
+            //1
+            else if (field.getField(xr, y0) == constants::Tiles::BRICK1000)
+            {
+                field.setField(xr, y0, constants::Tiles::BLACK);
+                if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1000)
+                    field.setField(xr, y0 + 1, constants::Tiles::BLACK);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1000)
+            {
+                field.setField(xr, y0 + 1, constants::Tiles::BLACK);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(xr, y0) == constants::Tiles::BRICK0100)
+            {
+                field.setField(xr, y0, constants::Tiles::BLACK);
+                if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0100)
+                    field.setField(xr, y0 + 1, constants::Tiles::BLACK);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0100)
+            {
+                field.setField(xr, y0 + 1, constants::Tiles::BLACK);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(xr, y0) == constants::Tiles::BRICK0010)
+            {
+                field.setField(xr, y0, constants::Tiles::BLACK);
+                if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0010)
+                    field.setField(xr, y0 + 1, constants::Tiles::BLACK);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0010)
+            {
+                field.setField(xr, y0 + 1, constants::Tiles::BLACK);
+                bullets.erase(bullets.begin() + i);
+            }
+
+            else if (field.getField(xr, y0) == constants::Tiles::BRICK0001)
+            {
+                field.setField(xr, y0, constants::Tiles::BLACK);
+                if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0001)
+                    field.setField(xr, y0 + 1, constants::Tiles::BLACK);
+
+                bullets.erase(bullets.begin() + i);
+            }
+            else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0001)
+            {
+                field.setField(xr, y0 + 1, constants::Tiles::BLACK);
                 bullets.erase(bullets.begin() + i);
             }
         }

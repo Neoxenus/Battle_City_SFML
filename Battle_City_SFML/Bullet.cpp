@@ -27,7 +27,7 @@ void Bullet::draw(sf::RenderWindow& window)
 			this->coordY += 0.1;
 			sprite_all.setPosition(this->coordX * constants::TILES_LENGHT +
 				static_cast<int>(constants::BLOCK_LENGHT) / 2 - 3,
-				this->coordY++ * constants::TILES_LENGHT + static_cast<int>(constants::BLOCK_LENGHT));
+				this->coordY * constants::TILES_LENGHT + static_cast<int>(constants::BLOCK_LENGHT));
 		}
 	}
 	if (direction == constants::Directions::LEFT || direction == constants::Directions::RIGHT)

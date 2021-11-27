@@ -25,7 +25,7 @@ public:
     bool getIsPlayer();
     double getTankSpeed();//pixel per 1 second
     void draw(sf::RenderWindow& window);
-    bool collision_tank(Field& field, double prevX, double prevY);
+    bool collision(Field& field, double prevX, double prevY, int spriteSize = 2);
     void collision_bullet(Field& field, std::vector<Bullet>& bullets);
     void control(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Bullet>& bullets);
     void shot(sf::RenderWindow& window, std::vector<Bullet>& bullets);

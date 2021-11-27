@@ -141,7 +141,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
             }
         }
     }
-    if (collision_tank(field, this->coordX, this->coordY))
+    if (collision(field, this->coordX, this->coordY))
     {
         this->subCoordX = this->coordX = prevX;
         this->subCoordY = this->coordY = prevY;
@@ -155,9 +155,9 @@ void Tank::shot(sf::RenderWindow& window, std::vector<Bullet>& bullets)
     bullets.push_back(bullet);
 }
 
-bool Tank::collision_tank(Field& field, double X, double Y)
+bool Tank::collision(Field& field, double X, double Y, int spriteSize)
 {
-    int x0 = X, y0 = Y, x1 = ceil(X + 2), y1 = ceil(Y + 2);
+    int x0 = X, y0 = Y, x1 = ceil(X + spriteSize), y1 = ceil(Y + spriteSize);
     for(int i = x0; i < x1; ++i)
         for (int j = y0; j < y1; ++j)
         {
@@ -179,7 +179,7 @@ void Tank::collision_bullet(Field& field, std::vector<Bullet>& bullets)
         yd = floor(bullets[i].getCoordY() + 3.0 / 8) + 2;//+ 6.0 / 8);
         direction = bullets[i].getDirection();
   
-          if (bullets[i].getCoordX() < 0 || bullets[i].getCoordX() > 30 || bullets[i].getCoordY() < 0 || bullets[i].getCoordY() > 30)//(bullets[i].getCoordX() < 2.625 || bullets[i].getCoordX() > 25.375 || bullets[i].getCoordY() < 2.575 || bullets[i].getCoordY() > 27.325)
+        if (collision(field, x0, y0, 1))//bullets[i].getCoordX() < 0 || bullets[i].getCoordX() > 30 || bullets[i].getCoordY() < 0 || bullets[i].getCoordY() > 30)//(bullets[i].getCoordX() < 2.625 || bullets[i].getCoordX() > 25.375 || bullets[i].getCoordY() < 2.575 || bullets[i].getCoordY() > 27.325)
             bullets.erase(bullets.begin() + i);
 
         if (direction == constants::Directions::UP)

@@ -64,7 +64,7 @@ int main()
                 if (timer > 1)
                 {
                     std::cout << fps << "\n";
-                    exit(1);
+                    //exit(1);
                 }
                 delay += constants::delay;
                 //std::cout << timer << "\n";
@@ -86,7 +86,7 @@ int main()
                 tank1.control(window, field1, event);
                 tank1.bullets_colision(field1);
                 window.clear(sf::Color::Black);
-                //field1.draw(window, texture_block, texture_base);
+                field1.draw(window, texture_block, texture_base);
                 tank1.draw(window, texture_all); // coord in tiles // spawn tank
                 for (auto& tank : tankAI)
                     if (tank.isVisible())
@@ -94,6 +94,7 @@ int main()
 
                 window.display();
 
+                clock.restart().asMicroseconds();
                 //std::cout << timer << "\n";
             }
             /*else
@@ -105,7 +106,7 @@ int main()
         {
             delay = constants::delay;
             timer = 0;
-            clock.restart();
+            clock.restart().asMicroseconds();
         }
     }
 

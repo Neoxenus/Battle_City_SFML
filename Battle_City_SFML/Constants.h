@@ -152,10 +152,31 @@ namespace constants
 
 	enum class PacketsIndexes
 	{
-		TankTypeSize,
+		TankTypeSizeof = 0,
 		TankType,
-		TankAlreadyShotSize,
+		TankAlreadyShotSizeof,
 		TankAlreadyShot,
+		TankCoordXSizeof,
+		TankCoordX,
+		TankCoordYSizeof,
+		TankCoordY,
+		TankSubCoordXSizeof,
+		TankSubCoordX,
+		TankSubCoordYSizeof,
+		TankSubCoordY,
+		TankDirectionSizeof,
+		TankDirecton,
+		TankBulletsSizeof,
+		TankBulletsSize,
+
+		BulletDirectonSizeof = 0,
+		BulletDirecton,
+		BulletCoordXSizeof,
+		BulletCoordX,
+		BulletCoordYSizeof,
+		BulletCoordY,
+
+
 	};
 
 	//std::vector<std::vector<int>> tile1 (TILES_HEIGHT, std::vector<int>(TILES_WIDTH, -1));

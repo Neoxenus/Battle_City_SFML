@@ -20,7 +20,6 @@ int main()
     field1.setField(constants::field1);
     //Design_mode designm;
     Tank tank1(true , 0);
-    std::vector<Bullet> bullets;
 
     /*Server serv;
     serv.server();*/
@@ -37,11 +36,11 @@ int main()
     double timer = 0;
 
 
-    bool isMP = false, isHost = false;
+    bool isMP = false , isHost = false;
     if (!isMP )
         while (window.isOpen())
         {
-            timer += clock.getElapsedTime().asMilliseconds();
+            timer += (clock.getElapsedTime().asMilliseconds()/1000.0);
             sf::Event event;
             if (timer > constants::delay)
             {
@@ -67,9 +66,9 @@ int main()
 
     if (isMP && !isHost)
     {
-       // Client cl;
-//        cl.client();
-
+        Client cl;
+        cl.client();
+        cl.exchange(field1, tank1);
     }
     
 }

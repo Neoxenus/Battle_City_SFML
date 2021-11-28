@@ -40,21 +40,25 @@ void Server::loop(Field& field, Tank& tank)
 {
 	std::vector<char*> tankE;
 	std::vector<char*> fieldE;
-	char* buf{};
+	
 	for (int i = 0; i < 8; i += 2)
 	{
+		char* buf{};
 		recv(Connection, buf, sizeof(int), NULL);
 		tankE.push_back(buf);
-		recv(Connection, buf, convertBackFromCharArrayToInt(tankE[i]), NULL);
-		tankE.push_back(buf);
+		char* buf1{};
+		recv(Connection, buf1, convertBackFromCharArrayToInt(tankE[i]), NULL);
+		tankE.push_back(buf1);
 	}
 	tankE.resize(4 * convertBackFromCharArrayToInt(tankE[7] + 8));
 	for (int i = 8; i < 8 + 6 * convertBackFromCharArrayToInt(tankE[7]); i += 2)
 	{
+		char* buf{};
 		recv(Connection, buf, sizeof(int), NULL);
 		tankE.push_back(buf);
-		recv(Connection, buf, convertBackFromCharArrayToInt(tankE[i]), NULL);
-		tankE.push_back(buf);
+		char* buf1{};
+		recv(Connection, buf1, convertBackFromCharArrayToInt(tankE[i]), NULL);
+		tankE.push_back(buf1);
 	}
 	tank.newTank(tank, tankE);
 

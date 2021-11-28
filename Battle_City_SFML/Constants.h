@@ -24,7 +24,7 @@ namespace constants
 	const int DEFAULT_PLAYER_COORD_Y = 28;
 	//enemy
 	const int NUMBER_ENEMY_RESPAWN = 3;
-	const int DEFAULT_ENEMY_COORD_X[NUMBER_ENEMY_RESPAWN]{ 2, 14, 25 };
+	const int DEFAULT_ENEMY_COORD_X[NUMBER_ENEMY_RESPAWN]{ 2, 14, 26 };
 	const int DEFAULT_ENEMY_COORD_Y{ 2 };
 	//directions
 	enum class Directions
@@ -153,10 +153,31 @@ namespace constants
 
 	enum class PacketsIndexes
 	{
-		TankTypeSize,
+		TankTypeSizeof = 0,
 		TankType,
-		TankAlreadyShotSize,
+		TankAlreadyShotSizeof,
 		TankAlreadyShot,
+		TankCoordXSizeof,
+		TankCoordX,
+		TankCoordYSizeof,
+		TankCoordY,
+		TankSubCoordXSizeof,
+		TankSubCoordX,
+		TankSubCoordYSizeof,
+		TankSubCoordY,
+		TankDirectionSizeof,
+		TankDirecton,
+		TankBulletsSizeof,
+		TankBulletsSize,
+
+		BulletDirectonSizeof = 0,
+		BulletDirecton,
+		BulletCoordXSizeof,
+		BulletCoordX,
+		BulletCoordYSizeof,
+		BulletCoordY,
+
+
 	};
 
 	//std::vector<std::vector<int>> tile1 (TILES_HEIGHT, std::vector<int>(TILES_WIDTH, -1));

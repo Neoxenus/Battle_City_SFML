@@ -33,24 +33,22 @@ void Client::exchange(Field& field, Tank& tank)
 		send(Connection, tankE[i], sizeof(tankE[i]), NULL);
 	for (int i = 0; i < fieldE.size(); ++i)
 		send(Connection, fieldE[i], sizeof(fieldE[i]), NULL);
-	recv(Connection, tankE[0], sizeof(tankE[0]), NULL);
-	recv(Connection, tankE[1], sizeof(tankE[1]), NULL);
-	recv(Connection, tankE[2], sizeof(tankE[2]), NULL);
-	recv(Connection, tankE[3], sizeof(tankE[3]), NULL);
-	recv(Connection, tankE[4], sizeof(tankE[4]), NULL);
-	recv(Connection, tankE[5], sizeof(tankE[5]), NULL);
-	recv(Connection, tankE[6], sizeof(tankE[6]), NULL);
-	recv(Connection, tankE[7], sizeof(tankE[7]), NULL);
-	tankE.resize(4 * convertBackFromCharArrayToInt(tankE[7] +8));
-	for (int i = 8; i < tankE.size(); i+=3)
-	{
-		recv(Connection, tankE[i], sizeof(tankE[i]), NULL);
-		recv(Connection, tankE[i+1], sizeof(tankE[i+1]), NULL);
-		recv(Connection, tankE[i+2], sizeof(tankE[i+2]), NULL);
-	}
-	Tank ansTank(tank, tankE);
 
-	for (int i = 0; i < fieldE.size(); ++i)
-		for (int j = 0; j < fieldE.size(); ++j)
-			fieldE[i][j] = convertBackFromCharArrayToInt(fieldE[i* fieldE.size()+ j]);
+
+	for (int i = 0; i < 8; i+=2)
+	{
+		recv(Connection, tankE[i], sizeof(int), NULL);
+		recv(Connection, tankE[i+1], convertBackFromCharArrayToInt(tankE[i]), NULL);
+	}
+	tankE.resize(4 * convertBackFromCharArrayToInt(tankE[7] +8));
+	for (int i = 8; i < 8 + 6 * convertBackFromCharArrayToInt(tankE[7]); i+=2)
+	{
+		recv(Connection, tankE[i], sizeof(int), NULL);
+		recv(Connection, tankE[i + 1], convertBackFromCharArrayToInt(tankE[i]), NULL);
+	}
+	tank.newTank(tank, tankE);
+
+	for (int i = 0; i < constants::FIELD_HEIGHT; ++i)
+		for (int j = 0; j < constants::FIELD_WIDTH; ++j)
+			field.setField(j,i, static_cast<constants::Tiles>(convertBackFromCharArrayToInt(fieldE[i * constants::FIELD_WIDTH + j])));
 }

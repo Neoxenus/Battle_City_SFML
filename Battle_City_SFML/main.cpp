@@ -48,6 +48,7 @@ int main()
             sf::Event event;
             if (timer > constants::delay)
             {
+                std::cout << timer << "\n";
                 for (int i = 0; i < tankAIRespawnTime.size(); ++i)
                 {
                     if (timer > tankAIRespawnTime[i])
@@ -73,7 +74,8 @@ int main()
                         tank.draw(window);
 
                 window.display();
-
+                timer = 0;
+                clock.restart();
 
             }
         }

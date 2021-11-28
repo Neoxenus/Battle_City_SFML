@@ -3,7 +3,10 @@
 Bullet::Bullet(constants::Directions direction, double coordX, double coordY, int tankType, bool isPlayer)
 {
 	this->direction = direction;
-	this->coordX = coordX, this->coordY = coordY;
+    this->coordX = coordX + ((direction == constants::Directions::LEFT) ? (-6.0 / 8) : 0) +
+        ((direction == constants::Directions::RIGHT) ? (2) : 0);
+    this->coordY = coordY + ((direction == constants::Directions::UP)?(-6.0/8):0) + 
+        ((direction == constants::Directions::DOWN) ? (2) : 0);
 	this->speed = constants::bulletSpeed[tankType + 4 * (isPlayer == false)];
 }
 
@@ -19,15 +22,14 @@ void Bullet::draw(sf::RenderWindow& window)
 		if (direction == constants::Directions::UP)
 		{
 			this->coordY -= 0.1;
-			sprite_all.setPosition(this->coordX * constants::TILES_LENGHT +
-				static_cast<int>(constants::BLOCK_LENGHT) / 2 - 3, this->coordY * constants::TILES_LENGHT - 5);
+			sprite_all.setPosition(this->coordX * constants::TILES_LENGHT + constants::bulletOffset,
+                this->coordY * constants::TILES_LENGHT );
 		}
 		else
 		{
 			this->coordY += 0.1;
-			sprite_all.setPosition(this->coordX * constants::TILES_LENGHT +
-				static_cast<int>(constants::BLOCK_LENGHT) / 2 - 3,
-				this->coordY * constants::TILES_LENGHT + static_cast<int>(constants::BLOCK_LENGHT));
+			sprite_all.setPosition(this->coordX * constants::TILES_LENGHT + constants::bulletOffset,
+                this->coordY * constants::TILES_LENGHT);
 		}
 	}
 	if (direction == constants::Directions::LEFT || direction == constants::Directions::RIGHT)
@@ -37,13 +39,14 @@ void Bullet::draw(sf::RenderWindow& window)
 		if (direction == constants::Directions::LEFT)
 		{
 			this->coordX -= 0.1;
-			sprite_all.setPosition(this->coordX * constants::TILES_LENGHT - 5,
-				this->coordY * constants::TILES_LENGHT + static_cast<int>(constants::BLOCK_LENGHT) / 2 - 3);
+			sprite_all.setPosition(this->coordX * constants::TILES_LENGHT,
+				this->coordY * constants::TILES_LENGHT + constants::bulletOffset);
 		}
 		else
 		{
 			this->coordX += 0.1;
-			sprite_all.setPosition(this->coordX * constants::TILES_LENGHT + constants::BLOCK_LENGHT, this->coordY * constants::TILES_LENGHT + static_cast<int>(constants::BLOCK_LENGHT) / 2 - 3);
+			sprite_all.setPosition(this->coordX * constants::TILES_LENGHT,
+                this->coordY * constants::TILES_LENGHT + constants::bulletOffset);
 		}
 	}
 	sprite_all.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
@@ -70,10 +73,11 @@ bool Bullet::collision_bullet(Field& field)
     constants::Directions direction;
     x0 = floor(this->getCoordX());
     y0 = floor(this->getCoordY());
-    xr = floor(this->getCoordX() + 5.0 / 8) + 2;//+ 6.0 / 8);
-    yd = floor(this->getCoordY() + 3.0 / 8) + 2;//+ 6.0 / 8);
+    xr = floor(this->getCoordX() + 6.0 / 8);//+ 6.0 / 8);
+    yd = floor(this->getCoordY() + 6.0 / 8);//+ 6.0 / 8);
+   // xr = x0;
+   // yd = y0;
     direction = this->getDirection();
-
     //if (collision(field, x0, y0, 1))//this->getCoordX() < 0 || this->getCoordX() > 30 || this->getCoordY() < 0 || this->getCoordY() > 30)//(this->getCoordX() < 2.625 || this->getCoordX() > 25.375 || this->getCoordY() < 2.575 || this->getCoordY() > 27.325)
     //    return true;
 

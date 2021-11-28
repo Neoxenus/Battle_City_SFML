@@ -66,9 +66,9 @@ int main()
 
     if (isMP && !isHost)
     {
-        Client cl;
-        cl.client();
-        cl.exchange(field1, tank1);
+        //Client cl;
+        //cl.client();
+        //cl.exchange(field1, tank1);
     }
     
 }

@@ -22,9 +22,9 @@ int main()
     //std::vector<Bullet> bullets;
     Tank tank1(true , 0);
 
-    Server serv;
+    /*Server serv;
     serv.server();
-    serv.loop(field1, tank1);
+    serv.loop(field1, tank1);*/
 
     
 
@@ -44,18 +44,18 @@ int main()
     if (!isMP )
         while (window.isOpen())
         {
-            timer += clock.getElapsedTime().asMilliseconds();
+            timer += clock.getElapsedTime().asMilliseconds() / 1000.0;
             sf::Event event;
             if (timer > constants::delay)
             {
                 while (window.pollEvent(event))
                 {
-                    tank1.control(window, field1, event);
                     tank1.bullet_shoot(window, event);
 
                     if (event.type == sf::Event::Closed)
                         window.close();
                 }
+                tank1.control(window, field1, event);
                 tank1.bullets_colision(field1);
                 window.clear(sf::Color::Black);
                 field1.draw(window);
@@ -65,6 +65,10 @@ int main()
 
                 timer = 0;
                 clock.restart();
+            }
+            else
+            {
+                //std::cout << "...\n";
             }
         }
 

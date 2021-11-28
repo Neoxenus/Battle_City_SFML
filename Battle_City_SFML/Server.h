@@ -11,8 +11,13 @@
 
 class Server
 {
+	WSAData wsaData;
+	WORD DLLVersion;
+	SOCKADDR_IN addr;
+	SOCKET sListen;
+	SOCKET newConnection;
 public:
 	void server();
-	void loop(Field& field1, std::vector<Bullet>& bullets);
+	void loop(Field& field, Tank& tank);
 };
 

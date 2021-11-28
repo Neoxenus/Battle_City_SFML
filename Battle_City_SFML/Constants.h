@@ -150,6 +150,14 @@ namespace constants
 		{(int)Blocks::GRAY , (int)Blocks::GRAY ,		(int)Blocks::GRAY ,		    (int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,		(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,		(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY , (int)Blocks::GRAY },
 	};
 
+	enum class PacketsIndexes
+	{
+		TankTypeSize,
+		TankType,
+		TankAlreadyShotSize,
+		TankAlreadyShot,
+	};
+
 	//std::vector<std::vector<int>> tile1 (TILES_HEIGHT, std::vector<int>(TILES_WIDTH, -1));
 
 	/*std::vector<std::vector<int>> tile1[28][12] = (int)Tiles::BRICK0000;

@@ -45,10 +45,10 @@ Tank::Tank(Tank& t, std::vector<char*> data)
     int numOfBullets = convertBackFromCharArrayToInt(data[7]);
        this->bullets = std::vector<Bullet>();
     
-    for (int i = 8; i < numOfBullets; i+=4)
+    for (int i = 8; i < 3 * numOfBullets; i+=4)
     {
-        constants::Directions dir = static_cast<constants::Directions> (convertBackFromCharArrayToInt(data[i + 2]));
-        Bullet tmp(dir, 
+       // constants::Directions dir = static_cast<constants::Directions> (convertBackFromCharArrayToInt(data[i + 2]));
+        Bullet tmp(static_cast<constants::Directions> (convertBackFromCharArrayToInt(data[i + 2])),
             convertBackFromCharArrayToDouble(data[i]), convertBackFromCharArrayToDouble(data[i+1]),
             this->tankType, this->isPlayer);
         bullets.push_back(tmp);
@@ -224,9 +224,11 @@ bool Tank::collision(Field& field, double X, double Y, int spriteSize)
 std::vector<char*> Tank::sendToServer()
 {
     std::vector<char*> dataVector
-    { convertToCharArray(alreadyShot), convertToCharArray(coordX), convertToCharArray(coordY),
-      convertToCharArray(subCoordX), convertToCharArray(subCoordY), convertToCharArray(tankType),
-      convertToCharArray(static_cast<int>(direction)), convertToCharArray(static_cast<int>(bullets.size()))
+    {   
+        convertToCharArray(tankType), convertToCharArray(alreadyShot), 
+        convertToCharArray(coordX), convertToCharArray(coordY),
+        convertToCharArray(subCoordX), convertToCharArray(subCoordY), 
+        convertToCharArray(static_cast<int>(direction)), convertToCharArray(static_cast<int>(bullets.size()))
     };
     for (int i = 0; i < bullets.size(); ++i)
     {

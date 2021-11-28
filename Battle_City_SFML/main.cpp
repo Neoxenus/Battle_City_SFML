@@ -29,6 +29,8 @@ int main()
     //    }
     //    std::cout << "\n";
     //}
+    Server serv;
+    serv.server();
 
     sf::RenderWindow window(sf::VideoMode(768, 768), "", sf::Style::Titlebar | sf::Style::Close);
 
@@ -40,8 +42,7 @@ int main()
     sf::Clock clock;
     double timer = 0;
 
-    Server serv;
-    serv.server();
+
 
     //Client i;
     //i.client();

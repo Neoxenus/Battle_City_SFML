@@ -1,10 +1,6 @@
-#include "SFML\Graphics.hpp"
+#include "SFML/Graphics.hpp"
 #include "windows.h"
-#include "Field.h"
-#include "Design_mode.h"
 #include "Tank.h"
-#include "Bullet.h"
-#include <vector>
 #include <ctime>
 #include <iostream>
 
@@ -59,10 +55,14 @@ int main()
             field1.draw(window);
             tank1.draw(window); // coord in tiles // spawn tank
             for (int i = 0; i < bullets.size(); ++i)
+            {
+                if (bullets[i].collision_bullet(field1))
+                {
+                    bullets.erase(bullets.begin() + i);
+                    continue;
+                }   
                 bullets[i].draw(window);
-
-            // kyda pichnyt next?
-            tank1.collision_bullet(field1, bullets);
+            }
 
             window.display();
 

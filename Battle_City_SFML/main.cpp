@@ -19,7 +19,7 @@ int main()
     Field field1;
     field1.setField(constants::field1);
     //Design_mode designm;
-    Tank tank1(true , 0);
+    Tank tank1(false , 1);
     std::vector<Bullet> bullets;
 
     //Server serv;

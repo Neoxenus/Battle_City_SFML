@@ -33,7 +33,7 @@ Tank::Tank(bool isPlayer, int tankType)
 
 double Tank::getTankSpeed()
 {
-    return constants::tankSpeed[4 * (isPlayer)+tankType] * 16.0;
+    return constants::tankSpeed[4 * (isPlayer)+tankType] * 16.0 / constants::TILES_LENGHT;
 }
 
 constants::Directions Tank::getDirection()
@@ -88,9 +88,9 @@ void Tank::draw(sf::RenderWindow& window)
 void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
 {
     double prevX = this->coordX, prevY = this->coordY;
-    if (event.type == sf::Event::KeyPressed)
-    {
-        if (event.key.code == sf::Keyboard::W)
+    //if (event.type == sf::Event::KeyPressed)
+    //{
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
         {
             this->direction = constants::Directions::UP;
             prevX = round(prevX);
@@ -103,7 +103,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
             }  
 
         }
-        else if (event.key.code == sf::Keyboard::S)
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         {            
             this->direction = constants::Directions::DOWN;    
             prevX = round(prevX);
@@ -115,7 +115,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
                 this->coordY += 0.5;
             }
         }
-        else if (event.key.code == sf::Keyboard::A)
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         {            
             this->direction = constants::Directions::LEFT;
             prevY = round(prevY);
@@ -127,7 +127,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
                 this->coordX -= 0.5;
             }
         }
-        else if (event.key.code == sf::Keyboard::D)
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
         {
             this->direction = constants::Directions::RIGHT;
             prevY = round(prevY);
@@ -139,7 +139,15 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
                 this->coordX += 0.5;
             }
         }
-    }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        {
+            if (this->alreadyShot != this->getMaxShots())
+            {
+                ++this->alreadyShot;
+                this->shot();
+            }
+        }
+    //}
     if (collision(field, this->coordX, this->coordY))
     {
         this->subCoordX = this->coordX = prevX;
@@ -149,17 +157,18 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
 
 void Tank::bullet_shoot(sf::RenderWindow& window, sf::Event& event)
 {
-    if (event.type == sf::Event::KeyReleased)
-    {
-        if (event.key.code == sf::Keyboard::Space)
-        {
-            if (this->alreadyShot != this->getMaxShots())
-            {
-                ++this->alreadyShot;
-                this->shot();
-            }
-        }
-    }
+    //if (event.type == sf::Event::KeyReleased)
+    //{
+    //    if (event.key.code == sf::Keyboard::Space)
+    //    {
+    //        if (this->alreadyShot != this->getMaxShots())
+    //        {
+    //            ++this->alreadyShot;
+    //            this->shot();
+    //        }
+    //        //event.key.code = sf::Keyboard::W;
+    //    }
+    //}
 }
 
 void Tank::bullets_colision(Field& field)

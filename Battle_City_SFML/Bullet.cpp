@@ -118,7 +118,7 @@ bool Bullet::collision_bullet(Field& field)
 
         //2
 
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK1100 && field.getField(x0 + 1, y0) != constants::Tiles::METAL)
+        else if (field.getField(x0, y0) == constants::Tiles::BRICK1100 && field.getField(x0 + 1, y0) != constants::Tiles::METAL && field.getField(x0 + 1, y0) != constants::Tiles::BASE)
         {
             field.setField(x0, y0, constants::Tiles::BLACK);
             if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1100)
@@ -126,7 +126,7 @@ bool Bullet::collision_bullet(Field& field)
 
             return true;
         }
-        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1100 && field.getField(x0, y0) != constants::Tiles::METAL)
+        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1100 && field.getField(x0, y0) != constants::Tiles::METAL && field.getField(x0, y0) != constants::Tiles::BASE)
         {
             field.setField(x0 + 1, y0, constants::Tiles::BLACK);
             return true;
@@ -234,7 +234,7 @@ bool Bullet::collision_bullet(Field& field)
 
 
         //1
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK1000 && field.getField(x0 + 1, y0) != constants::Tiles::METAL)
+        else if (field.getField(x0, y0) == constants::Tiles::BRICK1000 && field.getField(x0 + 1, y0) != constants::Tiles::METAL && field.getField(x0 + 1, y0) != constants::Tiles::BASE)
         {
             field.setField(x0, y0, constants::Tiles::BLACK);
             if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1000)
@@ -242,13 +242,13 @@ bool Bullet::collision_bullet(Field& field)
 
             return true;
         }
-        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1000 && field.getField(x0, y0) != constants::Tiles::METAL)
+        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1000 && field.getField(x0, y0) != constants::Tiles::METAL && field.getField(x0, y0) != constants::Tiles::BASE)
         {
             field.setField(x0 + 1, y0, constants::Tiles::BLACK);
             return true;
         }
 
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK0100 && field.getField(x0 + 1, y0) != constants::Tiles::METAL)
+        else if (field.getField(x0, y0) == constants::Tiles::BRICK0100 && field.getField(x0 + 1, y0) != constants::Tiles::METAL && field.getField(x0 + 1, y0) != constants::Tiles::BASE)
         {
             field.setField(x0, y0, constants::Tiles::BLACK);
             if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0100)
@@ -256,7 +256,7 @@ bool Bullet::collision_bullet(Field& field)
 
             return true;
         }
-        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0100 && field.getField(x0, y0) != constants::Tiles::METAL)
+        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0100 && field.getField(x0, y0) != constants::Tiles::METAL && field.getField(x0, y0) != constants::Tiles::BASE)
         {
             field.setField(x0 + 1, y0, constants::Tiles::BLACK);
             return true;
@@ -293,7 +293,9 @@ bool Bullet::collision_bullet(Field& field)
         //0
 
         else if (field.getField(x0, y0) != constants::Tiles::BLACK && field.getField(x0, y0) != constants::Tiles::ICE && field.getField(x0, y0) != constants::Tiles::TREE &&
-        field.getField(x0, y0) != constants::Tiles::WATER1 && field.getField(x0, y0) != constants::Tiles::WATER2 && field.getField(x0, y0) != constants::Tiles::WATER3)
+        field.getField(x0, y0) != constants::Tiles::WATER1 && field.getField(x0, y0) != constants::Tiles::WATER2 && field.getField(x0, y0) != constants::Tiles::WATER3 &&
+        field.getField(x0 + 1, y0) != constants::Tiles::BLACK && field.getField(x0 + 1, y0) != constants::Tiles::ICE && field.getField(x0 + 1, y0) != constants::Tiles::TREE &&
+        field.getField(x0 + 1, y0) != constants::Tiles::WATER1 && field.getField(x0 + 1, y0) != constants::Tiles::WATER2 && field.getField(x0 + 1, y0) != constants::Tiles::WATER3)
         {
             return true;
         }
@@ -331,7 +333,7 @@ bool Bullet::collision_bullet(Field& field)
             return true;
         }
 
-        else if (field.getField(x0, yd) == constants::Tiles::BRICK0011 && field.getField(x0 + 1, yd) != constants::Tiles::METAL)
+        else if (field.getField(x0, yd) == constants::Tiles::BRICK0011 && field.getField(x0 + 1, yd) != constants::Tiles::METAL && field.getField(x0 + 1, yd) != constants::Tiles::BASE)
         {
             field.setField(x0, yd, constants::Tiles::BLACK);
             if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0011)
@@ -339,7 +341,7 @@ bool Bullet::collision_bullet(Field& field)
 
             return true;
         }
-        else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0011 && field.getField(x0, yd) != constants::Tiles::METAL)
+        else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0011 && field.getField(x0, yd) != constants::Tiles::METAL && field.getField(x0, yd) != constants::Tiles::BASE)
         {
             field.setField(x0 + 1, yd, constants::Tiles::BLACK);
             return true;
@@ -462,7 +464,7 @@ bool Bullet::collision_bullet(Field& field)
             return true;
         }
 
-        else if (field.getField(x0, yd) == constants::Tiles::BRICK0010 && field.getField(x0 + 1, yd) != constants::Tiles::METAL)
+        else if (field.getField(x0, yd) == constants::Tiles::BRICK0010 && field.getField(x0 + 1, yd) != constants::Tiles::METAL && field.getField(x0 + 1, yd) != constants::Tiles::BASE)
         {
             field.setField(x0, yd, constants::Tiles::BLACK);
             if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0010)
@@ -470,13 +472,13 @@ bool Bullet::collision_bullet(Field& field)
 
             return true;
         }
-        else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0010 && field.getField(x0, yd) != constants::Tiles::METAL)
+        else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0010 && field.getField(x0, yd) != constants::Tiles::METAL && field.getField(x0, yd) != constants::Tiles::BASE)
         {
             field.setField(x0 + 1, yd, constants::Tiles::BLACK);
             return true;
         }
 
-        else if (field.getField(x0, yd) == constants::Tiles::BRICK0001 && field.getField(x0 + 1, yd) != constants::Tiles::METAL)
+        else if (field.getField(x0, yd) == constants::Tiles::BRICK0001 && field.getField(x0 + 1, yd) != constants::Tiles::METAL && field.getField(x0 + 1, yd) != constants::Tiles::BASE)
         {
             field.setField(x0, yd, constants::Tiles::BLACK);
             if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0001)
@@ -484,7 +486,7 @@ bool Bullet::collision_bullet(Field& field)
 
             return true;
         }
-        else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0001 && field.getField(x0, yd) != constants::Tiles::METAL)
+        else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0001 && field.getField(x0, yd) != constants::Tiles::METAL && field.getField(x0, yd) != constants::Tiles::BASE)
         {
             field.setField(x0 + 1, yd, constants::Tiles::BLACK);
             return true;
@@ -493,7 +495,9 @@ bool Bullet::collision_bullet(Field& field)
         //0
 
         else if (field.getField(x0, yd) != constants::Tiles::BLACK && field.getField(x0, yd) != constants::Tiles::ICE && field.getField(x0, yd) != constants::Tiles::TREE &&
-        field.getField(x0, yd) != constants::Tiles::WATER1 && field.getField(x0, yd) != constants::Tiles::WATER2 && field.getField(x0, yd) != constants::Tiles::WATER3)
+        field.getField(x0, yd) != constants::Tiles::WATER1 && field.getField(x0, yd) != constants::Tiles::WATER2 && field.getField(x0, yd) != constants::Tiles::WATER3 &&
+        field.getField(x0 + 1, yd) != constants::Tiles::BLACK && field.getField(x0 + 1, yd) != constants::Tiles::ICE && field.getField(x0 + 1, yd) != constants::Tiles::TREE &&
+        field.getField(x0 + 1, yd) != constants::Tiles::WATER1 && field.getField(x0 + 1, yd) != constants::Tiles::WATER2 && field.getField(x0 + 1, yd) != constants::Tiles::WATER3)
         {
             return true;
         }
@@ -545,7 +549,7 @@ bool Bullet::collision_bullet(Field& field)
             return true;
         }
 
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK1010 && field.getField(x0, y0 + 1) != constants::Tiles::METAL)
+        else if (field.getField(x0, y0) == constants::Tiles::BRICK1010 && field.getField(x0, y0 + 1) != constants::Tiles::METAL && field.getField(x0, y0 + 1) != constants::Tiles::BASE)
         {
             field.setField(x0, y0, constants::Tiles::BLACK);
             if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1010)
@@ -553,7 +557,7 @@ bool Bullet::collision_bullet(Field& field)
 
             return true;
         }
-        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1010 && field.getField(x0, y0) != constants::Tiles::METAL)
+        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1010 && field.getField(x0, y0) != constants::Tiles::METAL && field.getField(x0, y0) != constants::Tiles::BASE)
         {
             field.setField(x0, y0 + 1, constants::Tiles::BLACK);
             return true;
@@ -633,7 +637,7 @@ bool Bullet::collision_bullet(Field& field)
 
 
         //1
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK1000 && field.getField(x0, y0 + 1) != constants::Tiles::METAL)
+        else if (field.getField(x0, y0) == constants::Tiles::BRICK1000 && field.getField(x0, y0 + 1) != constants::Tiles::METAL && field.getField(x0, y0 + 1) != constants::Tiles::BASE)
         {
             field.setField(x0, y0, constants::Tiles::BLACK);
             if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1000)
@@ -641,7 +645,7 @@ bool Bullet::collision_bullet(Field& field)
 
             return true;
         }
-        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1000 && field.getField(x0, y0) != constants::Tiles::METAL)
+        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1000 && field.getField(x0, y0) != constants::Tiles::METAL && field.getField(x0, y0) != constants::Tiles::BASE)
         {
             field.setField(x0, y0 + 1, constants::Tiles::BLACK);
             return true;
@@ -661,7 +665,7 @@ bool Bullet::collision_bullet(Field& field)
             return true;
         }
 
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK0010 && field.getField(x0, y0 + 1) != constants::Tiles::METAL)
+        else if (field.getField(x0, y0) == constants::Tiles::BRICK0010 && field.getField(x0, y0 + 1) != constants::Tiles::METAL && field.getField(x0, y0  + 1) != constants::Tiles::BASE)
         {
             field.setField(x0, y0, constants::Tiles::BLACK);
             if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0010)
@@ -669,7 +673,7 @@ bool Bullet::collision_bullet(Field& field)
 
             return true;
         }
-        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0010 && field.getField(x0, y0) != constants::Tiles::METAL)
+        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0010 && field.getField(x0, y0) != constants::Tiles::METAL && field.getField(x0, y0) != constants::Tiles::BASE)
         {
             field.setField(x0, y0 + 1, constants::Tiles::BLACK);
             return true;
@@ -692,7 +696,9 @@ bool Bullet::collision_bullet(Field& field)
         //0
 
         else if (field.getField(x0, y0) != constants::Tiles::BLACK && field.getField(x0, y0) != constants::Tiles::ICE && field.getField(x0, y0) != constants::Tiles::TREE &&
-        field.getField(x0, y0) != constants::Tiles::WATER1 && field.getField(x0, y0) != constants::Tiles::WATER2 && field.getField(x0, y0) != constants::Tiles::WATER3)
+        field.getField(x0, y0) != constants::Tiles::WATER1 && field.getField(x0, y0) != constants::Tiles::WATER2 && field.getField(x0, y0) != constants::Tiles::WATER3 &&
+        field.getField(x0, y0 + 1) != constants::Tiles::BLACK && field.getField(x0, y0 + 1) != constants::Tiles::ICE && field.getField(x0, y0 + 1) != constants::Tiles::TREE &&
+        field.getField(x0, y0 + 1) != constants::Tiles::WATER1 && field.getField(x0, y0 + 1) != constants::Tiles::WATER2 && field.getField(x0, y0 + 1) != constants::Tiles::WATER3)
         {
             return true;
         }
@@ -758,7 +764,7 @@ bool Bullet::collision_bullet(Field& field)
             return true;
         }
 
-        else if (field.getField(xr, y0) == constants::Tiles::BRICK0101 && field.getField(xr, y0 + 1) != constants::Tiles::METAL)
+        else if (field.getField(xr, y0) == constants::Tiles::BRICK0101 && field.getField(xr, y0 + 1) != constants::Tiles::METAL && field.getField(xr, y0 + 1) != constants::Tiles::BASE)
         {
             field.setField(xr, y0, constants::Tiles::BLACK);
             if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0101)
@@ -766,7 +772,7 @@ bool Bullet::collision_bullet(Field& field)
 
             return true;
         }
-        else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0101 && field.getField(xr, y0) != constants::Tiles::METAL)
+        else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0101 && field.getField(xr, y0) != constants::Tiles::METAL && field.getField(xr, y0) != constants::Tiles::BASE)
         {
             field.setField(xr, y0 + 1, constants::Tiles::BLACK);
             return true;
@@ -846,7 +852,7 @@ bool Bullet::collision_bullet(Field& field)
             return true;
         }
 
-        else if (field.getField(xr, y0) == constants::Tiles::BRICK0100 && field.getField(xr, y0 + 1) != constants::Tiles::METAL)
+        else if (field.getField(xr, y0) == constants::Tiles::BRICK0100 && field.getField(xr, y0 + 1) != constants::Tiles::METAL && field.getField(xr, y0 + 1) != constants::Tiles::BASE)
         {
             field.setField(xr, y0, constants::Tiles::BLACK);
             if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0100)
@@ -854,7 +860,7 @@ bool Bullet::collision_bullet(Field& field)
 
             return true;
         }
-        else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0100 && field.getField(xr, y0) != constants::Tiles::METAL)
+        else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0100 && field.getField(xr, y0) != constants::Tiles::METAL && field.getField(xr, y0) != constants::Tiles::BASE)
         {
             field.setField(xr, y0 + 1, constants::Tiles::BLACK);
             return true;
@@ -874,7 +880,7 @@ bool Bullet::collision_bullet(Field& field)
             return true;
         }
 
-        else if (field.getField(xr, y0) == constants::Tiles::BRICK0001 && field.getField(xr, y0 + 1) != constants::Tiles::METAL)
+        else if (field.getField(xr, y0) == constants::Tiles::BRICK0001 && field.getField(xr, y0 + 1) != constants::Tiles::METAL && field.getField(xr, y0 + 1) != constants::Tiles::BASE)
         {
             field.setField(xr, y0, constants::Tiles::BLACK);
             if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0001)
@@ -882,7 +888,7 @@ bool Bullet::collision_bullet(Field& field)
 
             return true;
         }
-        else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0001 && field.getField(xr, y0) != constants::Tiles::METAL)
+        else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0001 && field.getField(xr, y0) != constants::Tiles::METAL && field.getField(xr, y0) != constants::Tiles::BASE)
         {
             field.setField(xr, y0 + 1, constants::Tiles::BLACK);
             return true;
@@ -891,7 +897,9 @@ bool Bullet::collision_bullet(Field& field)
         //0
 
         else if (field.getField(xr, y0) != constants::Tiles::BLACK && field.getField(xr, y0) != constants::Tiles::ICE && field.getField(xr, y0) != constants::Tiles::TREE &&
-        field.getField(xr, y0) != constants::Tiles::WATER1 && field.getField(xr, y0) != constants::Tiles::WATER2 && field.getField(xr, y0) != constants::Tiles::WATER3)
+        field.getField(xr, y0) != constants::Tiles::WATER1 && field.getField(xr, y0) != constants::Tiles::WATER2 && field.getField(xr, y0) != constants::Tiles::WATER3 &&
+        field.getField(xr, y0 + 1) != constants::Tiles::BLACK && field.getField(xr, y0 + 1) != constants::Tiles::ICE && field.getField(xr, y0 + 1) != constants::Tiles::TREE &&
+        field.getField(xr, y0 + 1) != constants::Tiles::WATER1 && field.getField(xr, y0 + 1) != constants::Tiles::WATER2 && field.getField(xr, y0 + 1) != constants::Tiles::WATER3)
         {
             return true;
         }

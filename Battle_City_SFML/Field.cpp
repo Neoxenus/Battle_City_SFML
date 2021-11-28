@@ -40,14 +40,10 @@ void Field::setField(const std::vector<std::vector<int>> level)
 	this->setField(16, 27, constants::BRICK1111);
 }
 
-void Field::draw(sf::RenderWindow& window)
+void Field::draw(sf::RenderWindow& window, sf::Texture texture_block, sf::Texture texture_base)
 {
-	sf::Texture texture_block;
-	texture_block.loadFromFile("tiles.png");
 	sf::Sprite s_block(texture_block);
 
-	sf::Texture texture_base;
-	texture_base.loadFromFile("sprites.png");
 	sf::Sprite s_default(texture_base);
 
 	window.clear(sf::Color::White);

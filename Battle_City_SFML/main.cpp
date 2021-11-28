@@ -17,6 +17,10 @@ int main()
     //
     sf::Texture texture_all;
     texture_all.loadFromFile("allSprites.png");
+    sf::Texture texture_block;
+    texture_block.loadFromFile("tiles.png");
+    sf::Texture texture_base;
+    texture_base.loadFromFile("sprites.png");
 
     Field field1;
     field1.setField(constants::field1);
@@ -76,7 +80,7 @@ int main()
                 tank1.control(window, field1, event);
                 tank1.bullets_colision(field1);
                 window.clear(sf::Color::Black);
-                field1.draw(window);
+                field1.draw(window, texture_block, texture_base);
                 tank1.draw(window, texture_all); // coord in tiles // spawn tank
                 for (auto& tank : tankAI)
                     if (tank.isVisible())

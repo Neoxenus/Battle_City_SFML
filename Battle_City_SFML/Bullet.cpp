@@ -117,10 +117,62 @@ bool Bullet::collision_bullet(Field& field)
             field.getField(x0 + 1, y0) != constants::Tiles::BLACK && field.getField(x0 + 1, y0) != constants::Tiles::ICE && field.getField(x0 + 1, y0) != constants::Tiles::TREE &&
             field.getField(x0 + 1, y0) != constants::Tiles::WATER1 && field.getField(x0 + 1, y0) != constants::Tiles::WATER2 && field.getField(x0 + 1, y0) != constants::Tiles::WATER3)
         {
-            field.setField(x0, y0, constants::bullet_collision[static_cast<int>(direction)][curl]);
-            if (curl != static_cast<int>(constants::Tiles::BRICK0101) || curr != static_cast<int>(constants::Tiles::BRICK1100))
-                field.setField(x0 + 1, y0, constants::bullet_collision[static_cast<int>(direction)][curr]);
-            return true;
+            if ((curl != static_cast<int>(constants::Tiles::METAL) && curl != static_cast<int>(constants::Tiles::BASE)) && (curr != static_cast<int>(constants::Tiles::METAL) && curr != static_cast<int>(constants::Tiles::BASE)))
+            {
+                field.setField(x0, y0, constants::bullet_collision[static_cast<int>(direction)][curl]);
+                if (curl != static_cast<int>(constants::Tiles::BRICK0101) || curr != static_cast<int>(constants::Tiles::BRICK1100))
+                    field.setField(x0 + 1, y0, constants::bullet_collision[static_cast<int>(direction)][curr]);
+                return true;
+            }
+            else
+            {
+                if (direction == constants::Directions::UP)
+                {
+                    if (curl == static_cast<int>(constants::Tiles::METAL) || curl == static_cast<int>(constants::Tiles::BASE))
+                    {
+                        if (curr == static_cast<int>(constants::Tiles::BRICK1111) || curr == static_cast<int>(constants::Tiles::BRICK1110) || curr == static_cast<int>(constants::Tiles::BRICK1101) ||
+                            curr == static_cast<int>(constants::Tiles::BRICK1010) || curr == static_cast<int>(constants::Tiles::BRICK0101))
+                        {
+                            field.setField(x0 +  1, y0, constants::bullet_collision[static_cast<int>(direction)][curr]);
+                        }
+
+                        return true;
+                    }
+                    else if (curr == static_cast<int>(constants::Tiles::METAL) || curr == static_cast<int>(constants::Tiles::BASE))
+                    {
+                        if (curl == static_cast<int>(constants::Tiles::BRICK1111) || curl == static_cast<int>(constants::Tiles::BRICK1110) || curl == static_cast<int>(constants::Tiles::BRICK1101) ||
+                            curl == static_cast<int>(constants::Tiles::BRICK1010) || curl == static_cast<int>(constants::Tiles::BRICK0101))
+                        {
+                            field.setField(x0, y0, constants::bullet_collision[static_cast<int>(direction)][curl]);
+                        }
+
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (curl == static_cast<int>(constants::Tiles::METAL) || curl == static_cast<int>(constants::Tiles::BASE))
+                    {
+                        if (curr == static_cast<int>(constants::Tiles::BRICK1111) || curr == static_cast<int>(constants::Tiles::BRICK1011) || curr == static_cast<int>(constants::Tiles::BRICK0111) ||
+                            curr == static_cast<int>(constants::Tiles::BRICK1010) || curr == static_cast<int>(constants::Tiles::BRICK0101))
+                        {
+                            field.setField(x0 + 1, y0, constants::bullet_collision[static_cast<int>(direction)][curr]);
+                        }
+
+                        return true;
+                    }
+                    else if (curr == static_cast<int>(constants::Tiles::METAL) || curr == static_cast<int>(constants::Tiles::BASE))
+                    {
+                        if (curl == static_cast<int>(constants::Tiles::BRICK1111) || curl == static_cast<int>(constants::Tiles::BRICK1011) || curl == static_cast<int>(constants::Tiles::BRICK0111) ||
+                            curl == static_cast<int>(constants::Tiles::BRICK1010) || curl == static_cast<int>(constants::Tiles::BRICK0101))
+                        {
+                            field.setField(x0, y0, constants::bullet_collision[static_cast<int>(direction)][curl]);
+                        }
+
+                        return true;
+                    }
+                }
+            }
         }
         else
             return false;
@@ -146,10 +198,62 @@ bool Bullet::collision_bullet(Field& field)
             field.getField(x0, y0 + 1) != constants::Tiles::BLACK && field.getField(x0, y0 + 1) != constants::Tiles::ICE && field.getField(x0, y0 + 1) != constants::Tiles::TREE &&
             field.getField(x0, y0 + 1) != constants::Tiles::WATER1 && field.getField(x0, y0 + 1) != constants::Tiles::WATER2 && field.getField(x0, y0 + 1) != constants::Tiles::WATER3)
         {
-            field.setField(x0, y0, constants::bullet_collision[static_cast<int>(direction)][curl]);
-            if (curl != static_cast<int>(constants::Tiles::BRICK0011) || curr != static_cast<int>(constants::Tiles::BRICK0101))
-                field.setField(x0, y0 + 1, constants::bullet_collision[static_cast<int>(direction)][curr]);
-            return true;
+            if ((curl != static_cast<int>(constants::Tiles::METAL) && curl != static_cast<int>(constants::Tiles::BASE)) && (curr != static_cast<int>(constants::Tiles::METAL) && curr != static_cast<int>(constants::Tiles::BASE)))
+            {
+                field.setField(x0, y0, constants::bullet_collision[static_cast<int>(direction)][curl]);
+                if (curl != static_cast<int>(constants::Tiles::BRICK0011) || curr != static_cast<int>(constants::Tiles::BRICK0101))
+                    field.setField(x0, y0 + 1, constants::bullet_collision[static_cast<int>(direction)][curr]);
+                return true;
+            }
+            else
+            {
+                if (direction == constants::Directions::LEFT)
+                {
+                    if (curl == static_cast<int>(constants::Tiles::METAL) || curl == static_cast<int>(constants::Tiles::BASE))
+                    {
+                        if (curr == static_cast<int>(constants::Tiles::BRICK1111) || curr == static_cast<int>(constants::Tiles::BRICK1011) || curr == static_cast<int>(constants::Tiles::BRICK1110) ||
+                            curr == static_cast<int>(constants::Tiles::BRICK1100) || curr == static_cast<int>(constants::Tiles::BRICK0011))
+                        {
+                            field.setField(x0, y0 + 1, constants::bullet_collision[static_cast<int>(direction)][curr]);
+                        }
+
+                        return true;
+                    }
+                    else if (curr == static_cast<int>(constants::Tiles::METAL) || curr == static_cast<int>(constants::Tiles::BASE))
+                    {
+                        if (curl == static_cast<int>(constants::Tiles::BRICK1111) || curl == static_cast<int>(constants::Tiles::BRICK1011) || curl == static_cast<int>(constants::Tiles::BRICK1110) ||
+                            curl == static_cast<int>(constants::Tiles::BRICK1100) || curl == static_cast<int>(constants::Tiles::BRICK0011))
+                        {
+                            field.setField(x0, y0, constants::bullet_collision[static_cast<int>(direction)][curl]);
+                        }
+
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (curl == static_cast<int>(constants::Tiles::METAL) || curl == static_cast<int>(constants::Tiles::BASE))
+                    {
+                        if (curr == static_cast<int>(constants::Tiles::BRICK1111) || curr == static_cast<int>(constants::Tiles::BRICK1101) || curr == static_cast<int>(constants::Tiles::BRICK0111) ||
+                            curr == static_cast<int>(constants::Tiles::BRICK1100) || curr == static_cast<int>(constants::Tiles::BRICK0011))
+                        {
+                            field.setField(x0, y0 + 1, constants::bullet_collision[static_cast<int>(direction)][curr]);
+                        }
+
+                        return true;
+                    }
+                    else if (curr == static_cast<int>(constants::Tiles::METAL) || curr == static_cast<int>(constants::Tiles::BASE))
+                    {
+                        if (curl == static_cast<int>(constants::Tiles::BRICK1111) || curl == static_cast<int>(constants::Tiles::BRICK1101) || curl == static_cast<int>(constants::Tiles::BRICK0111) ||
+                            curl == static_cast<int>(constants::Tiles::BRICK1100) || curl == static_cast<int>(constants::Tiles::BRICK0011))
+                        {
+                            field.setField(x0, y0, constants::bullet_collision[static_cast<int>(direction)][curl]);
+                        }
+
+                        return true;
+                    }
+                }
+            }
         }
         else
             return false;

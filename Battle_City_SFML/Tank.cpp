@@ -1,4 +1,5 @@
 #include "Tank.h"
+#include <sstream>
 
 Tank::Tank()
 {
@@ -172,3 +173,36 @@ bool Tank::collision(Field& field, double X, double Y, int spriteSize)
     return false;
 }
 
+void Tank::sendToServer()
+{
+    char* coordXCh = convertToCharArray(coordX);
+    char* coordYCh = convertToCharArray(coordY);
+    char* subCoordXCh = convertToCharArray(subCoordX);
+    char* subCoordYCh = convertToCharArray(subCoordY);
+    char* tankTypeCh = convertToCharArray(tankType);
+    char* directionCh = convertToCharArray(static_cast<int>(direction));
+
+    //server
+
+}
+
+template <typename T>
+char* convertToCharArray(T number)
+{
+    std::ostringstream strs;
+    strs << number;
+    std::string str = strs.str();
+    char* cstr = new char[str.length() + 1];
+    str.copy(cstr, str.length());
+    cstr[str.length()] = '\0'; 
+    return cstr;
+}
+
+
+template <typename T>
+void converBackFromCharArray(char* cstr)
+{
+    T number;
+    sscanf_s(cstr, "%f", &number);
+    return number;
+}

@@ -15,21 +15,12 @@ int main()
     Hide = FindWindowA("ConsoleWindowClass", NULL);
     ShowWindow(Hide, 1);
     //
-    sf::Texture texture_all;
-    texture_all.loadFromFile("allSprites.png");
-    sf::Texture texture_block;
-    texture_block.loadFromFile("tiles.png");
-    sf::Texture texture_base;
-    texture_base.loadFromFile("sprites.png");
 
     Field field1;
     field1.setField(constants::field1);
     //Design_mode designm;
     //std::vector<Bullet> bullets;
     Tank tank1(true , 0);
-    std::vector<Bullet> bullets;
-    std::vector<Tank> tankAI{ {false, 0}, {false, 0}, {false, 0}, {false, 0} };
-    std::vector<double> tankAIRespawnTime{ 0.0, 3.0, 6.0, 9.0};
 
     /*Server serv;
     serv.server();
@@ -47,35 +38,16 @@ int main()
 
     sf::Clock clock;
     double timer = 0;
-    int fps = 0;
 
-    bool isMP = false, isHost = false;
-    double delay = constants::delay;
-    if (!isMP)
-    {
+
+    bool isMP = false , isHost = false;
+    if (!isMP )
         while (window.isOpen())
         {
-            timer += clock.getElapsedTime().asMicroseconds() / 1000000.0;
+            timer += clock.getElapsedTime().asMilliseconds() / 1000.0;
             sf::Event event;
-            //std::cout << "out - " << timer << "\n";
-            if (timer > delay)
+            if (timer > constants::delay)
             {
-                ++fps;
-                if (timer > 1)
-                {
-                    std::cout << fps << "\n";
-                    exit(1);
-                }
-                delay += constants::delay;
-                //std::cout << timer << "\n";
-                for (int i = 0; i < tankAIRespawnTime.size(); ++i)
-                {
-                    if (timer > tankAIRespawnTime[i])
-                    {
-                        tankAI[i].setVisibility(true);
-                        tankAIRespawnTime[i] = 0.0;
-                    }
-                }
                 while (window.pollEvent(event))
                 {
                     tank1.bullet_shoot(window, event);
@@ -86,35 +58,21 @@ int main()
                 tank1.control(window, field1, event);
                 tank1.bullets_colision(field1);
                 window.clear(sf::Color::Black);
-                //field1.draw(window, texture_block, texture_base);
-                tank1.draw(window, texture_all); // coord in tiles // spawn tank
-                for (auto& tank : tankAI)
-                    if (tank.isVisible())
-                        tank.draw(window, texture_all);
+                field1.draw(window);
+                tank1.draw(window); // coord in tiles // spawn tank
 
                 window.display();
 
-                //std::cout << timer << "\n";
+                timer = 0;
+                clock.restart();
             }
-            /*else
-            {
-                std::cout << "...\n";
-            }*/
         }
-        if (timer > constants::delay * 128 * 256)
-        {
-            delay = constants::delay;
-            timer = 0;
-            clock.restart();
-        }
+
+    if (isMP && !isHost)
+    {
+        //Client cl;
+        //cl.client();
+        //cl.exchange(field1, tank1);
     }
-
-
-    //if (isMP && !isHost)
-    //{
-    //    //Client cl;
-    //    //cl.client();
-    //    //cl.exchange(field1, tank1);
-    //}
     
 }

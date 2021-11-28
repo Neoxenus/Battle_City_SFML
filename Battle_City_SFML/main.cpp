@@ -40,7 +40,7 @@ int main()
     double timer = 0;
 
 
-    bool isMP = false, isHost = false;
+    bool isMP = false , isHost = false;
     if (!isMP )
         while (window.isOpen())
         {
@@ -66,17 +66,13 @@ int main()
                 timer = 0;
                 clock.restart();
             }
-            else
-            {
-                //std::cout << "...\n";
-            }
         }
 
     if (isMP && !isHost)
     {
-       // Client cl;
-//        cl.client();
-
+        //Client cl;
+        //cl.client();
+        //cl.exchange(field1, tank1);
     }
     
 }

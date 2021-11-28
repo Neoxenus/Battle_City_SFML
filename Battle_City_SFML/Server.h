@@ -13,6 +13,6 @@ class Server
 {
 public:
 	void server();
-	void loop(double timer, sf::Clock clock, Tank& tank1, Field& field1, std::vector<Bullet>& bullets);
+	void loop(Field& field1, std::vector<Bullet>& bullets);
 };
 

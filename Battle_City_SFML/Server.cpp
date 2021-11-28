@@ -40,11 +40,11 @@ void Server::server()
 	//system("pause");	
 }
 
-void Server::loop(double timer, Field& field, std::vector<Bullet>& bullets)
+void Server::loop(Field& field, std::vector<Bullet>& bullets)
 {
 	for (int i = 0; i < bullets.size(); ++i)
 	{
-		if (bullets[i].collision_bullet(field1))
+		if (bullets[i].collision_bullet(field))
 		{
 			bullets.erase(bullets.begin() + i);
 			continue;

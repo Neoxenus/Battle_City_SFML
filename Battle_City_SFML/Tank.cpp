@@ -92,6 +92,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
         {
             this->direction = constants::Directions::UP;
             this->subCoordY -= getTankSpeed()*constants::delay;
+            this->coordX = round(subCoordX);
             this->subCoordX = this->coordX;
             if (this->subCoordY <= this->coordY)
             {
@@ -104,6 +105,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
             this->direction = constants::Directions::DOWN;
             
             this->subCoordY += getTankSpeed() * constants::delay;
+            this->coordX = round(subCoordX);
             this->subCoordX = this->coordX;
             if (subCoordY >= coordY)
             {
@@ -115,6 +117,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
             this->direction = constants::Directions::LEFT;
             
             this->subCoordX -= getTankSpeed() * constants::delay;
+            this->coordY = round(subCoordY);
             this->subCoordY = this->coordY;
             if (subCoordX <= coordX)
             {
@@ -126,6 +129,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
             this->direction = constants::Directions::RIGHT;
             
             this->subCoordX += getTankSpeed() * constants::delay;
+            this->coordY = round(subCoordY);
             this->subCoordY = this->coordY;
             if (subCoordX >= coordX)
             {

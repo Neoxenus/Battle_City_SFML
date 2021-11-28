@@ -182,9 +182,10 @@ void Tank::collision_bullet(Field& field, std::vector<Bullet>& bullets)
         xr = floor(bullets[i].getCoordX() + 5.0 / 8) + 2;//+ 6.0 / 8);
         yd = floor(bullets[i].getCoordY() + 3.0 / 8) + 2;//+ 6.0 / 8);
         direction = bullets[i].getDirection();
-  
-        if (collision(field, x0, y0, 1))//bullets[i].getCoordX() < 0 || bullets[i].getCoordX() > 30 || bullets[i].getCoordY() < 0 || bullets[i].getCoordY() > 30)//(bullets[i].getCoordX() < 2.625 || bullets[i].getCoordX() > 25.375 || bullets[i].getCoordY() < 2.575 || bullets[i].getCoordY() > 27.325)
-            bullets.erase(bullets.begin() + i);
+
+        //if (collision(field, x0, y0, 1))
+        //    //bullets[i].getCoordX() < 0 || bullets[i].getCoordX() > 30 || bullets[i].getCoordY() < 0 || bullets[i].getCoordY() > 30)//(bullets[i].getCoordX() < 2.625 || bullets[i].getCoordX() > 25.375 || bullets[i].getCoordY() < 2.575 || bullets[i].getCoordY() > 27.325)
+        //    bullets.erase(bullets.begin() + i);
 
         if (direction == constants::Directions::UP)
         {

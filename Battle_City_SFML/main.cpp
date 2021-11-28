@@ -4,6 +4,8 @@
 #include "Design_mode.h"
 #include "Tank.h"
 #include "Bullet.h"
+#include "Server.h"
+#include "Client.h"
 #include <vector>
 #include <ctime>
 #include <iostream>
@@ -63,12 +65,14 @@ int main()
 
             // kyda pichnyt next?
             tank1.collision_bullet(field1, bullets);
-
             window.display();
 
             timer = 0;
             clock.restart();
         }
     }
+
+    Server serv;
+    serv.server();
     
 }

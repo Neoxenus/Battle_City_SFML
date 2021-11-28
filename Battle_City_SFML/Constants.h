@@ -7,6 +7,7 @@ namespace constants
 	const double bulletSpawnOffset1 = -6.0 / 8;//ofset for correct spawning of bullet
 	const double bulletSpawnOffset2 = 2;//ofset for correct spawning of bullet
 
+	const int MAX_AI_TANKS_NUMBER = 4;
 	const int NUMBER_TYPES_OF_TANKS = 8;
 	const int maxShots[NUMBER_TYPES_OF_TANKS] = { 1, 1, 2, 2, 1, 1, 2, 1 };
 	//tank speed
@@ -23,7 +24,7 @@ namespace constants
 	const int DEFAULT_PLAYER_COORD_Y = 28;
 	//enemy
 	const int NUMBER_ENEMY_RESPAWN = 3;
-	const int DEFAULT_ENEMY_COORD_X[NUMBER_ENEMY_RESPAWN] {0,14,24};
+	const int DEFAULT_ENEMY_COORD_X[NUMBER_ENEMY_RESPAWN]{ 2, 14, 25 };
 	const int DEFAULT_ENEMY_COORD_Y{ 2 };
 	//directions
 	enum class Directions

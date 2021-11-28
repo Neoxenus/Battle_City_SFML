@@ -7,6 +7,7 @@ class Tank
     //3,3,3,3,2,4,2,2 ;tank speed //pixel per 4 frames
 //2,4,4,4,2,2,4,2 ;bullet speed pixel per frame
 private:
+    bool visibility;
     int alreadyShot;
     bool isPlayer;//true - player
     constants::Directions direction;
@@ -25,6 +26,8 @@ public:
     double getCoordY();
     int getTankType();
     bool getIsPlayer();
+    bool isVisible();
+    void setVisibility(bool flag);
     double getTankSpeed();//pixel per 1 second
     void draw(sf::RenderWindow& window);
     bool collision(Field& field, double prevX, double prevY, int spriteSize = 2);

@@ -21,6 +21,8 @@ int main()
     //Design_mode designm;
     Tank tank1(true , 0);
     std::vector<Bullet> bullets;
+    std::vector<Tank> tankAI{ {false, 0}, {false, 0}, {false, 0}, {false, 0} };
+    std::vector<double> tankAIRespawnTime{ 0.0, 3.0, 6.0, 9.0};
 
     /*Server serv;
     serv.server();*/
@@ -38,13 +40,22 @@ int main()
 
 
     bool isMP = false, isHost = false;
-    if (!isMP )
+    if (!isMP)
+    {
         while (window.isOpen())
         {
-            timer += clock.getElapsedTime().asMilliseconds();
+            timer += clock.getElapsedTime().asMilliseconds() / 1000.0;
             sf::Event event;
             if (timer > constants::delay)
             {
+                for (int i = 0; i < tankAIRespawnTime.size(); ++i)
+                {
+                    if (timer > tankAIRespawnTime[i])
+                    {
+                        tankAI[i].setVisibility(true);
+                        tankAIRespawnTime[i] = 0.0;
+                    }
+                }
                 while (window.pollEvent(event))
                 {
                     tank1.control(window, field1, event);
@@ -57,13 +68,22 @@ int main()
                 window.clear(sf::Color::Black);
                 field1.draw(window);
                 tank1.draw(window); // coord in tiles // spawn tank
+                for (auto& tank : tankAI)
+                    if (tank.isVisible())
+                        tank.draw(window);
 
                 window.display();
 
-                timer = 0;
-                clock.restart();
+
             }
         }
+        if (timer > constants::delay * 128 * 256)
+        {
+            timer = 0;
+            clock.restart();
+        }
+    }
+
 
     if (isMP && !isHost)
     {

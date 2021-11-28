@@ -21,13 +21,16 @@ Tank::Tank(bool isPlayer, int tankType)
 
     if (isPlayer)
     {
+        visibility = true;
         subCoordX = coordX = constants::DEFAULT_PLAYER_COORD_X[0];
         subCoordY = coordY = constants::DEFAULT_PLAYER_COORD_Y;
     }
     else
     {
-       subCoordX = coordX = constants::DEFAULT_ENEMY_COORD_X[1];
-       subCoordY = coordY = constants::DEFAULT_ENEMY_COORD_Y;
+        srand(time(NULL));
+        visibility = false;
+        subCoordX = coordX = constants::DEFAULT_ENEMY_COORD_X[rand() % 3];
+        subCoordY = coordY = constants::DEFAULT_ENEMY_COORD_Y;
     }
 }
 
@@ -89,6 +92,16 @@ int Tank::getTankType()
 bool Tank::getIsPlayer()
 {
     return isPlayer;
+}
+
+bool Tank::isVisible()
+{
+    return visibility;
+}
+
+void Tank::setVisibility(bool flag)
+{
+    visibility = flag;
 }
 
 void Tank::draw(sf::RenderWindow& window)

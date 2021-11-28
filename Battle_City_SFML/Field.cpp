@@ -25,7 +25,7 @@ void Field::setField(int x, int y, constants::Tiles value)
 	return;
 }
 
-void Field::setField(const std::vector<std::vector<int>> level)
+void Field::setField(std::vector<std::vector<int>> level)
 {
 	for (int i = 0; i < constants::FIELD_HEIGHT / 2; ++i)
 		for (int j = 0; j < constants::FIELD_HEIGHT / 2; ++j)
@@ -40,13 +40,12 @@ void Field::setField(const std::vector<std::vector<int>> level)
 	this->setField(16, 27, constants::BRICK1111);
 }
 
-void Field::draw(sf::RenderWindow& window, sf::Texture texture_block, sf::Texture texture_base)
-{
-	sf::Sprite s_block(texture_block);
+void Field::draw(sf::RenderWindow& window, sf::Texture& texture_block, sf::Texture& texture_base)
+{	sf::Sprite s_block(texture_block);
 
 	sf::Sprite s_default(texture_base);
 
-	window.clear(sf::Color::White);
+	//window.clear(sf::Color::White);
 
 	s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::GRAY, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
 	for(int i = 0; i < constants::FIELD_HEIGHT; ++i)

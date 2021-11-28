@@ -29,7 +29,7 @@ public:
     bool isVisible();
     void setVisibility(bool flag);
     double getTankSpeed();//pixel per 1 second
-    void draw(sf::RenderWindow& window, sf::Texture texture_all);
+    void draw(sf::RenderWindow& window, sf::Texture& texture_all);
     bool collision(Field& field, double prevX, double prevY, int spriteSize = 2);
     void control(sf::RenderWindow& window, Field& field, sf::Event& event);
     void bullet_shoot(sf::RenderWindow& window, sf::Event& event);

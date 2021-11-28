@@ -107,7 +107,7 @@ void Tank::setVisibility(bool flag)
     visibility = flag;
 }
 
-void Tank::draw(sf::RenderWindow& window, sf::Texture texture_all)
+void Tank::draw(sf::RenderWindow& window, sf::Texture& texture_all)
 {
     sf::Sprite sprite_all(texture_all);
 	sprite_all.setTextureRect(sf::IntRect(

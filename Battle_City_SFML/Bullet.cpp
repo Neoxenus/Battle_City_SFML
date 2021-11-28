@@ -10,7 +10,7 @@ Bullet::Bullet(constants::Directions direction, double coordX, double coordY, in
 	this->speed = constants::bulletSpeed[tankType + 4 * (isPlayer == false)];
 }
 
-void Bullet::draw(sf::RenderWindow& window, sf::Texture texture_all)
+void Bullet::draw(sf::RenderWindow& window, sf::Texture& texture_all)
 {
     sf::Sprite sprite_all(texture_all);
 	if (direction == constants::Directions::UP || direction == constants::Directions::DOWN)

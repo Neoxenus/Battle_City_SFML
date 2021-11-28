@@ -47,7 +47,7 @@ int main()
 
     sf::Clock clock;
     double timer = 0;
-
+    int fps = 0;
 
     bool isMP = false, isHost = false;
     double delay = constants::delay;
@@ -57,9 +57,15 @@ int main()
         {
             timer += clock.getElapsedTime().asMicroseconds() / 1000000.0;
             sf::Event event;
-            std::cout << "out - " << timer << "\n";
+            //std::cout << "out - " << timer << "\n";
             if (timer > delay)
             {
+                ++fps;
+                if (timer > 1)
+                {
+                    std::cout << fps << "\n";
+                    exit(1);
+                }
                 delay += constants::delay;
                 //std::cout << timer << "\n";
                 for (int i = 0; i < tankAIRespawnTime.size(); ++i)
@@ -80,7 +86,7 @@ int main()
                 tank1.control(window, field1, event);
                 tank1.bullets_colision(field1);
                 window.clear(sf::Color::Black);
-                field1.draw(window, texture_block, texture_base);
+                //field1.draw(window, texture_block, texture_base);
                 tank1.draw(window, texture_all); // coord in tiles // spawn tank
                 for (auto& tank : tankAI)
                     if (tank.isVisible())
@@ -88,8 +94,12 @@ int main()
 
                 window.display();
 
-                std::cout << timer << "\n";
+                //std::cout << timer << "\n";
             }
+            /*else
+            {
+                std::cout << "...\n";
+            }*/
         }
         if (timer > constants::delay * 128 * 256)
         {

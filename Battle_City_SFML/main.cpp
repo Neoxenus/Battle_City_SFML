@@ -1,7 +1,7 @@
 #include "SFML/Graphics.hpp"
 #include "Tank.h"
 #include "Server.h"
-//#include "Client.h"
+#include "Client.h"
 #include <ctime>
 #include <iostream>
 #include "windows.h"
@@ -30,6 +30,9 @@ int main()
     //    std::cout << "\n";
     //}
 
+    Client i;
+    i.client();
+
     sf::RenderWindow window(sf::VideoMode(768, 768), "", sf::Style::Titlebar | sf::Style::Close);
 
     sf::View view = window.getDefaultView();
@@ -40,11 +43,10 @@ int main()
     sf::Clock clock;
     double timer = 0;
 
-    Server serv;
-    serv.server();
+    /*Server serv;
+    serv.server();*/
 
-    //Client i;
-    //i.client();
+    
 
     while (window.isOpen())
     {

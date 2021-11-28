@@ -3,10 +3,10 @@
 Bullet::Bullet(constants::Directions direction, double coordX, double coordY, int tankType, bool isPlayer)
 {
 	this->direction = direction;
-    this->coordX = coordX + ((direction == constants::Directions::LEFT) ? (-6.0 / 8) : 0) +
-        ((direction == constants::Directions::RIGHT) ? (2) : 0);
-    this->coordY = coordY + ((direction == constants::Directions::UP)?(-6.0/8):0) + 
-        ((direction == constants::Directions::DOWN) ? (2) : 0);
+    this->coordX = coordX + ((direction == constants::Directions::LEFT) ? constants::bulletSpawnOffset1 : 0) +
+        ((direction == constants::Directions::RIGHT) ? constants::bulletSpawnOffset2 : 0);
+    this->coordY = coordY + ((direction == constants::Directions::UP)? constants::bulletSpawnOffset1 :0) +
+        ((direction == constants::Directions::DOWN) ? constants::bulletSpawnOffset2 : 0);
 	this->speed = constants::bulletSpeed[tankType + 4 * (isPlayer == false)];
 }
 

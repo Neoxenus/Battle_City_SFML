@@ -13,8 +13,8 @@ void Client::client()
 
 	SOCKADDR_IN addr;
 	int sizeofaddr = sizeof(addr);
-	addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-	addr.sin_port = htons(1111);
+	addr.sin_addr.s_addr = inet_addr("192.168.0.108");
+	addr.sin_port = htons(3490);
 	addr.sin_family = AF_INET;
 
 	SOCKET Connection = socket(AF_INET, SOCK_STREAM, NULL);

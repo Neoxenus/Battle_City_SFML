@@ -30,7 +30,7 @@ public:
     void control(sf::RenderWindow& window, Field& field, sf::Event& event);
     void bullets_colision(Field& field);
     void shot();
-    void sendToServer();
+    std::vector<char*> sendToServer();
 };
 
 

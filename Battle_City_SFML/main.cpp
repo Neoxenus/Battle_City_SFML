@@ -1,6 +1,6 @@
 #include "SFML/Graphics.hpp"
-#include "Server.h"
-#include "Client.h"
+//#include "Server.h"
+//#include "Client.h"
 #include "Tank.h"
 #include <ctime>
 #include <iostream>
@@ -66,8 +66,8 @@ int main()
 
     if (isMP && !isHost)
     {
-        Client cl;
-        cl.client();
+       // Client cl;
+//        cl.client();
 
     }
     

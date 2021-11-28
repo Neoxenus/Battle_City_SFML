@@ -62,6 +62,30 @@ double Bullet::getCoordY()
     return coordY;
 }
 
+void Bullet::updateCoord()
+{
+    if (direction == constants::Directions::UP || direction == constants::Directions::DOWN)
+    {
+        if (direction == constants::Directions::UP)
+            this->coordY -= getBulletSpeed() * constants::delay;
+        else
+            this->coordY += getBulletSpeed() * constants::delay;
+    }
+    if (direction == constants::Directions::LEFT || direction == constants::Directions::RIGHT)
+    {
+        if (direction == constants::Directions::LEFT)
+            this->coordX -= getBulletSpeed() * constants::delay;
+        else
+            this->coordX += getBulletSpeed() * constants::delay;
+    }
+
+}
+
+double Bullet::getBulletSpeed()
+{
+    return  this->speed * 1.0;
+}
+
 constants::Directions Bullet::getDirection()
 {
     return direction;

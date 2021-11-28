@@ -14,6 +14,8 @@ public:
 	bool collision_bullet(Field& field);
 	double getCoordX();
 	double getCoordY();
+	void updateCoord();
+	double getBulletSpeed();
 	constants::Directions getDirection();
 };
 

@@ -11,7 +11,7 @@ namespace constants
 	const int tankSpeed[NUMBER_TYPES_OF_TANKS] = { 3, 3, 3, 3, 2, 4, 2, 2 }; // pixels per 4 frames
 
 	//bullet speed
-	const int bulletSpeed[NUMBER_TYPES_OF_TANKS] = { 8, 16, 16, 16, 8, 8, 16, 8 }; // pixels per 4 frames
+	const int bulletSpeed[NUMBER_TYPES_OF_TANKS] = { 2, 4, 4, 4, 2, 2, 4, 2 }; // pixels per 1 frames
 
 	const int NUMBER_PLAYERS_RESPAWN = 2;
 	//tank default coord

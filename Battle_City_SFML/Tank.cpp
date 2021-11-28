@@ -35,12 +35,7 @@ Tank::Tank(bool isPlayer, int tankType)
 
 double Tank::getTankSpeed()
 {
-    {
-        if (isPlayer)
-            return constants::tankSpeed[tankType] * 16.0;
-        else
-            return constants::tankSpeed[4 + tankType] * 16.0;
-    }
+    return constants::tankSpeed[4 * (isPlayer)+tankType] * 16.0;
 }
 
 constants::Directions Tank::getDirection()
@@ -161,6 +156,7 @@ void Tank::bullets_colision(Field& field)
 {
     for (int i = 0; i < bullets.size(); ++i)
     {
+        bullets[i].updateCoord();
         if (bullets[i].collision_bullet(field))
         {
             bullets.erase(bullets.begin() + i);

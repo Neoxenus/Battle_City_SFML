@@ -53,7 +53,7 @@ int main()
         {
             timer += clock.getElapsedTime().asMicroseconds() / 1000000.0;
             sf::Event event;
-            //std::cout << "out - " << timer << "\n";
+            std::cout << "out - " << timer << "\n";
             if (timer > delay)
             {
                 delay += constants::delay;

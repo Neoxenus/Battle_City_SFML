@@ -93,809 +93,169 @@ constants::Directions Bullet::getDirection()
 
 bool Bullet::collision_bullet(Field& field)
 {
-    int x0, y0, xr, yd;
+    int x0, y0, curl, curr;
     constants::Directions direction = this->direction;
-    x0 = floor(this->getCoordX());
-    y0 = floor(this->getCoordY());
-    xr = floor(this->getCoordX() + 6.0 / 8);//+ 6.0 / 8);
-    yd = floor(this->getCoordY() + 6.0 / 8);//+ 6.0 / 8);
 
-    if (direction == constants::Directions::UP)
+    if (direction == constants::Directions::UP || direction == constants::Directions::DOWN)
     {
-        if (field.getField(x0, y0) == constants::Tiles::BRICK1111)
+        if (direction == constants::Directions::UP)
         {
-            field.setField(x0, y0, constants::Tiles::BRICK1100);
-            if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1111)
-                field.setField(x0 + 1, y0, constants::Tiles::BRICK1100);
-
-            return true;
+            x0 = floor(this->getCoordX());
+            y0 = floor(this->getCoordY());
         }
-        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1111)
+        else
         {
-            field.setField(x0 + 1, y0, constants::Tiles::BRICK1100);
-            return true;
+            x0 = floor(this->getCoordX());
+            y0 = floor(this->getCoordY() + 6.0 / 8);
         }
 
-        //2
+        curl = static_cast<int>(field.getField(x0, y0));
+        curr = static_cast<int>(field.getField(x0 + 1, y0));
 
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK1100 && field.getField(x0 + 1, y0) != constants::Tiles::METAL)
+        if (field.getField(x0, y0) != constants::Tiles::BLACK && field.getField(x0, y0) != constants::Tiles::ICE && field.getField(x0, y0) != constants::Tiles::TREE &&
+            field.getField(x0, y0) != constants::Tiles::WATER1 && field.getField(x0, y0) != constants::Tiles::WATER2 && field.getField(x0, y0) != constants::Tiles::WATER3 ||
+            field.getField(x0 + 1, y0) != constants::Tiles::BLACK && field.getField(x0 + 1, y0) != constants::Tiles::ICE && field.getField(x0 + 1, y0) != constants::Tiles::TREE &&
+            field.getField(x0 + 1, y0) != constants::Tiles::WATER1 && field.getField(x0 + 1, y0) != constants::Tiles::WATER2 && field.getField(x0 + 1, y0) != constants::Tiles::WATER3)
         {
-            field.setField(x0, y0, constants::Tiles::BLACK);
-            if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1100)
-                field.setField(x0 + 1, y0, constants::Tiles::BLACK);
+            if ((curl != static_cast<int>(constants::Tiles::METAL) && curl != static_cast<int>(constants::Tiles::BASE)) && (curr != static_cast<int>(constants::Tiles::METAL) && curr != static_cast<int>(constants::Tiles::BASE)))
+            {
+                field.setField(x0, y0, constants::bullet_collision[static_cast<int>(direction)][curl]);
+                if (curl != static_cast<int>(constants::Tiles::BRICK0101) || curr != static_cast<int>(constants::Tiles::BRICK1100))
+                    field.setField(x0 + 1, y0, constants::bullet_collision[static_cast<int>(direction)][curr]);
+                return true;
+            }
+            else
+            {
+                if (direction == constants::Directions::UP)
+                {
+                    if (curl == static_cast<int>(constants::Tiles::METAL) || curl == static_cast<int>(constants::Tiles::BASE))
+                    {
+                        if (curr == static_cast<int>(constants::Tiles::BRICK1111) || curr == static_cast<int>(constants::Tiles::BRICK1110) || curr == static_cast<int>(constants::Tiles::BRICK1101) ||
+                            curr == static_cast<int>(constants::Tiles::BRICK1010) || curr == static_cast<int>(constants::Tiles::BRICK0101))
+                        {
+                            field.setField(x0 +  1, y0, constants::bullet_collision[static_cast<int>(direction)][curr]);
+                        }
 
-            return true;
+                        return true;
+                    }
+                    else if (curr == static_cast<int>(constants::Tiles::METAL) || curr == static_cast<int>(constants::Tiles::BASE))
+                    {
+                        if (curl == static_cast<int>(constants::Tiles::BRICK1111) || curl == static_cast<int>(constants::Tiles::BRICK1110) || curl == static_cast<int>(constants::Tiles::BRICK1101) ||
+                            curl == static_cast<int>(constants::Tiles::BRICK1010) || curl == static_cast<int>(constants::Tiles::BRICK0101))
+                        {
+                            field.setField(x0, y0, constants::bullet_collision[static_cast<int>(direction)][curl]);
+                        }
+
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (curl == static_cast<int>(constants::Tiles::METAL) || curl == static_cast<int>(constants::Tiles::BASE))
+                    {
+                        if (curr == static_cast<int>(constants::Tiles::BRICK1111) || curr == static_cast<int>(constants::Tiles::BRICK1011) || curr == static_cast<int>(constants::Tiles::BRICK0111) ||
+                            curr == static_cast<int>(constants::Tiles::BRICK1010) || curr == static_cast<int>(constants::Tiles::BRICK0101))
+                        {
+                            field.setField(x0 + 1, y0, constants::bullet_collision[static_cast<int>(direction)][curr]);
+                        }
+
+                        return true;
+                    }
+                    else if (curr == static_cast<int>(constants::Tiles::METAL) || curr == static_cast<int>(constants::Tiles::BASE))
+                    {
+                        if (curl == static_cast<int>(constants::Tiles::BRICK1111) || curl == static_cast<int>(constants::Tiles::BRICK1011) || curl == static_cast<int>(constants::Tiles::BRICK0111) ||
+                            curl == static_cast<int>(constants::Tiles::BRICK1010) || curl == static_cast<int>(constants::Tiles::BRICK0101))
+                        {
+                            field.setField(x0, y0, constants::bullet_collision[static_cast<int>(direction)][curl]);
+                        }
+
+                        return true;
+                    }
+                }
+            }
         }
-        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1100 && field.getField(x0, y0) != constants::Tiles::METAL)
-        {
-            field.setField(x0 + 1, y0, constants::Tiles::BLACK);
-            return true;
-        }
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK0011)
-        {
-            field.setField(x0, y0, constants::Tiles::BLACK);
-            if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0011)
-                field.setField(x0 + 1, y0, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0011)
-        {
-            field.setField(x0 + 1, y0, constants::Tiles::BLACK);
-            return true;
-        }
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK1010)
-        {
-            field.setField(x0, y0, constants::Tiles::BRICK1000);
-            if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1010)
-                field.setField(x0 + 1, y0, constants::Tiles::BRICK1000);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1010)
-        {
-            field.setField(x0 + 1, y0, constants::Tiles::BRICK1000);
-            return true;
-        }
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK0101)
-        {
-            field.setField(x0, y0, constants::Tiles::BRICK0100);
-            if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0101)
-                field.setField(x0 + 1, y0, constants::Tiles::BRICK0100);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0101)
-        {
-            field.setField(x0 + 1, y0, constants::Tiles::BRICK0100);
-            return true;
-        }
-
-        //3
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK0111)
-        {
-            field.setField(x0, y0, constants::Tiles::BRICK0100);
-            if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0111)
-                field.setField(x0 + 1, y0, constants::Tiles::BRICK0100);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0111)
-        {
-            field.setField(x0 + 1, y0, constants::Tiles::BRICK0100);
-            return true;
-        }
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK1011)
-        {
-            field.setField(x0, y0, constants::Tiles::BRICK1000);
-            if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1011)
-                field.setField(x0 + 1, y0, constants::Tiles::BRICK1000);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1011)
-        {
-            field.setField(x0 + 1, y0, constants::Tiles::BRICK1000);
-            return true;
-        }
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK1101)
-        {
-            field.setField(x0, y0, constants::Tiles::BRICK1100);
-            if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1101)
-                field.setField(x0 + 1, y0, constants::Tiles::BRICK1100);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1101)
-        {
-            field.setField(x0 + 1, y0, constants::Tiles::BRICK1100);
-            return true;
-        }
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK1110)
-        {
-            field.setField(x0, y0, constants::Tiles::BRICK1100);
-            if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1110)
-                field.setField(x0 + 1, y0, constants::Tiles::BRICK1100);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1110)
-        {
-            field.setField(x0 + 1, y0, constants::Tiles::BRICK1100);
-            return true;
-        }
-
-
-        //1
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK1000 && field.getField(x0 + 1, y0) != constants::Tiles::METAL)
-        {
-            field.setField(x0, y0, constants::Tiles::BLACK);
-            if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1000)
-                field.setField(x0 + 1, y0, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK1000 && field.getField(x0, y0) != constants::Tiles::METAL)
-        {
-            field.setField(x0 + 1, y0, constants::Tiles::BLACK);
-            return true;
-        }
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK0100 && field.getField(x0 + 1, y0) != constants::Tiles::METAL)
-        {
-            field.setField(x0, y0, constants::Tiles::BLACK);
-            if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0100)
-                field.setField(x0 + 1, y0, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0100 && field.getField(x0, y0) != constants::Tiles::METAL)
-        {
-            field.setField(x0 + 1, y0, constants::Tiles::BLACK);
-            return true;
-        }
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK0010)
-        {
-            field.setField(x0, y0, constants::Tiles::BLACK);
-            if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0010)
-                field.setField(x0 + 1, y0, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0010)
-        {
-            field.setField(x0 + 1, y0, constants::Tiles::BLACK);
-            return true;
-        }
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK0001)
-        {
-            field.setField(x0, y0, constants::Tiles::BLACK);
-            if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0001)
-                field.setField(x0 + 1, y0, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, y0) == constants::Tiles::BRICK0001)
-        {
-            field.setField(x0 + 1, y0, constants::Tiles::BLACK);
-            return true;
-        }
-
-        //0
-
-        else if (field.getField(x0, y0) != constants::Tiles::BLACK && field.getField(x0, y0) != constants::Tiles::ICE && field.getField(x0, y0) != constants::Tiles::TREE &&
-        field.getField(x0, y0) != constants::Tiles::WATER1 && field.getField(x0, y0) != constants::Tiles::WATER2 && field.getField(x0, y0) != constants::Tiles::WATER3)
-        {
-            return true;
-        }
+        else
+            return false;
     }
-
-    else if (direction == constants::Directions::DOWN)
+    else
     {
-        if (field.getField(x0, yd) == constants::Tiles::BRICK1111)
+        if (direction == constants::Directions::LEFT)
         {
-            field.setField(x0, yd, constants::Tiles::BRICK0011);
-            if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1111)
-                field.setField(x0 + 1, yd, constants::Tiles::BRICK0011);
-
-            return true;
+            x0 = floor(this->getCoordX());
+            y0 = floor(this->getCoordY());
         }
-        else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1111)
+        else
         {
-            field.setField(x0 + 1, yd, constants::Tiles::BRICK0011);
-            return true;
+            x0 = floor(this->getCoordX() + 6.0 / 8);
+            y0 = floor(this->getCoordY());
         }
 
-        //2
+        curl = static_cast<int>(field.getField(x0, y0));
+        curr = static_cast<int>(field.getField(x0, y0 + 1));
 
-        else if (field.getField(x0, yd) == constants::Tiles::BRICK1100)
+        if (field.getField(x0, y0) != constants::Tiles::BLACK && field.getField(x0, y0) != constants::Tiles::ICE && field.getField(x0, y0) != constants::Tiles::TREE &&
+            field.getField(x0, y0) != constants::Tiles::WATER1 && field.getField(x0, y0) != constants::Tiles::WATER2 && field.getField(x0, y0) != constants::Tiles::WATER3 ||
+            field.getField(x0, y0 + 1) != constants::Tiles::BLACK && field.getField(x0, y0 + 1) != constants::Tiles::ICE && field.getField(x0, y0 + 1) != constants::Tiles::TREE &&
+            field.getField(x0, y0 + 1) != constants::Tiles::WATER1 && field.getField(x0, y0 + 1) != constants::Tiles::WATER2 && field.getField(x0, y0 + 1) != constants::Tiles::WATER3)
         {
-            field.setField(x0, yd, constants::Tiles::BLACK);
-            if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1100)
-                field.setField(x0 + 1, yd, constants::Tiles::BLACK);
+            if ((curl != static_cast<int>(constants::Tiles::METAL) && curl != static_cast<int>(constants::Tiles::BASE)) && (curr != static_cast<int>(constants::Tiles::METAL) && curr != static_cast<int>(constants::Tiles::BASE)))
+            {
+                field.setField(x0, y0, constants::bullet_collision[static_cast<int>(direction)][curl]);
+                if (curl != static_cast<int>(constants::Tiles::BRICK0011) || curr != static_cast<int>(constants::Tiles::BRICK0101))
+                    field.setField(x0, y0 + 1, constants::bullet_collision[static_cast<int>(direction)][curr]);
+                return true;
+            }
+            else
+            {
+                if (direction == constants::Directions::LEFT)
+                {
+                    if (curl == static_cast<int>(constants::Tiles::METAL) || curl == static_cast<int>(constants::Tiles::BASE))
+                    {
+                        if (curr == static_cast<int>(constants::Tiles::BRICK1111) || curr == static_cast<int>(constants::Tiles::BRICK1011) || curr == static_cast<int>(constants::Tiles::BRICK1110) ||
+                            curr == static_cast<int>(constants::Tiles::BRICK1100) || curr == static_cast<int>(constants::Tiles::BRICK0011))
+                        {
+                            field.setField(x0, y0 + 1, constants::bullet_collision[static_cast<int>(direction)][curr]);
+                        }
 
-            return true;
+                        return true;
+                    }
+                    else if (curr == static_cast<int>(constants::Tiles::METAL) || curr == static_cast<int>(constants::Tiles::BASE))
+                    {
+                        if (curl == static_cast<int>(constants::Tiles::BRICK1111) || curl == static_cast<int>(constants::Tiles::BRICK1011) || curl == static_cast<int>(constants::Tiles::BRICK1110) ||
+                            curl == static_cast<int>(constants::Tiles::BRICK1100) || curl == static_cast<int>(constants::Tiles::BRICK0011))
+                        {
+                            field.setField(x0, y0, constants::bullet_collision[static_cast<int>(direction)][curl]);
+                        }
+
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (curl == static_cast<int>(constants::Tiles::METAL) || curl == static_cast<int>(constants::Tiles::BASE))
+                    {
+                        if (curr == static_cast<int>(constants::Tiles::BRICK1111) || curr == static_cast<int>(constants::Tiles::BRICK1101) || curr == static_cast<int>(constants::Tiles::BRICK0111) ||
+                            curr == static_cast<int>(constants::Tiles::BRICK1100) || curr == static_cast<int>(constants::Tiles::BRICK0011))
+                        {
+                            field.setField(x0, y0 + 1, constants::bullet_collision[static_cast<int>(direction)][curr]);
+                        }
+
+                        return true;
+                    }
+                    else if (curr == static_cast<int>(constants::Tiles::METAL) || curr == static_cast<int>(constants::Tiles::BASE))
+                    {
+                        if (curl == static_cast<int>(constants::Tiles::BRICK1111) || curl == static_cast<int>(constants::Tiles::BRICK1101) || curl == static_cast<int>(constants::Tiles::BRICK0111) ||
+                            curl == static_cast<int>(constants::Tiles::BRICK1100) || curl == static_cast<int>(constants::Tiles::BRICK0011))
+                        {
+                            field.setField(x0, y0, constants::bullet_collision[static_cast<int>(direction)][curl]);
+                        }
+
+                        return true;
+                    }
+                }
+            }
         }
-        else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1100)
-        {
-            field.setField(x0 + 1, yd, constants::Tiles::BLACK);
-            return true;
-        }
-
-        else if (field.getField(x0, yd) == constants::Tiles::BRICK0011 && field.getField(x0 + 1, yd) != constants::Tiles::METAL)
-        {
-            field.setField(x0, yd, constants::Tiles::BLACK);
-            if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0011)
-                field.setField(x0 + 1, yd, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0011 && field.getField(x0, yd) != constants::Tiles::METAL)
-        {
-            field.setField(x0 + 1, yd, constants::Tiles::BLACK);
-            return true;
-        }
-
-        else if (field.getField(x0, yd) == constants::Tiles::BRICK1010)
-        {
-            field.setField(x0, yd, constants::Tiles::BRICK0010);
-            if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1010)
-                field.setField(x0 + 1, yd, constants::Tiles::BRICK0010);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1010)
-        {
-            field.setField(x0 + 1, yd, constants::Tiles::BRICK0010);
-            return true;
-        }
-
-        else if (field.getField(x0, yd) == constants::Tiles::BRICK0101)
-        {
-            field.setField(x0, yd, constants::Tiles::BRICK0001);
-            if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0101)
-                field.setField(x0 + 1, yd, constants::Tiles::BRICK0001);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0101)
-        {
-            field.setField(x0 + 1, yd, constants::Tiles::BRICK0001);
-            return true;
-        }
-
-        //3
-
-        else if (field.getField(x0, yd) == constants::Tiles::BRICK0111)
-        {
-            field.setField(x0, yd, constants::Tiles::BRICK0011);
-            if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0111)
-                field.setField(x0 + 1, yd, constants::Tiles::BRICK0011);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0111)
-        {
-            field.setField(x0 + 1, yd, constants::Tiles::BRICK0011);
-            return true;
-        }
-
-        else if (field.getField(x0, yd) == constants::Tiles::BRICK1011)
-        {
-            field.setField(x0, yd, constants::Tiles::BRICK0011);
-            if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1011)
-                field.setField(x0 + 1, yd, constants::Tiles::BRICK0011);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1011)
-        {
-            field.setField(x0 + 1, yd, constants::Tiles::BRICK0011);
-            return true;
-        }
-
-        else if (field.getField(x0, yd) == constants::Tiles::BRICK1101)
-        {
-            field.setField(x0, yd, constants::Tiles::BRICK0001);
-            if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1101)
-                field.setField(x0 + 1, yd, constants::Tiles::BRICK0001);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1101)
-        {
-            field.setField(x0 + 1, yd, constants::Tiles::BRICK0001);
-            return true;
-        }
-
-        else if (field.getField(x0, yd) == constants::Tiles::BRICK1110)
-        {
-            field.setField(x0, yd, constants::Tiles::BRICK0010);
-            if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1110)
-                field.setField(x0 + 1, yd, constants::Tiles::BRICK0010);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1110)
-        {
-            field.setField(x0 + 1, yd, constants::Tiles::BRICK0010);
-            return true;
-        }
-
-
-        //1
-
-        else if (field.getField(x0, yd) == constants::Tiles::BRICK1000)
-        {
-            field.setField(x0, yd, constants::Tiles::BLACK);
-            if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1000)
-                field.setField(x0 + 1, yd, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK1000)
-        {
-            field.setField(x0 + 1, yd, constants::Tiles::BLACK);
-            return true;
-        }
-
-        else if (field.getField(x0, yd) == constants::Tiles::BRICK0100)
-        {
-            field.setField(x0, yd, constants::Tiles::BLACK);
-            if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0100)
-                field.setField(x0 + 1, yd, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0100)
-        {
-            field.setField(x0 + 1, yd, constants::Tiles::BLACK);
-            return true;
-        }
-
-        else if (field.getField(x0, yd) == constants::Tiles::BRICK0010 && field.getField(x0 + 1, yd) != constants::Tiles::METAL)
-        {
-            field.setField(x0, yd, constants::Tiles::BLACK);
-            if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0010)
-                field.setField(x0 + 1, yd, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0010 && field.getField(x0, yd) != constants::Tiles::METAL)
-        {
-            field.setField(x0 + 1, yd, constants::Tiles::BLACK);
-            return true;
-        }
-
-        else if (field.getField(x0, yd) == constants::Tiles::BRICK0001 && field.getField(x0 + 1, yd) != constants::Tiles::METAL)
-        {
-            field.setField(x0, yd, constants::Tiles::BLACK);
-            if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0001)
-                field.setField(x0 + 1, yd, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(x0 + 1, yd) == constants::Tiles::BRICK0001 && field.getField(x0, yd) != constants::Tiles::METAL)
-        {
-            field.setField(x0 + 1, yd, constants::Tiles::BLACK);
-            return true;
-        }
-
-        //0
-
-        else if (field.getField(x0, yd) != constants::Tiles::BLACK && field.getField(x0, yd) != constants::Tiles::ICE && field.getField(x0, yd) != constants::Tiles::TREE &&
-        field.getField(x0, yd) != constants::Tiles::WATER1 && field.getField(x0, yd) != constants::Tiles::WATER2 && field.getField(x0, yd) != constants::Tiles::WATER3)
-        {
-            return true;
-        }
+        else
+            return false;
     }
-
-    else if (direction == constants::Directions::LEFT)
-    {
-        if (field.getField(x0, y0) == constants::Tiles::BRICK1111)
-        {
-            field.setField(x0, y0, constants::Tiles::BRICK1010);
-            if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1111)
-                field.setField(x0, y0 + 1, constants::Tiles::BRICK1010);
-
-            return true;
-        }
-        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1111)
-        {
-            field.setField(x0, y0 + 1, constants::Tiles::BRICK1010);
-            return true;
-        }
-
-        //2
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK1100)
-        {
-            field.setField(x0, y0, constants::Tiles::BRICK1000);
-            if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1100)
-                field.setField(x0, y0 + 1, constants::Tiles::BRICK1000);
-
-            return true;
-        }
-        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1100)
-        {
-            field.setField(x0, y0 + 1, constants::Tiles::BRICK1000);
-            return true;
-        }
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK0011)
-        {
-            field.setField(x0, y0, constants::Tiles::BRICK0010);
-            if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0011)
-                field.setField(x0, y0 + 1, constants::Tiles::BRICK0010);
-
-            return true;
-        }
-        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0011)
-        {
-            field.setField(x0, y0 + 1, constants::Tiles::BRICK0010);
-            return true;
-        }
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK1010 && field.getField(x0, y0 + 1) != constants::Tiles::METAL)
-        {
-            field.setField(x0, y0, constants::Tiles::BLACK);
-            if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1010)
-                field.setField(x0, y0 + 1, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1010 && field.getField(x0, y0) != constants::Tiles::METAL)
-        {
-            field.setField(x0, y0 + 1, constants::Tiles::BLACK);
-            return true;
-        }
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK0101)
-        {
-            field.setField(x0, y0, constants::Tiles::BLACK);
-            if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0101)
-                field.setField(x0, y0 + 1, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0101)
-        {
-            field.setField(x0, y0 + 1, constants::Tiles::BLACK);
-            return true;
-        }
-
-        //3
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK0111)
-        {
-            field.setField(x0, y0, constants::Tiles::BRICK0010);
-            if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0111)
-                field.setField(x0, y0 + 1, constants::Tiles::BRICK0010);
-
-            return true;
-        }
-        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0111)
-        {
-            field.setField(x0, y0 + 1, constants::Tiles::BRICK0010);
-            return true;
-        }
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK1011)
-        {
-            field.setField(x0, y0, constants::Tiles::BRICK1010);
-            if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1011)
-                field.setField(x0, y0 + 1, constants::Tiles::BRICK1010);
-
-            return true;
-        }
-        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1011)
-        {
-            field.setField(x0, y0 + 1, constants::Tiles::BRICK1010);
-            return true;
-        }
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK1101)
-        {
-            field.setField(x0, y0, constants::Tiles::BRICK1000);
-            if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1101)
-                field.setField(x0, y0 + 1, constants::Tiles::BRICK1000);
-
-            return true;
-        }
-        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1101)
-        {
-            field.setField(x0, y0 + 1, constants::Tiles::BRICK1000);
-            return true;
-        }
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK1110)
-        {
-            field.setField(x0, y0, constants::Tiles::BRICK1000);
-            if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1110)
-                field.setField(x0, y0 + 1, constants::Tiles::BRICK1000);
-
-            return true;
-        }
-        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1110)
-        {
-            field.setField(x0, y0 + 1, constants::Tiles::BRICK1000);
-            return true;
-        }
-
-
-        //1
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK1000 && field.getField(x0, y0 + 1) != constants::Tiles::METAL)
-        {
-            field.setField(x0, y0, constants::Tiles::BLACK);
-            if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1000)
-                field.setField(x0, y0 + 1, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1000 && field.getField(x0, y0) != constants::Tiles::METAL)
-        {
-            field.setField(x0, y0 + 1, constants::Tiles::BLACK);
-            return true;
-        }
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK0100)
-        {
-            field.setField(x0, y0, constants::Tiles::BLACK);
-            if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0100)
-                field.setField(x0, y0 + 1, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0100)
-        {
-            field.setField(x0, y0 + 1, constants::Tiles::BLACK);
-            return true;
-        }
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK0010 && field.getField(x0, y0 + 1) != constants::Tiles::METAL)
-        {
-            field.setField(x0, y0, constants::Tiles::BLACK);
-            if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0010)
-                field.setField(x0, y0 + 1, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0010 && field.getField(x0, y0) != constants::Tiles::METAL)
-        {
-            field.setField(x0, y0 + 1, constants::Tiles::BLACK);
-            return true;
-        }
-
-        else if (field.getField(x0, y0) == constants::Tiles::BRICK0001)
-        {
-            field.setField(x0, y0, constants::Tiles::BLACK);
-            if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0001)
-                field.setField(x0, y0 + 1, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0001)
-        {
-            field.setField(x0, y0 + 1, constants::Tiles::BLACK);
-            return true;
-        }
-
-        //0
-
-        else if (field.getField(x0, y0) != constants::Tiles::BLACK && field.getField(x0, y0) != constants::Tiles::ICE && field.getField(x0, y0) != constants::Tiles::TREE &&
-        field.getField(x0, y0) != constants::Tiles::WATER1 && field.getField(x0, y0) != constants::Tiles::WATER2 && field.getField(x0, y0) != constants::Tiles::WATER3)
-        {
-            return true;
-        }
-    }
-
-    else if (direction == constants::Directions::RIGHT)
-    {
-        if (field.getField(xr, y0) == constants::Tiles::BRICK1111)
-        {
-            field.setField(xr, y0, constants::Tiles::BRICK0101);
-            if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1111)
-                field.setField(xr, y0 + 1, constants::Tiles::BRICK0101);
-
-            return true;
-        }
-        else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1111)
-        {
-            field.setField(xr, y0 + 1, constants::Tiles::BRICK0101);
-            return true;
-        }
-
-        //2
-
-        else if (field.getField(xr, y0) == constants::Tiles::BRICK1100)
-        {
-            field.setField(xr, y0, constants::Tiles::BRICK0100);
-            if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1100)
-                field.setField(xr, y0 + 1, constants::Tiles::BRICK0100);
-
-            return true;
-        }
-        else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1100)
-        {
-            field.setField(xr, y0 + 1, constants::Tiles::BRICK0100);
-            return true;
-        }
-
-        else if (field.getField(xr, y0) == constants::Tiles::BRICK0011)
-        {
-            field.setField(xr, y0, constants::Tiles::BRICK0001);
-            if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0011)
-                field.setField(xr, y0 + 1, constants::Tiles::BRICK0001);
-
-            return true;
-        }
-        else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0011)
-        {
-            field.setField(xr, y0 + 1, constants::Tiles::BRICK0001);
-            return true;
-        }
-
-        else if (field.getField(xr, y0) == constants::Tiles::BRICK1010)
-        {
-            field.setField(xr, y0, constants::Tiles::BLACK);
-            if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1010)
-                field.setField(xr, y0 + 1, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1010)
-        {
-            field.setField(xr, y0 + 1, constants::Tiles::BLACK);
-            return true;
-        }
-
-        else if (field.getField(xr, y0) == constants::Tiles::BRICK0101 && field.getField(xr, y0 + 1) != constants::Tiles::METAL)
-        {
-            field.setField(xr, y0, constants::Tiles::BLACK);
-            if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0101)
-                field.setField(xr, y0 + 1, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0101 && field.getField(xr, y0) != constants::Tiles::METAL)
-        {
-            field.setField(xr, y0 + 1, constants::Tiles::BLACK);
-            return true;
-        }
-
-        //3
-
-        else if (field.getField(xr, y0) == constants::Tiles::BRICK0111)
-        {
-            field.setField(xr, y0, constants::Tiles::BRICK0101);
-            if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0111)
-                field.setField(xr, y0 + 1, constants::Tiles::BRICK0101);
-
-            return true;
-        }
-        else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0111)
-        {
-            field.setField(xr, y0 + 1, constants::Tiles::BRICK0101);
-            return true;
-        }
-
-        else if (field.getField(xr, y0) == constants::Tiles::BRICK1011)
-        {
-            field.setField(xr, y0, constants::Tiles::BRICK0001);
-            if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1011)
-                field.setField(xr, y0 + 1, constants::Tiles::BRICK0001);
-
-            return true;
-        }
-        else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1011)
-        {
-            field.setField(xr, y0 + 1, constants::Tiles::BRICK0001);
-            return true;
-        }
-
-        else if (field.getField(xr, y0) == constants::Tiles::BRICK1101)
-        {
-            field.setField(xr, y0, constants::Tiles::BRICK0101);
-            if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1101)
-                field.setField(xr, y0 + 1, constants::Tiles::BRICK0101);
-
-            return true;
-        }
-        else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1101)
-        {
-            field.setField(xr, y0 + 1, constants::Tiles::BRICK0101);
-            return true;
-        }
-
-        else if (field.getField(xr, y0) == constants::Tiles::BRICK1110)
-        {
-            field.setField(xr, y0, constants::Tiles::BRICK0100);
-            if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1110)
-                field.setField(xr, y0 + 1, constants::Tiles::BRICK0100);
-
-            return true;
-        }
-        else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1110)
-        {
-            field.setField(xr, y0 + 1, constants::Tiles::BRICK0100);
-            return true;
-        }
-
-
-        //1
-        else if (field.getField(xr, y0) == constants::Tiles::BRICK1000)
-        {
-            field.setField(xr, y0, constants::Tiles::BLACK);
-            if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1000)
-                field.setField(xr, y0 + 1, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK1000)
-        {
-            field.setField(xr, y0 + 1, constants::Tiles::BLACK);
-            return true;
-        }
-
-        else if (field.getField(xr, y0) == constants::Tiles::BRICK0100 && field.getField(xr, y0 + 1) != constants::Tiles::METAL)
-        {
-            field.setField(xr, y0, constants::Tiles::BLACK);
-            if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0100)
-                field.setField(xr, y0 + 1, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0100 && field.getField(xr, y0) != constants::Tiles::METAL)
-        {
-            field.setField(xr, y0 + 1, constants::Tiles::BLACK);
-            return true;
-        }
-
-        else if (field.getField(xr, y0) == constants::Tiles::BRICK0010)
-        {
-            field.setField(xr, y0, constants::Tiles::BLACK);
-            if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0010)
-                field.setField(xr, y0 + 1, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0010)
-        {
-            field.setField(xr, y0 + 1, constants::Tiles::BLACK);
-            return true;
-        }
-
-        else if (field.getField(xr, y0) == constants::Tiles::BRICK0001 && field.getField(xr, y0 + 1) != constants::Tiles::METAL)
-        {
-            field.setField(xr, y0, constants::Tiles::BLACK);
-            if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0001)
-                field.setField(xr, y0 + 1, constants::Tiles::BLACK);
-
-            return true;
-        }
-        else if (field.getField(xr, y0 + 1) == constants::Tiles::BRICK0001 && field.getField(xr, y0) != constants::Tiles::METAL)
-        {
-            field.setField(xr, y0 + 1, constants::Tiles::BLACK);
-            return true;
-        }
-
-        //0
-
-        else if (field.getField(xr, y0) != constants::Tiles::BLACK && field.getField(xr, y0) != constants::Tiles::ICE && field.getField(xr, y0) != constants::Tiles::TREE &&
-        field.getField(xr, y0) != constants::Tiles::WATER1 && field.getField(xr, y0) != constants::Tiles::WATER2 && field.getField(xr, y0) != constants::Tiles::WATER3)
-        {
-            return true;
-        }
-    }
-
-    return false;
 }

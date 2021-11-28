@@ -1,7 +1,7 @@
 #include "SFML/Graphics.hpp"
 #include "Tank.h"
-//#include "Server.h"
-//#include "Client.h"
+#include "Server.h"
+#include "Client.h"
 #include <ctime>
 #include <iostream>
 #include "windows.h"
@@ -30,8 +30,8 @@ int main()
     //    std::cout << "\n";
     //}
 
-    //Server serv;
-    //serv.server();
+    Server serv;
+    serv.server();
 
     /*Client i;
     i.client();*/

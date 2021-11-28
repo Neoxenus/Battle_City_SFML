@@ -2,6 +2,7 @@
 #include "Tank.h"
 #include "Server.h"
 #include "Client.h"
+//#include "Client.h"
 #include <ctime>
 #include <iostream>
 #include "windows.h"
@@ -29,9 +30,8 @@ int main()
     //    }
     //    std::cout << "\n";
     //}
-
-    Client i;
-    i.client();
+    Server serv;
+    serv.server();
 
     sf::RenderWindow window(sf::VideoMode(768, 768), "", sf::Style::Titlebar | sf::Style::Close);
 
@@ -43,10 +43,16 @@ int main()
     sf::Clock clock;
     double timer = 0;
 
+<<<<<<<<< Temporary merge branch 1
     /*Server serv;
     serv.server();*/
+=========
+    Server serv;
+    serv.server();
 
-    
+    //Client i;
+    //i.client();
+>>>>>>>>> Temporary merge branch 2
 
     while (window.isOpen())
     {

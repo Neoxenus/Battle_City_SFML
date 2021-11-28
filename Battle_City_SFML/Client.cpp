@@ -27,12 +27,30 @@ void Client::client()
 
 void Client::exchange(Field& field, Tank& tank)
 {
-	/*char buffer[sizeof(pk)];
-	memcpy(buffer, &pk, sizeof(pk));
-	int bytesSent = sendto(Connection, data, sizeof(pk), 0, (const sockaddr*)&addr, sizeof(addr));
-	if (bytesSent > 0)
+	std::vector<char*> tankE = tank.sendToServer();
+	std::vector<char*> fieldE = field.sendToServer();
+	for(int i=0;i<tankE.size();++i)
+		send(Connection, tankE[i], sizeof(tankE[i]), NULL);
+	for (int i = 0; i < fieldE.size(); ++i)
+		send(Connection, fieldE[i], sizeof(fieldE[i]), NULL);
+	recv(Connection, tankE[0], sizeof(tankE[0]), NULL);
+	recv(Connection, tankE[1], sizeof(tankE[1]), NULL);
+	recv(Connection, tankE[2], sizeof(tankE[2]), NULL);
+	recv(Connection, tankE[3], sizeof(tankE[3]), NULL);
+	recv(Connection, tankE[4], sizeof(tankE[4]), NULL);
+	recv(Connection, tankE[5], sizeof(tankE[5]), NULL);
+	recv(Connection, tankE[6], sizeof(tankE[6]), NULL);
+	recv(Connection, tankE[7], sizeof(tankE[7]), NULL);
+	tankE.resize(4 * convertBackFromCharArrayToInt(tankE[7] +8));
+	for (int i = 8; i < tankE.size(); i+=3)
 	{
-		std::cout << bytesSent << std::endl;
+		recv(Connection, tankE[i], sizeof(tankE[i]), NULL);
+		recv(Connection, tankE[i+1], sizeof(tankE[i+1]), NULL);
+		recv(Connection, tankE[i+2], sizeof(tankE[i+2]), NULL);
 	}
-	send(Connection, pk, sizeof(pk), NULL);*/
+	Tank ansTank(tank, tankE);
+
+	for (int i = 0; i < fieldE.size(); ++i)
+		for (int j = 0; j < fieldE.size(); ++j)
+			fieldE[i][j] = convertBackFromCharArrayToInt(fieldE[i* fieldE.size()+ j]);
 }

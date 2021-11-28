@@ -5,6 +5,6 @@ char* convertToCharArray(int number);
 
 char* convertToCharArray(double number);
 
-int converBackFromCharArrayInt(char* cstr);
+int convertBackFromCharArrayToInt(char* cstr);
 
-double converBackFromCharArrayIntDouble(char* cstr);
+double convertBackFromCharArrayToDouble(char* cstr);

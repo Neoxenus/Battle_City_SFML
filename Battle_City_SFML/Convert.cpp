@@ -21,14 +21,14 @@ char* convertToCharArray(double number)
     return cstr;
 }
 
-int converBackFromCharArrayInt(char* cstr)
+int convertBackFromCharArrayToInt(char* cstr)
 {
     int number;
     sscanf_s(cstr, "%f", &number);
     return number;
 }
 
-double converBackFromCharArrayIntDouble(char* cstr)
+double convertBackFromCharArrayToDouble(char* cstr)
 {
     double number;
     sscanf_s(cstr, "%f", &number);

@@ -31,6 +31,30 @@ Tank::Tank(bool isPlayer, int tankType)
     }
 }
 
+Tank::Tank(Tank& t, std::vector<char*> data)
+{
+    this->isPlayer = t.isPlayer;
+    this->isMoving = t.isMoving;
+    this->alreadyShot = convertBackFromCharArrayToInt(data[0]);
+    this->coordX = convertBackFromCharArrayToDouble(data[1]);
+    this->coordY = convertBackFromCharArrayToDouble(data[2]);
+    this->subCoordX = convertBackFromCharArrayToDouble(data[3]);
+    this->subCoordY = convertBackFromCharArrayToDouble(data[4]);
+    this->tankType = convertBackFromCharArrayToInt(data[5]);
+    this->direction = static_cast<constants::Directions>(convertBackFromCharArrayToDouble(data[6]));
+    int numOfBullets = convertBackFromCharArrayToInt(data[7]);
+       this->bullets = std::vector<Bullet>();
+    
+    for (int i = 8; i < numOfBullets; i+=4)
+    {
+        constants::Directions dir = static_cast<constants::Directions> (convertBackFromCharArrayToInt(data[i + 2]));
+        Bullet tmp(dir, 
+            convertBackFromCharArrayToDouble(data[i]), convertBackFromCharArrayToDouble(data[i+1]),
+            this->tankType, this->isPlayer);
+        bullets.push_back(tmp);
+    }
+}
+
 double Tank::getTankSpeed()
 {
     return constants::tankSpeed[4 * (isPlayer)+tankType] * 16.0;
@@ -45,6 +69,7 @@ int Tank::getMaxShots()
 {
     return constants::maxShots[4 * (isPlayer)+tankType];
 }
+
 
 double Tank::getCoordX()
 {
@@ -201,14 +226,13 @@ std::vector<char*> Tank::sendToServer()
     std::vector<char*> dataVector
     { convertToCharArray(alreadyShot), convertToCharArray(coordX), convertToCharArray(coordY),
       convertToCharArray(subCoordX), convertToCharArray(subCoordY), convertToCharArray(tankType),
-      convertToCharArray(static_cast<int>(direction)) 
+      convertToCharArray(static_cast<int>(direction)), convertToCharArray(static_cast<int>(bullets.size()))
     };
     for (int i = 0; i < bullets.size(); ++i)
     {
         dataVector.push_back(convertToCharArray(bullets[i].getCoordX()));
         dataVector.push_back(convertToCharArray(bullets[i].getCoordY()));
         dataVector.push_back(convertToCharArray(static_cast<int>(bullets[i].getDirection())));
-        dataVector.push_back(convertToCharArray(bullets[i].getBulletSpeed()));
     }
     return dataVector;
 }

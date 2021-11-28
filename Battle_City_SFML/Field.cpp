@@ -68,11 +68,22 @@ void Field::draw(sf::RenderWindow& window)
 			}
 			else if (i == 28 && j == 14)
 			{
-				s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::BASE, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
-				s_default.setPosition(j/2 * constants::BLOCK_LENGHT, i/2 * constants::BLOCK_LENGHT);
-				s_default.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
-				window.draw(s_default);
-				s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::GRAY, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
+				if (field[i][j] == constants::BASE && field[i][j + 1] == constants::BASE && field[i + 1][j] == constants::BASE && field[i + 1][j + 1] == constants::BASE)
+				{
+					s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::BASE, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
+					s_default.setPosition(j / 2 * constants::BLOCK_LENGHT, i / 2 * constants::BLOCK_LENGHT);
+					s_default.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
+					window.draw(s_default);
+					s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::GRAY, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
+				}
+				else
+				{
+					s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::FLAG, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
+					s_default.setPosition(j / 2 * constants::BLOCK_LENGHT, i / 2 * constants::BLOCK_LENGHT);
+					s_default.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
+					window.draw(s_default);
+					s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::GRAY, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
+				}
 			}
 			else
 			{

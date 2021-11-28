@@ -107,12 +107,9 @@ void Tank::setVisibility(bool flag)
     visibility = flag;
 }
 
-void Tank::draw(sf::RenderWindow& window)
+void Tank::draw(sf::RenderWindow& window, sf::Texture texture_all)
 {
-	sf::Texture texture_all;
-	texture_all.loadFromFile("allSprites.png");
-	sf::Sprite sprite_all(texture_all);
-
+    sf::Sprite sprite_all(texture_all);
 	sprite_all.setTextureRect(sf::IntRect(
         8 * constants::BLOCK_LENGHT*(isPlayer == false) + 2 * static_cast<int>(direction) * constants::BLOCK_LENGHT,
         4 * constants::BLOCK_LENGHT * (isPlayer == false) + tankType * constants::BLOCK_LENGHT,
@@ -122,7 +119,7 @@ void Tank::draw(sf::RenderWindow& window)
 	window.draw(sprite_all);
     for (int i = 0; i < bullets.size(); ++i)
     {
-        bullets[i].draw(window);
+        bullets[i].draw(window, texture_all);
     }
 }
 

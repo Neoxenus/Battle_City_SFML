@@ -15,6 +15,8 @@ int main()
     Hide = FindWindowA("ConsoleWindowClass", NULL);
     ShowWindow(Hide, 1);
     //
+    sf::Texture texture_all;
+    texture_all.loadFromFile("allSprites.png");
 
     Field field1;
     field1.setField(constants::field1);
@@ -51,7 +53,7 @@ int main()
         {
             timer += clock.getElapsedTime().asMicroseconds() / 1000000.0;
             sf::Event event;
-            std::cout << "out - " << timer << "\n";
+            //std::cout << "out - " << timer << "\n";
             if (timer > delay)
             {
                 delay += constants::delay;
@@ -75,10 +77,10 @@ int main()
                 tank1.bullets_colision(field1);
                 window.clear(sf::Color::Black);
                 field1.draw(window);
-                tank1.draw(window); // coord in tiles // spawn tank
+                tank1.draw(window, texture_all); // coord in tiles // spawn tank
                 for (auto& tank : tankAI)
                     if (tank.isVisible())
-                        tank.draw(window);
+                        tank.draw(window, texture_all);
 
                 window.display();
 
@@ -94,11 +96,11 @@ int main()
     }
 
 
-    if (isMP && !isHost)
-    {
-        //Client cl;
-        //cl.client();
-        //cl.exchange(field1, tank1);
-    }
+    //if (isMP && !isHost)
+    //{
+    //    //Client cl;
+    //    //cl.client();
+    //    //cl.exchange(field1, tank1);
+    //}
     
 }

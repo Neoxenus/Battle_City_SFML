@@ -1,7 +1,9 @@
 #pragma once
 #include <vector>
+#include "SFML/Graphics.hpp"
 namespace constants
 {
+
 	const double delay = 1.0 / 128;
 	const double bulletOffset = 5.5;//offset for drawing
 	const double bulletSpawnOffset1 = -6.0 / 8;//ofset for correct spawning of bullet

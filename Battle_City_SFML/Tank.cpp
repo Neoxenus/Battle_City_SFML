@@ -155,21 +155,20 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
     }
 }
 
-void Tank::bullet_shoot(sf::RenderWindow& window, sf::Event& event)
-{
-    //if (event.type == sf::Event::KeyReleased)
-    //{
-    //    if (event.key.code == sf::Keyboard::Space)
-    //    {
-    //        if (this->alreadyShot != this->getMaxShots())
-    //        {
-    //            ++this->alreadyShot;
-    //            this->shot();
-    //        }
-    //        //event.key.code = sf::Keyboard::W;
-    //    }
-    //}
-}
+//void Tank::bullet_shoot(sf::RenderWindow& window, sf::Event& event)
+//{
+//    if (event.type == sf::Event::KeyReleased)
+//    {
+//        if (event.key.code == sf::Keyboard::Space)
+//        {
+//            if (this->alreadyShot != this->getMaxShots())
+//            {
+//                ++this->alreadyShot;
+//                this->shot();
+//            }
+//        }
+//    }
+//}
 
 void Tank::bullets_colision(Field& field)
 {

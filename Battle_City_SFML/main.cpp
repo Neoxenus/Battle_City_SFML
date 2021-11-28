@@ -44,15 +44,18 @@ int main()
 
 
     bool isMP = false, isHost = false;
+    double delay = constants::delay;
     if (!isMP)
     {
         while (window.isOpen())
         {
-            timer += clock.getElapsedTime().asMilliseconds() / 1000.0;
+            timer += clock.getElapsedTime().asMicroseconds() / 1000000.0;
             sf::Event event;
-            if (timer > constants::delay)
+            std::cout << "out - " << timer << "\n";
+            if (timer > delay)
             {
-                std::cout << timer << "\n";
+                delay += constants::delay;
+                //std::cout << timer << "\n";
                 for (int i = 0; i < tankAIRespawnTime.size(); ++i)
                 {
                     if (timer > tankAIRespawnTime[i])
@@ -78,13 +81,13 @@ int main()
                         tank.draw(window);
 
                 window.display();
-                timer = 0;
-                clock.restart();
 
+                std::cout << timer << "\n";
             }
         }
         if (timer > constants::delay * 128 * 256)
         {
+            delay = constants::delay;
             timer = 0;
             clock.restart();
         }

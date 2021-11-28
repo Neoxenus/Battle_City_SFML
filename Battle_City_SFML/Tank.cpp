@@ -29,7 +29,7 @@ Tank::Tank(bool isPlayer, int tankType)
     {
         srand(time(NULL));
         visibility = false;
-        subCoordX = coordX = constants::DEFAULT_ENEMY_COORD_X[rand() % 3];
+        subCoordX = coordX = constants::DEFAULT_ENEMY_COORD_X[rand() % 2];
         subCoordY = coordY = constants::DEFAULT_ENEMY_COORD_Y;
     }
 }

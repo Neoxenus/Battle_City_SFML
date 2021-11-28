@@ -48,7 +48,8 @@ int main()
                 while (window.pollEvent(event))
                 {
                     tank1.control(window, field1, event);
-                    
+                    tank1.bullet_shoot(window, event);
+
                     if (event.type == sf::Event::Closed)
                         window.close();
                 }

@@ -22,8 +22,8 @@ int main()
     Tank tank1(true , 0);
     std::vector<Bullet> bullets;
 
-    //Server serv;
-    //serv.server();
+    /*Server serv;
+    serv.server();*/
 
    
     sf::RenderWindow window(sf::VideoMode(768, 768), "", sf::Style::Titlebar | sf::Style::Close);

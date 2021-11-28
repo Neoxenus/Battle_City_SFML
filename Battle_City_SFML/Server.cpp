@@ -13,7 +13,7 @@ void Server::server()
 
 	SOCKADDR_IN addr;
 	int sizeofaddr = sizeof(addr);
-	addr.sin_addr.s_addr = inet_addr("192.168.0.108");
+	addr.sin_addr.s_addr = inet_addr("26.248.220.2");
 	addr.sin_port = htons(3490);
 	addr.sin_family = AF_INET;
 

@@ -139,14 +139,14 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
                 this->coordX += 0.5;
             }
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        /*if (event.key.code == sf::Keyboard::Space)
         {
             if (this->alreadyShot != this->getMaxShots())
             {
                 ++this->alreadyShot;
                 this->shot();
             }
-        }
+        }*/
     //}
     if (collision(field, this->coordX, this->coordY))
     {
@@ -155,20 +155,20 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
     }
 }
 
-//void Tank::bullet_shoot(sf::RenderWindow& window, sf::Event& event)
-//{
-//    if (event.type == sf::Event::KeyReleased)
-//    {
-//        if (event.key.code == sf::Keyboard::Space)
-//        {
-//            if (this->alreadyShot != this->getMaxShots())
-//            {
-//                ++this->alreadyShot;
-//                this->shot();
-//            }
-//        }
-//    }
-//}
+void Tank::bullet_shoot(sf::RenderWindow& window, sf::Event& event)
+{
+    if (event.type == sf::Event::KeyReleased)
+    {
+        if (event.key.code == sf::Keyboard::Space)
+        {
+            if (this->alreadyShot != this->getMaxShots())
+            {
+                ++this->alreadyShot;
+                this->shot();
+            }
+        }
+    }
+}
 
 void Tank::bullets_colision(Field& field)
 {

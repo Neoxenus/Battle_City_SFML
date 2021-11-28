@@ -102,6 +102,18 @@ namespace constants
 		GRAY,
 	};
 	
+	const std::vector<std::vector<Tiles>> bullet_collision
+	{
+		//UP
+		{BLACK, BLACK, BLACK, BLACK, BLACK, BRICK1000, BRICK0100, BRICK1100, BLACK, BRICK1000, BRICK0100, BRICK1100, BLACK, BRICK1000, BRICK0100, BRICK1100, METAL, TREE, ICE, WATER1, WATER2, WATER3, BASE, FLAG, GRAY},
+		//LEFT
+		{BLACK, BLACK, BLACK, BRICK1000, BLACK, BLACK, BRICK0110, BRICK1010, BLACK, BRICK1000, BLACK, BRICK1000, BRICK0010, BRICK1010, BRICK0010, BRICK1010, METAL, TREE, ICE, WATER1, WATER2, WATER3, BASE, FLAG, GRAY},
+		//DOWN
+		{BLACK, BLACK, BLACK, BLACK, BLACK, BRICK0010, BRICK0010, BRICK0010, BLACK, BRICK0001, BRICK0001, BRICK0001, BLACK, BRICK0011, BRICK0011, BRICK0011, METAL, TREE, ICE, WATER1, WATER2, WATER3, BASE, FLAG, GRAY},
+		//RIGHT
+		{BLACK, BLACK, BLACK, BRICK0100, BLACK, BLACK, BRICK0100, BRICK0100, BLACK, BRICK0001, BLACK, BRICK0101, BRICK0001, BRICK0001, BRICK0101, BRICK0101, METAL, TREE, ICE, WATER1, WATER2, WATER3, BASE, FLAG, GRAY}
+	};
+
 	const std::vector<std::vector<Tiles>> toTiles
 	{
 		
@@ -149,16 +161,4 @@ namespace constants
 		{(int)Blocks::GRAY , (int)Blocks::BLACK,		(int)Blocks::BLACK,		    (int)Blocks::BLACK,			(int)Blocks::BLACK,			(int)Blocks::BLACK,		(int)Blocks::BRICK_RIGHT,	(int)Blocks::BASE,			(int)Blocks::BRICK_LEFT,	(int)Blocks::BLACK,		(int)Blocks::BLACK,			(int)Blocks::BLACK,			(int)Blocks::BLACK,			(int)Blocks::BLACK,			(int)Blocks::GRAY , (int)Blocks::GRAY },
 		{(int)Blocks::GRAY , (int)Blocks::GRAY ,		(int)Blocks::GRAY ,		    (int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,		(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,		(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY ,			(int)Blocks::GRAY , (int)Blocks::GRAY },
 	};
-
-	//std::vector<std::vector<int>> tile1 (TILES_HEIGHT, std::vector<int>(TILES_WIDTH, -1));
-
-	/*std::vector<std::vector<int>> tile1[28][12] = (int)Tiles::BRICK0000;
-	std::vector<std::vector<int>> tile1[28][13] = (int)Tiles::BRICK0000;
-	std::vector<std::vector<int>> tile1[29][12] = (int)Tiles::BRICK0000;
-	std::vector<std::vector<int>> tile1[29][13] = (int)Tiles::BRICK1111;
-
-	std::vector<std::vector<int>> tile1[33][12] = (int)Tiles::BRICK0000;
-	std::vector<std::vector<int>> tile1[33][13] = (int)Tiles::BRICK0000;
-	std::vector<std::vector<int>> tile1[34][12] = (int)Tiles::BRICK1111;
-	std::vector<std::vector<int>> tile1[34][13] = (int)Tiles::BRICK0000;*/
 }

@@ -22,8 +22,8 @@ int main()
     Tank tank1(true , 0);
     std::vector<Bullet> bullets;
 
-    /*Server serv;
-    serv.server();*/
+    Server serv;
+    serv.server();
 
    
     sf::RenderWindow window(sf::VideoMode(768, 768), "", sf::Style::Titlebar | sf::Style::Close);
@@ -48,7 +48,7 @@ int main()
                 while (window.pollEvent(event))
                 {
                     //tank1.control(window, field1, event);
-                    //tank1.bullet_shoot(window, event);
+                    tank1.bullet_shoot(window, event);
                     //tank1.control(window, field1, event);
 
                     if (event.type == sf::Event::Closed)
@@ -56,7 +56,6 @@ int main()
                 }
 
                 tank1.control(window, field1, event);
-
                 tank1.bullets_colision(field1);
                 window.clear(sf::Color::Black);
                 field1.draw(window);

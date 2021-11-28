@@ -93,14 +93,12 @@ constants::Directions Bullet::getDirection()
 
 bool Bullet::collision_bullet(Field& field)
 {
-    int x0, y0, xr, yd;
+    int x0, y0, xr, yd, curl , curr;
     constants::Directions direction = this->direction;
-    x0 = floor(this->getCoordX());
-    y0 = floor(this->getCoordY());
-    xr = floor(this->getCoordX() + 6.0 / 8);//+ 6.0 / 8);
-    yd = floor(this->getCoordY() + 6.0 / 8);//+ 6.0 / 8);
+    //xr = floor(this->getCoordX() + 6.0 / 8);//+ 6.0 / 8);
+    //yd = floor(this->getCoordY() + 6.0 / 8);//+ 6.0 / 8);
 
-    if (direction == constants::Directions::UP)
+    /*if (direction == constants::Directions::UP)
     {
         if (field.getField(x0, y0) == constants::Tiles::BRICK1111)
         {
@@ -510,7 +508,8 @@ bool Bullet::collision_bullet(Field& field)
             field.setField(x0, y0, constants::Tiles::BRICK1010);
             if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1111)
                 field.setField(x0, y0 + 1, constants::Tiles::BRICK1010);
-
+            else if(field.getField(x0, y0 + 1) == constants::Tiles::BRICK1100)
+                field.setField(x0, y0 + 1, constants::Tiles::BRICK1000);
             return true;
         }
         else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1111)
@@ -540,6 +539,8 @@ bool Bullet::collision_bullet(Field& field)
             field.setField(x0, y0, constants::Tiles::BRICK0010);
             if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0011)
                 field.setField(x0, y0 + 1, constants::Tiles::BRICK0010);
+            else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1111)
+                field.setField(x0, y0 + 1, constants::Tiles::BRICK1010);
 
             return true;
         }
@@ -553,6 +554,8 @@ bool Bullet::collision_bullet(Field& field)
         {
             field.setField(x0, y0, constants::Tiles::BLACK);
             if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1010)
+                field.setField(x0, y0 + 1, constants::Tiles::BLACK);
+            else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1000)
                 field.setField(x0, y0 + 1, constants::Tiles::BLACK);
 
             return true;
@@ -669,6 +672,8 @@ bool Bullet::collision_bullet(Field& field)
         {
             field.setField(x0, y0, constants::Tiles::BLACK);
             if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK0010)
+                field.setField(x0, y0 + 1, constants::Tiles::BLACK);
+            else if (field.getField(x0, y0 + 1) == constants::Tiles::BRICK1010)
                 field.setField(x0, y0 + 1, constants::Tiles::BLACK);
 
             return true;
@@ -905,5 +910,62 @@ bool Bullet::collision_bullet(Field& field)
         }
     }
 
-    return false;
+    return false;*/
+    if (direction == constants::Directions::UP || direction == constants::Directions::DOWN)
+    {
+        if (direction == constants::Directions::UP)
+        {
+            x0 = floor(this->getCoordX());
+            y0 = floor(this->getCoordY());
+        }
+        else
+        {
+            x0 = floor(this->getCoordX());
+            y0 = floor(this->getCoordY() + 6.0 / 8);
+        }
+
+        curl = static_cast<int>(field.getField(x0, y0));
+        curr = static_cast<int>(field.getField(x0 + 1, y0));
+
+        if (field.getField(x0, y0) != constants::Tiles::BLACK && field.getField(x0, y0) != constants::Tiles::ICE && field.getField(x0, y0) != constants::Tiles::TREE &&
+            field.getField(x0, y0) != constants::Tiles::WATER1 && field.getField(x0, y0) != constants::Tiles::WATER2 && field.getField(x0, y0) != constants::Tiles::WATER3 ||
+            field.getField(x0 + 1, y0) != constants::Tiles::BLACK && field.getField(x0 + 1, y0) != constants::Tiles::ICE && field.getField(x0 + 1, y0) != constants::Tiles::TREE &&
+            field.getField(x0 + 1, y0) != constants::Tiles::WATER1 && field.getField(x0 + 1, y0) != constants::Tiles::WATER2 && field.getField(x0 + 1, y0) != constants::Tiles::WATER3)
+        {
+            field.setField(x0, y0, constants::bullet_collision[static_cast<int>(direction)][curl]);
+            if (curl != static_cast<int>(constants::Tiles::BRICK0101) || curr != static_cast<int>(constants::Tiles::BRICK1100))
+            field.setField(x0 + 1, y0, constants::bullet_collision[static_cast<int>(direction)][curr]);
+            return true;
+        }
+        else
+            return false;
+    }
+    else
+    {
+        if (direction == constants::Directions::LEFT)
+        {
+            x0 = floor(this->getCoordX());
+            y0 = floor(this->getCoordY());        }
+        else
+        {
+            x0 = floor(this->getCoordX() + 6.0 / 8);
+            y0 = floor(this->getCoordY());
+        }
+
+        curl = static_cast<int>(field.getField(x0, y0));
+        curr = static_cast<int>(field.getField(x0, y0 + 1));
+
+        if (field.getField(x0, y0) != constants::Tiles::BLACK && field.getField(x0, y0) != constants::Tiles::ICE && field.getField(x0, y0) != constants::Tiles::TREE &&
+            field.getField(x0, y0) != constants::Tiles::WATER1 && field.getField(x0, y0) != constants::Tiles::WATER2 && field.getField(x0, y0) != constants::Tiles::WATER3 ||
+            field.getField(x0, y0 + 1) != constants::Tiles::BLACK && field.getField(x0, y0 + 1) != constants::Tiles::ICE && field.getField(x0, y0 + 1) != constants::Tiles::TREE &&
+            field.getField(x0, y0 + 1) != constants::Tiles::WATER1 && field.getField(x0, y0 + 1) != constants::Tiles::WATER2 && field.getField(x0, y0 + 1) != constants::Tiles::WATER3)
+        {
+            field.setField(x0, y0, constants::bullet_collision[static_cast<int>(direction)][curl]);
+            if (curl != static_cast<int>(constants::Tiles::BRICK0011) || curr != static_cast<int>(constants::Tiles::BRICK0101))
+            field.setField(x0, y0 + 1, constants::bullet_collision[static_cast<int>(direction)][curr]);
+            return true;
+        }
+        else
+            return false;
+    }
 }

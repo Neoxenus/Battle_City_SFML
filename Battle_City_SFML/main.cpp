@@ -47,9 +47,8 @@ int main()
             {
                 while (window.pollEvent(event))
                 {
-
                     tank1.control(window, field1, event);
-
+                    
                     if (event.type == sf::Event::Closed)
                         window.close();
                 }
@@ -65,10 +64,10 @@ int main()
             }
         }
 
-    if (isMP && isHost)
+    if (isMP && !isHost)
     {
-        //Client cl;
-       // cl.client();
+        Client cl;
+        cl.client();
 
     }
     

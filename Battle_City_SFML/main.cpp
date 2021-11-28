@@ -1,6 +1,8 @@
 #include "SFML/Graphics.hpp"
 #include "windows.h"
 #include "Tank.h"
+//#include "Server.h"
+//#include "Client.h"
 #include <ctime>
 #include <iostream>
 
@@ -10,7 +12,7 @@ int main()
     HWND Hide;
     AllocConsole();
     Hide = FindWindowA("ConsoleWindowClass", NULL);
-    ShowWindow(Hide, 0);
+    ShowWindow(Hide, 1);
     //
 
     Field field1;
@@ -37,6 +39,10 @@ int main()
 
     sf::Clock clock;
     double timer = 0;
+
+    /*Server serv;
+    serv.server();*/
+
     while (window.isOpen())
     {
         timer += clock.getElapsedTime().asMilliseconds();

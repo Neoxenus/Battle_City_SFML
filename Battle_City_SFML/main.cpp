@@ -19,11 +19,14 @@ int main()
     Field field1;
     field1.setField(constants::field1);
     //Design_mode designm;
+    //std::vector<Bullet> bullets;
     Tank tank1(true , 0);
-    std::vector<Bullet> bullets;
 
-    /*Server serv;
-    serv.server();*/
+    Server serv;
+    serv.server();
+    serv.loop(field1, tank1);
+
+    
 
    
     sf::RenderWindow window(sf::VideoMode(768, 768), "", sf::Style::Titlebar | sf::Style::Close);

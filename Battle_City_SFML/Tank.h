@@ -18,7 +18,7 @@ private:
 public:
     Tank();
     Tank(bool isPlayer, int tankType);
-    Tank(Tank& tank, std::vector<char*>);
+    void newTank(Tank& tank, std::vector<char*>);
     constants::Directions getDirection();
     int getMaxShots();
     double getCoordX();

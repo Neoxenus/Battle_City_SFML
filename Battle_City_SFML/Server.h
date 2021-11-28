@@ -15,7 +15,7 @@ class Server
 	WORD DLLVersion;
 	SOCKADDR_IN addr;
 	SOCKET sListen;
-	SOCKET newConnection;
+	SOCKET Connection;
 public:
 	void server();
 	void loop(Field& field, Tank& tank);

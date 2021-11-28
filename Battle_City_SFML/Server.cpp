@@ -40,32 +40,34 @@ void Server::loop(Field& field, Tank& tank)
 {
 	std::vector<char*> tankE;
 	std::vector<char*> fieldE;
-	/*char* tmpTank;
-	recv(newConnection, tmpTank, sizeof(tankE[0]), NULL);*/
-	//tankE.push_back()
-	recv(newConnection, tankE[1], sizeof(tankE[1]), NULL);
-	recv(newConnection, tankE[2], sizeof(tankE[2]), NULL);
-	recv(newConnection, tankE[3], sizeof(tankE[3]), NULL);
-	recv(newConnection, tankE[4], sizeof(tankE[4]), NULL);
-	recv(newConnection, tankE[5], sizeof(tankE[5]), NULL);
-	recv(newConnection, tankE[6], sizeof(tankE[6]), NULL);
-	recv(newConnection, tankE[7], sizeof(tankE[7]), NULL);
-	tankE.resize(4 * convertBackFromCharArrayToInt(tankE[7] + 8));
-	for (int i = 8; i < tankE.size(); i += 3)
+	//char* buf {};
+	for (int i = 0; i < 8; i += 2)
 	{
-		recv(newConnection, tankE[i], sizeof(tankE[i]), NULL);
-		recv(newConnection, tankE[i + 1], sizeof(tankE[i + 1]), NULL);
-		recv(newConnection, tankE[i + 2], sizeof(tankE[i + 2]), NULL);
+		char* buf{};
+		recv(Connection, buf, sizeof(int), NULL);
+		tankE.push_back(buf);
+		char* buf1{};
+		recv(Connection, buf1, convertBackFromCharArrayToInt(tankE[i]), NULL);
+		tankE.push_back(buf1);
+		
 	}
-	Tank ansTank(tank, tankE);
-	tankE = tank.sendToServer();
-	fieldE = field.sendToServer();
+	tankE.resize(4 * convertBackFromCharArrayToInt(tankE[7] + 8));
+	for (int i = 8; i < 8 + 6 * convertBackFromCharArrayToInt(tankE[7]); i += 2)
+	{
+		char* buf{};
+		recv(Connection, buf, sizeof(int), NULL);
+		tankE.push_back(buf);
+		char* buf1{};
+		recv(Connection, buf1, convertBackFromCharArrayToInt(tankE[i]), NULL);
+		tankE.push_back(buf1);
+		
+	}
+	tank.newTank(tank, tankE);
 
-	for (int i = 0; i < fieldE.size(); ++i)
-		for (int j = 0; j < fieldE.size(); ++j)
-			fieldE[i][j] = convertBackFromCharArrayToInt(fieldE[i * fieldE.size() + j]);
-	for (int i = 0; i < tankE.size(); ++i)
-		send(newConnection, tankE[i], sizeof(tankE[i]), NULL);
-	for (int i = 0; i < fieldE.size(); ++i)
-		send(newConnection, fieldE[i], sizeof(fieldE[i]), NULL);
+	for (int i = 0; i < constants::FIELD_HEIGHT; ++i)
+	{
+		for (int j = 0; j < constants::FIELD_WIDTH; ++j)
+			field.setField(j, i, static_cast<constants::Tiles>(convertBackFromCharArrayToInt(fieldE[i * constants::FIELD_WIDTH + j])));
+	}
+		
 }

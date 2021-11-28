@@ -1,7 +1,6 @@
 #include "SFML/Graphics.hpp"
 #include "Tank.h"
-#include "Server.h"
-#include "Client.h"
+//#include "Server.h"
 //#include "Client.h"
 #include <ctime>
 #include <iostream>
@@ -30,8 +29,12 @@ int main()
     //    }
     //    std::cout << "\n";
     //}
-    Server serv;
-    serv.server();
+
+    //Server serv;
+    //serv.server();
+
+    /*Client i;
+    i.client();*/
 
     sf::RenderWindow window(sf::VideoMode(768, 768), "", sf::Style::Titlebar | sf::Style::Close);
 
@@ -42,17 +45,6 @@ int main()
 
     sf::Clock clock;
     double timer = 0;
-
-<<<<<<<<< Temporary merge branch 1
-    /*Server serv;
-    serv.server();*/
-=========
-    Server serv;
-    serv.server();
-
-    //Client i;
-    //i.client();
->>>>>>>>> Temporary merge branch 2
 
     while (window.isOpen())
     {

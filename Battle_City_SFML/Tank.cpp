@@ -139,7 +139,19 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
                 this->coordX += 0.5;
             }
         }
-        else if (event.key.code == sf::Keyboard::Space)
+    }
+    if (collision(field, this->coordX, this->coordY))
+    {
+        this->subCoordX = this->coordX = prevX;
+        this->subCoordY = this->coordY = prevY;
+    }
+}
+
+void Tank::bullet_shoot(sf::RenderWindow& window, sf::Event& event)
+{
+    if (event.type == sf::Event::KeyReleased)
+    {
+        if (event.key.code == sf::Keyboard::Space)
         {
             if (this->alreadyShot != this->getMaxShots())
             {
@@ -147,11 +159,6 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
                 this->shot();
             }
         }
-    }
-    if (collision(field, this->coordX, this->coordY))
-    {
-        this->subCoordX = this->coordX = prevX;
-        this->subCoordY = this->coordY = prevY;
     }
 }
 

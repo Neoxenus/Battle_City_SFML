@@ -28,6 +28,7 @@ public:
     void draw(sf::RenderWindow& window);
     bool collision(Field& field, double prevX, double prevY, int spriteSize = 2);
     void control(sf::RenderWindow& window, Field& field, sf::Event& event);
+    void bullet_shoot(sf::RenderWindow& window, sf::Event& event);
     void bullets_colision(Field& field);
     void shot();
     std::vector<char*> sendToServer();

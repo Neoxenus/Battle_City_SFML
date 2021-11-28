@@ -31,7 +31,7 @@ public:
     void bullet_shoot(sf::RenderWindow& window, sf::Event& event);
     void bullets_colision(Field& field);
     void shot();
-    void sendToServer();
+    std::vector<char*> sendToServer();
 };
 
 

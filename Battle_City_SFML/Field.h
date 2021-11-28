@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Constants.h"
+#include "Convert.h"
+
 class Field
 {
 	std::vector<std::vector<int>> field;
@@ -11,5 +13,6 @@ public:
 	void setField(int x, int y, constants::Tiles value);
 	void setField(const std::vector<std::vector<int>> level);
 	void draw(sf::RenderWindow& window);
+	std::vector<char*> sendToServer();
 };
 

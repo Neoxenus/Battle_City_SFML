@@ -1,6 +1,6 @@
 #include "SFML/Graphics.hpp"
-#include "Server.h"
-#include "Client.h"
+//#include "Server.h"
+//#include "Client.h"
 #include "Tank.h"
 #include <ctime>
 #include <iostream>
@@ -19,7 +19,7 @@ int main()
     Field field1;
     field1.setField(constants::field1);
     //Design_mode designm;
-    Tank tank1(true , 0);
+    Tank tank1(false , 1);
     std::vector<Bullet> bullets;
 
     /*Server serv;
@@ -67,8 +67,8 @@ int main()
 
     if (isMP && !isHost)
     {
-        Client cl;
-        cl.client();
+       // Client cl;
+//        cl.client();
 
     }
     

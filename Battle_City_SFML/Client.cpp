@@ -23,7 +23,6 @@ void Client::client()
 		exit(1);
 	}
 	std::cout << "Connected!\n";
-
 }
 
 //void Client::exchange(constants::Packet pk)

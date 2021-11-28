@@ -1,5 +1,4 @@
 #include "Field.h"
-//#include <iostream>
 
 Field::Field()
 {
@@ -83,6 +82,7 @@ void Field::draw(sf::RenderWindow& window)
 				window.draw(s_block);
 			}
 		}
+	
 
 	/*BASE
 	s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::BASE, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
@@ -100,4 +100,13 @@ void Field::draw(sf::RenderWindow& window)
 	s_block.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
 	window.draw(s_block);
 	*/
+}
+
+std::vector<char*> Field::sendToServer()
+{
+	/*std::vector<char*> fieldCh;
+	for (int i = 0; i < field.size(); ++i)
+		for (int j = 0; j < field.size(); ++j)*/
+			//fieldCh.push_back(convertToCharArray(field[i][j]));
+	/*return fieldCh;*/
 }

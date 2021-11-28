@@ -19,13 +19,17 @@ int main()
     Field field1;
     field1.setField(constants::field1);
     //Design_mode designm;
+    //std::vector<Bullet> bullets;
     Tank tank1(true , 0);
     std::vector<Bullet> bullets;
     std::vector<Tank> tankAI{ {false, 0}, {false, 0}, {false, 0}, {false, 0} };
     std::vector<double> tankAIRespawnTime{ 0.0, 3.0, 6.0, 9.0};
 
     /*Server serv;
-    serv.server();*/
+    serv.server();
+    serv.loop(field1, tank1);*/
+
+    
 
    
     sf::RenderWindow window(sf::VideoMode(768, 768), "", sf::Style::Titlebar | sf::Style::Close);
@@ -59,12 +63,12 @@ int main()
                 }
                 while (window.pollEvent(event))
                 {
-                    tank1.control(window, field1, event);
                     tank1.bullet_shoot(window, event);
 
                     if (event.type == sf::Event::Closed)
                         window.close();
                 }
+                tank1.control(window, field1, event);
                 tank1.bullets_colision(field1);
                 window.clear(sf::Color::Black);
                 field1.draw(window);
@@ -89,9 +93,9 @@ int main()
 
     if (isMP && !isHost)
     {
-       // Client cl;
-//        cl.client();
-
+        //Client cl;
+        //cl.client();
+        //cl.exchange(field1, tank1);
     }
     
 }

@@ -83,7 +83,7 @@ void Bullet::updateCoord()
 
 double Bullet::getBulletSpeed()
 {
-    return  this->speed * 1.0;
+    return  this->speed / 2;// * .0 / constants::TILES_LENGHT;
 }
 
 constants::Directions Bullet::getDirection()

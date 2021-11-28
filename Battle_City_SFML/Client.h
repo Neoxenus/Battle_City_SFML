@@ -1,5 +1,6 @@
 #pragma once
 #pragma comment(lib, "ws2_32.lib")
+#include "Tank.h"
 #include <winsock2.h>
 #include <iostream>
 #pragma warning(disable: 4996)
@@ -13,6 +14,8 @@ class Client
 	SOCKET Connection;
 public:
 	void client();
-	//void exchange(constants::Packet pk);
+	void exchange(Field& field, Tank& tank);
+	
+
 };
 

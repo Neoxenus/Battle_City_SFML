@@ -3,7 +3,6 @@
 Tank::Tank()
 {
     alreadyShot = 0;
-    maxShots = 1;
     isPlayer = false;
     tankType = 0;
     direction = constants::Directions::UP;
@@ -14,7 +13,6 @@ Tank::Tank()
 Tank::Tank(bool isPlayer, int tankType)
 {
     alreadyShot = 0;
-    maxShots = 1;
     this->isPlayer = isPlayer;
     if (tankType < 0 || tankType > 3)
         tankType = 0;
@@ -41,6 +39,11 @@ double Tank::getTankSpeed()
 constants::Directions Tank::getDirection()
 {
     return direction;
+}
+
+int Tank::getMaxShots()
+{
+    return constants::maxShots[4 * (isPlayer)+tankType];
 }
 
 double Tank::getCoordX()
@@ -138,7 +141,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
         }
         else if (event.key.code == sf::Keyboard::Space)
         {
-            if (this->alreadyShot != this->maxShots)
+            if (this->alreadyShot != this->getMaxShots())
             {
                 ++this->alreadyShot;
                 this->shot();
@@ -189,9 +192,10 @@ bool Tank::collision(Field& field, double X, double Y, int spriteSize)
 std::vector<char*> Tank::sendToServer()
 {
     std::vector<char*> dataVector
-    { convertToCharArray(coordX), convertToCharArray(coordY), convertToCharArray(coordY),
+    { convertToCharArray(alreadyShot), convertToCharArray(coordX), convertToCharArray(coordY),
       convertToCharArray(subCoordX), convertToCharArray(subCoordY), convertToCharArray(tankType),
-      convertToCharArray(static_cast<int>(direction)) };
+      convertToCharArray(static_cast<int>(direction)) 
+    };
     for (int i = 0; i < bullets.size(); ++i)
     {
         dataVector.push_back(convertToCharArray(bullets[i].getCoordX()));

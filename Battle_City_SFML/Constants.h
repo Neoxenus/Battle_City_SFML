@@ -6,8 +6,11 @@ namespace constants
 	const double bulletOffset = 5.5;//offset for drawing
 	const double bulletSpawnOffset1 = -6.0 / 8;//ofset for correct spawning of bullet
 	const double bulletSpawnOffset2 = 2;//ofset for correct spawning of bullet
-	//tank speed
+
 	const int NUMBER_TYPES_OF_TANKS = 8;
+	const int maxShots[NUMBER_TYPES_OF_TANKS] = { 1, 1, 2, 2, 1, 1, 2, 1 };
+	//tank speed
+	
 	const int tankSpeed[NUMBER_TYPES_OF_TANKS] = { 3, 3, 3, 3, 2, 4, 2, 2 }; // pixels per 4 frames
 
 	//bullet speed

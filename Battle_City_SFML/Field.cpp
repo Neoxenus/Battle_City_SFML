@@ -104,9 +104,9 @@ void Field::draw(sf::RenderWindow& window)
 
 std::vector<char*> Field::sendToServer()
 {
-	/*std::vector<char*> fieldCh;
+	std::vector<char*> fieldCh;
 	for (int i = 0; i < field.size(); ++i)
-		for (int j = 0; j < field.size(); ++j)*/
-			//fieldCh.push_back(convertToCharArray(field[i][j]));
-	/*return fieldCh;*/
+		for (int j = 0; j < field.size(); ++j)
+			fieldCh.push_back(convertToCharArray(field[i][j]));
+	return fieldCh;
 }

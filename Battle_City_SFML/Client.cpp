@@ -25,15 +25,14 @@ void Client::client()
 	std::cout << "Connected!\n";
 }
 
-//void Client::exchange(constants::Packet pk)
-//{
-//	//char buffer[sizeof(pk)];
-//	//memcpy(buffer, &pk, sizeof(pk));
-//	//int bytesSent = sendto(Connection, data, sizeof(pk), 0, (const sockaddr*)&addr, sizeof(addr));
-//	//if (bytesSent > 0)
-//	//{
-//	//	std::cout << bytesSent << std::endl;
-//	//}
-//	//send(Connection, pk, sizeof(pk), NULL);
-//
-//}
+void Client::exchange(Field& field, Tank& tank)
+{
+	/*char buffer[sizeof(pk)];
+	memcpy(buffer, &pk, sizeof(pk));
+	int bytesSent = sendto(Connection, data, sizeof(pk), 0, (const sockaddr*)&addr, sizeof(addr));
+	if (bytesSent > 0)
+	{
+		std::cout << bytesSent << std::endl;
+	}
+	send(Connection, pk, sizeof(pk), NULL);*/
+}

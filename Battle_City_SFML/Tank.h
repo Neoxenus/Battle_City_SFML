@@ -8,7 +8,6 @@ class Tank
 //2,4,4,4,2,2,4,2 ;bullet speed pixel per frame
 private:
     int alreadyShot;
-    int maxShots;
     bool isPlayer;//true - player
     constants::Directions direction;
     bool isMoving = false;
@@ -20,6 +19,7 @@ public:
     Tank();
     Tank(bool isPlayer, int tankType);
     constants::Directions getDirection();
+    int getMaxShots();
     double getCoordX();
     double getCoordY();
     int getTankType();

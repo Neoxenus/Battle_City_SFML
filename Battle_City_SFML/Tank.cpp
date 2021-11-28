@@ -82,9 +82,13 @@ void Tank::draw(sf::RenderWindow& window)
     sprite_all.setPosition(this->subCoordX * constants::TILES_LENGHT, this->subCoordY * constants::TILES_LENGHT);
     sprite_all.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
 	window.draw(sprite_all);
+    for (int i = 0; i < bullets.size(); ++i)
+    {
+        bullets[i].draw(window);
+    }
 }
 
-void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Bullet>& bullets)
+void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
 {
     double prevX = this->coordX, prevY = this->coordY;
     if (event.type == sf::Event::KeyPressed)
@@ -142,8 +146,8 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
         {
             if (this->alreadyShot != this->maxShots)
             {
-                //++this->alreadyShot;
-                this->shot(window, bullets);
+                ++this->alreadyShot;
+                this->shot();
             }
         }
     }
@@ -154,7 +158,20 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
     }
 }
 
-void Tank::shot(sf::RenderWindow& window, std::vector<Bullet>& bullets)
+void Tank::bullets_colision(Field& field)
+{
+    for (int i = 0; i < bullets.size(); ++i)
+    {
+        if (bullets[i].collision_bullet(field))
+        {
+            bullets.erase(bullets.begin() + i);
+            --this->alreadyShot;
+            continue;
+        }
+    }
+}
+
+void Tank::shot()
 {
     Bullet bullet(this->getDirection(), this->getCoordX(), this->getCoordY(), this->getTankType(), this->getIsPlayer());
 

@@ -33,7 +33,21 @@ void Server::server()
 		std::cout << "Client Connected!\n";
 		char msg[256] = "Hello. It`s my first network program!";
 		send(newConnection, msg, sizeof(msg), NULL);
+
+
 	}
 
 	//system("pause");	
+}
+
+void Server::loop(Field& field, std::vector<Bullet>& bullets)
+{
+	for (int i = 0; i < bullets.size(); ++i)
+	{
+		if (bullets[i].collision_bullet(field))
+		{
+			bullets.erase(bullets.begin() + i);
+			continue;
+		}
+	}
 }

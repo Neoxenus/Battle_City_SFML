@@ -48,6 +48,22 @@ int main()
             sf::Event event;
             if (timer > constants::delay)
             {
+                ++fps;
+                if (timer > 1)
+                {
+                    std::cout << fps << "\n";
+                    //exit(1);
+                }
+                delay += constants::delay;
+                //std::cout << timer << "\n";
+                for (int i = 0; i < tankAIRespawnTime.size(); ++i)
+                {
+                    if (timer > tankAIRespawnTime[i])
+                    {
+                        tankAI[i].setVisibility(true);
+                        tankAIRespawnTime[i] = 0.0;
+                    }
+                }
                 while (window.pollEvent(event))
                 {
                     tank1.bullet_shoot(window, event);
@@ -58,15 +74,29 @@ int main()
                 tank1.control(window, field1, event);
                 tank1.bullets_colision(field1);
                 window.clear(sf::Color::Black);
-                field1.draw(window);
-                tank1.draw(window); // coord in tiles // spawn tank
+                field1.draw(window, texture_block, texture_base);
+                tank1.draw(window, texture_all); // coord in tiles // spawn tank
+                for (auto& tank : tankAI)
+                    if (tank.isVisible())
+                        tank.draw(window, texture_all);
 
                 window.display();
 
-                timer = 0;
-                clock.restart();
+                clock.restart().asMicroseconds();
+                //std::cout << timer << "\n";
             }
+            /*else
+            {
+                std::cout << "...\n";
+            }*/
         }
+        if (timer > constants::delay * 128 * 256)
+        {
+            delay = constants::delay;
+            timer = 0;
+            clock.restart().asMicroseconds();
+        }
+    }
 
     if (isMP && !isHost)
     {

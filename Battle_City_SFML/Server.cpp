@@ -45,7 +45,7 @@ void Server::loop(Field& field, Tank& tank)
 	{
 		recv(Connection, (char*)&bufSize, sizeof(int), NULL);
 		char* buf = new char[bufSize + 1];
-		tankE.push_back((char*)&bufSize);
+		buf[bufSize] = '\0';
 		recv(Connection, buf, bufSize, NULL);
 		tankE.push_back(buf);
 	}
@@ -54,7 +54,7 @@ void Server::loop(Field& field, Tank& tank)
 	{
 		recv(Connection, (char*)&bufSize, sizeof(int), NULL);
 		char* buf = new char[bufSize + 1];
-		tankE.push_back((char*)&bufSize);
+		buf[bufSize] = '\0';
 		recv(Connection, buf, bufSize, NULL);
 		tankE.push_back(buf);
 	}

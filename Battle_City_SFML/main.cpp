@@ -50,7 +50,7 @@ int main()
     bool animation = false;
     double delay = constants::delay;
 
-    bool isMP = false , isHost = false;
+    bool isMP = true , isHost = false;
     if (!isMP )
         while (window.isOpen())
         {
@@ -101,9 +101,9 @@ int main()
 
     if (isMP && !isHost)
     {
-        //Client cl;
-        //cl.client();
-        //cl.exchange(field1, tank1);
+        Client cl;
+        cl.client();
+        cl.exchange(field1, tank1);
     }
     
 }

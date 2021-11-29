@@ -86,7 +86,7 @@ int main()
 
                 for (int i = 0; i < tankAI.size(); ++i)
                 {
-                    if (tankAI[i].isVisible() && tankAI[i].tankDeath(tank1.getBullets()))
+                    if (tankAI[i].isVisible() && tankAI[i].tankDeath(tank1))
                     {
                         tankAI[i].setVisibility(false);
                         tankAIRespawnTime[i] = 100000000000;

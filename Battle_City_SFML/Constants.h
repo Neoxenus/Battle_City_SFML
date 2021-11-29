@@ -166,28 +166,17 @@ namespace constants
 
 	enum class PacketsIndexes
 	{
-		TankTypeSizeof = 0,
 		TankType,
-		TankAlreadyShotSizeof,
 		TankAlreadyShot,
-		TankCoordXSizeof,
 		TankCoordX,
-		TankCoordYSizeof,
 		TankCoordY,
-		TankSubCoordXSizeof,
 		TankSubCoordX,
-		TankSubCoordYSizeof,
 		TankSubCoordY,
-		TankDirectionSizeof,
 		TankDirecton,
-		TankBulletsSizeof,
 		TankBulletsSize,
 
-		BulletDirectonSizeof = 0,
-		BulletDirecton,
-		BulletCoordXSizeof,
+		BulletDirectonn =0,
 		BulletCoordX,
-		BulletCoordYSizeof,
 		BulletCoordY,
 
 

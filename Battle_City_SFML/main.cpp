@@ -34,8 +34,6 @@ int main()
     std::vector<Bullet> bullets;
     std::vector<Tank> tankAI{ {false, 0}, {false, 0}, {false, 0}, {false, 0} };
     std::vector<double> tankAIRespawnTime{ 0.0, 3.0, 6.0, 9.0};
-    for (auto& tank : tankAI)
-        std::cout << tank.getCoordX();
 
     /*Server serv;
     serv.server();
@@ -88,26 +86,32 @@ int main()
 
                 for (int i = 0; i < tankAI.size(); ++i)
                 {
-                    if (tankAI[i].tankDeath(tank1.getBullets()))
+                    if (tankAI[i].isVisible() && tankAI[i].tankDeath(tank1.getBullets()))
                     {
                         tankAI[i].setVisibility(false);
                         tankAIRespawnTime[i] = 100000000000;
                     }
                 }
 
-                if (timer < 24)
+                if (timer < 0.0)//24.0)
                 {
                     for (auto& tank : tankAI)
                     {
                         if (tank.isVisible())
                         {
-                            tank.moveAI(window, field1, event);
+                            tank.moveAIRandomly(window, field1, event);
                         }
                     }
                 }
-                else if (timer < 2 * 24)
+                else if (timer < 48.0)
                 {
-
+                    for (auto& tank : tankAI)
+                    {
+                        if (tank.isVisible())
+                        {
+                            tank.moveAIToAlly(window, field1, event, tank1);
+                        }
+                    }
                 }
                 else
                 {

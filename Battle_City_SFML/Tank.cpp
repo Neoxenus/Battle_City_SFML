@@ -338,7 +338,6 @@ bool Tank::tankDeath(std::vector<Bullet> all_bullets)
             }
         }
     }
-
     return false;
 }
 
@@ -402,6 +401,12 @@ void Tank::moveAI(sf::RenderWindow& window, Field& field, sf::Event& event)
         if (this->subCoordY >= this->coordY)
             this->coordY += 0.5;
     }
+}
+
+void Tank::moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& event)
+{
+    double prevX = this->coordX, prevY = this->coordY;
+    moveAI(window, field, event);
     if (collisionWithField(field, this->coordX, this->coordY))
     {
         this->subCoordX = this->coordX = prevX;
@@ -410,3 +415,58 @@ void Tank::moveAI(sf::RenderWindow& window, Field& field, sf::Event& event)
     }
 }
 
+void Tank::moveAIToAlly(sf::RenderWindow& window, Field& field, sf::Event& event, Tank tank)
+{
+    double prevX = this->coordX, prevY = this->coordY;
+    moveAI(window, field, event);
+    if (collisionWithField(field, this->coordX, this->coordY))
+    {
+        this->subCoordX = this->coordX = prevX;
+        this->subCoordY = this->coordY = prevY;
+        if (tank.getCoordX() >= this->getCoordX() && tank.getCoordY() >= this->getCoordY())
+        {
+            if (!collisionWithField(field, this->getCoordX() + 1, this->getCoordY()) && direction != constants::Directions::LEFT)
+                direction = constants::Directions::RIGHT;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() + 1) && direction != constants::Directions::UP)
+                direction = constants::Directions::DOWN;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() - 1) && direction != constants::Directions::DOWN)
+                direction = constants::Directions::UP;
+            else 
+                direction = constants::Directions::LEFT;
+        }
+        else if (tank.getCoordX() <= this->getCoordX() && tank.getCoordY() <= this->getCoordY())
+        {
+            if (!collisionWithField(field, this->getCoordX() - 1, this->getCoordY()) && direction != constants::Directions::RIGHT)
+                direction = constants::Directions::LEFT;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() - 1) && direction != constants::Directions::DOWN)
+                direction = constants::Directions::UP;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() + 1) && direction != constants::Directions::UP)
+                direction = constants::Directions::DOWN;
+            else
+                direction = constants::Directions::RIGHT;
+            
+        }
+        else if (tank.getCoordX() <= this->getCoordX() && tank.getCoordY() >= this->getCoordY())
+        {
+            if (!collisionWithField(field, this->getCoordX() - 1, this->getCoordY()) && direction != constants::Directions::RIGHT)
+                direction = constants::Directions::LEFT;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() + 1) && direction != constants::Directions::UP)
+                direction = constants::Directions::DOWN;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() - 1) && direction != constants::Directions::DOWN)
+                direction = constants::Directions::UP;
+            else 
+                direction = constants::Directions::RIGHT;      
+        }
+        else if (tank.getCoordX() >= this->getCoordX() && tank.getCoordY() <= this->getCoordY())
+        {
+            if (!collisionWithField(field, this->getCoordX() + 1, this->getCoordY()) && direction != constants::Directions::LEFT)
+                direction = constants::Directions::RIGHT;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() - 1) && direction != constants::Directions::DOWN)
+                direction = constants::Directions::UP;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() + 1) && direction != constants::Directions::UP)
+                direction = constants::Directions::DOWN;
+            else 
+                direction = constants::Directions::LEFT;
+        }
+    }
+}

@@ -304,6 +304,8 @@ int Tank::tankWithTankCollision(std::vector<Tank>& tanks)  //fix
     double x, y;
     for (int i = 0; i < tanks.size(); ++i)
     {
+        if (!tanks[i].isVisible())
+            continue;
         x = floor(tanks[i].getCoordX() * 2) / 2;
         y = floor(tanks[i].getCoordY() * 2) / 2;
 
@@ -463,13 +465,13 @@ void Tank::moveAI(sf::RenderWindow& window, Field& field, sf::Event& event, std:
     }
 
     int i = tankWithTankCollision(tankAI);
-    if (i != -1)
-    {
-        tankAI[i].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[i].getDirection()) + 2) % 4));
-        this->direction = static_cast<constants::Directions>((static_cast<int>(this->direction) + 2) % 4);
-        this->subCoordX = this->coordX = prevX;
-        this->subCoordY = this->coordY = prevY;
-    }
+    //if (i != -1)
+    //{
+    //    tankAI[i].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[i].getDirection()) + 2) % 4));
+    //    this->direction = static_cast<constants::Directions>((static_cast<int>(this->direction) + 2) % 4);
+    //    this->subCoordX = this->coordX = prevX;
+    //    this->subCoordY = this->coordY = prevY;
+    //}
 }
 
 void Tank::moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Tank>& tankAI)
@@ -480,7 +482,7 @@ void Tank::moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& eve
     {
         this->subCoordX = this->coordX = prevX;
         this->subCoordY = this->coordY = prevY;
-        direction = static_cast<constants::Directions>(rand() % 4);
+        direction = static_cast<constants::Directions>((static_cast<int>(direction) + rand()) % 4);
     }
     if (rand() % 500 == 0)
     {
@@ -538,12 +540,6 @@ void Tank::moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& eve
             if (rand() % 128 == 0)
                 direction = constants::Directions::UP;
         }
-    }
-    if (collisionWithField(field, this->coordX, this->coordY))
-    {
-        this->subCoordX = this->coordX = prevX;
-        this->subCoordY = this->coordY = prevY;
-        direction = static_cast<constants::Directions>((static_cast<int>(direction) + rand()) % 4);
     }
 
     int i = tankWithTankCollision(tankAI);

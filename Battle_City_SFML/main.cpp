@@ -126,39 +126,23 @@ int main()
                             {
                                 if (timer > tankAIRespawnTime[i] && abs(timer - tankAIRespawnTime[i]) <= 15)
                                 {
-                                  /*  int xSpawn = rand() % 3;
+                                    int xSpawn = rand() % 3;
                                     for (int i = 0; i < tankAI.size(); ++i)
                                     {
-                                        if (tankAI[i].getCoordX() <= constants::DEFAULT_ENEMY_COORD_X[xSpawn] + 0.5 && tankAI[i].getCoordY() <= 4.5)
+                                        if (tankAI[i].getCoordX() <= constants::DEFAULT_ENEMY_COORD_X[xSpawn] + 2 + 0.5 && tankAI[i].getCoordY() <= 4.5)
                                         {
-                                            tankAIRespawnTime[i] += 3;
+                                            tankAIRespawnTime[i] = static_cast<int>(tankAIRespawnTime[i] + 3) % 256;
                                             continue;
                                         }
-                                    }*/
-                                    /*for (auto& tank : tankAI)
-                                    {
-                                        if ()
-                                    }*/
+                                    }
                                     tankAI[i].setVisibility(true);
-                                    tankAI[i].setCoordX(constants::DEFAULT_ENEMY_COORD_X[rand() % 3]);
+                                    tankAI[i].setCoordX(constants::DEFAULT_ENEMY_COORD_X[xSpawn]);
                                     tankAI[i].setSubCoordX(tankAI[i].getCoordX());
                                     tankAI[i].setCoordY(constants::DEFAULT_ENEMY_COORD_Y);
                                     tankAI[i].setSubCoordY(tankAI[i].getCoordY());
                                     tankAIRespawnTime[i] = 257;
                                 }
                             }
-                                for (int i = 0; i < 1/*tankAIRespawnTime.size()*/; ++i)
-                                {
-                                    if (timer > tankAIRespawnTime[i])
-                                    {
-                                        /*for (auto& tank : tankAI)
-                                        {
-                                            if ()
-                                        }*/
-                                        tankAI[i].setVisibility(true);
-                                        tankAIRespawnTime[i] = 0.0;
-                                    }
-                                }
 
                             tank1.animation(fps);
                             for (int i = 0; i < tankAI.size(); ++i)
@@ -205,14 +189,14 @@ int main()
                             }
                 
 
-                for (int i = 0; i < tankAI.size(); ++i)
+                /*for (int i = 0; i < tankAI.size(); ++i)
                 {
                     if (tankAI[i].tankWithTankCollision(tankAI) != -1)
                     {
                         tankAI[i].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[i].getDirection()) + 2) % 4));
                         tankAI[tankAI[i].tankWithTankCollision(tankAI)].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[tankAI[i].tankWithTankCollision(tankAI)].getDirection()) + 2) % 4));
                     }
-                }
+                }*/
 
                                 delay += constants::delay;
 

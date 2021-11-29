@@ -33,6 +33,7 @@ public:
     bool isVisible();
     int getAlreadyShot();
     void setAlreadyShot(int value);
+    void setBullets(std::vector<Bullet> tmpbullets);
     std::vector <Bullet> getBullets();
     bool getIsMoving();//pixel per 1 second
     void draw(sf::RenderWindow& window, sf::Texture& texture_all, int animation);

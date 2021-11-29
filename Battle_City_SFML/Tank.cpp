@@ -93,6 +93,11 @@ void Tank::setSubCoordX(double x)
     subCoordX = x;
 }
 
+void Tank::setBullets(std::vector<Bullet> tmpbullets) 
+{
+    bullets = tmpbullets;
+}
+
 double Tank::getCoordY()
 {
     return coordY;
@@ -230,7 +235,7 @@ void Tank::bullet_shoot(sf::RenderWindow& window, sf::Event& event)
         {
             if (this->alreadyShot != this->getMaxShots())
             {
-                ++this->alreadyShot;
+                 ++this->alreadyShot;
                 this->shot();
             }
         }
@@ -288,6 +293,7 @@ bool Tank::collisionWithField(Field& field, double X, double Y, int spriteSize)
 bool Tank::tankDeath(Tank& tank)
 {
     double x0 = this->coordX, y0 = this->coordY, x1 = x0 + 2, y1 = y0 + 2, xb0, yb0, xb1, yb1;
+    std::vector<Bullet> bullets = tank.getBullets();
 
     for (int i = 0; i < tank.getBullets().size(); ++i)
     {
@@ -303,7 +309,8 @@ bool Tank::tankDeath(Tank& tank)
 
                 if ((xb0 <= x0 && xb0 >= x0 - 1 || xb1 <= x1 && xb1 >= x0 - 1) && (yb0 <= y1 && yb1 >= y0))
                 {                   
-                    tank.bullets.erase(bullets.begin() + i);
+                    bullets.erase(bullets.begin() + i);
+                    tank.setBullets(bullets);
                     tank.setAlreadyShot(tank.getAlreadyShot() - 1);
                     return true;
                 }
@@ -318,7 +325,8 @@ bool Tank::tankDeath(Tank& tank)
 
                 if ((xb0 <= x0 && xb0 >= x0 - 1 || xb1 <= x1 && xb1 >= x0 - 1) && (yb0 >= y0 && yb1 <= y1))
                 {
-                    tank.bullets.erase(bullets.begin() + i);
+                    bullets.erase(bullets.begin() + i);
+                    tank.setBullets(bullets);
                     tank.setAlreadyShot(tank.getAlreadyShot() - 1);
                     return true;
                 }
@@ -336,7 +344,8 @@ bool Tank::tankDeath(Tank& tank)
 
                 if ((yb0 <= y0 && yb0 >= y0 - 1 || yb1 <= y1 && yb1 >= y0 - 1) && (xb0 >= x0 && xb1 <= x1))
                 {
-                    tank.bullets.erase(bullets.begin() + i);
+                    bullets.erase(bullets.begin() + i);
+                    tank.setBullets(bullets);
                     tank.setAlreadyShot(tank.getAlreadyShot() - 1);
                     return true;
                 }
@@ -351,7 +360,8 @@ bool Tank::tankDeath(Tank& tank)
 
                 if ((yb0 <= y0 && yb0 >= y0 - 1 || yb1 <= y1 && yb1 >= y0 - 1) && (xb0 <= x1 && xb1 >= x0))
                 {
-                    tank.bullets.erase(bullets.begin() + i);
+                    bullets.erase(bullets.begin() + i);
+                    tank.setBullets(bullets);
                     tank.setAlreadyShot(tank.getAlreadyShot() - 1);
                     return true;
                 }

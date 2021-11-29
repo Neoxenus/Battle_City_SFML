@@ -25,7 +25,7 @@ void Field::setField(int x, int y, constants::Tiles value)
 	return;
 }
 
-void Field::setField(const std::vector<std::vector<int>> level)
+void Field::setField(const std::vector<std::vector<int>>& level)
 {
 	for (int i = 0; i < constants::FIELD_HEIGHT / 2; ++i)
 		for (int j = 0; j < constants::FIELD_HEIGHT / 2; ++j)
@@ -40,14 +40,10 @@ void Field::setField(const std::vector<std::vector<int>> level)
 	this->setField(16, 27, constants::BRICK1111);
 }
 
-void Field::draw(sf::RenderWindow& window)
+void Field::draw(sf::RenderWindow& window, sf::Texture& texture_block, sf::Texture& texture_base)
 {
-	sf::Texture texture_block;
-	texture_block.loadFromFile("tiles.png");
 	sf::Sprite s_block(texture_block);
 
-	sf::Texture texture_base;
-	texture_base.loadFromFile("sprites.png");
 	sf::Sprite s_default(texture_base);
 
 	window.clear(sf::Color::White);
@@ -68,11 +64,22 @@ void Field::draw(sf::RenderWindow& window)
 			}
 			else if (i == 28 && j == 14)
 			{
-				s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::BASE, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
-				s_default.setPosition(j/2 * constants::BLOCK_LENGHT, i/2 * constants::BLOCK_LENGHT);
-				s_default.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
-				window.draw(s_default);
-				s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::GRAY, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
+				if (field[i][j] == constants::BASE && field[i][j + 1] == constants::BASE && field[i + 1][j] == constants::BASE && field[i + 1][j + 1] == constants::BASE)
+				{
+					s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::BASE, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
+					s_default.setPosition(j / 2 * constants::BLOCK_LENGHT, i / 2 * constants::BLOCK_LENGHT);
+					s_default.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
+					window.draw(s_default);
+					s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::GRAY, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
+				}
+				else
+				{
+					s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::FLAG, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
+					s_default.setPosition(j / 2 * constants::BLOCK_LENGHT, i / 2 * constants::BLOCK_LENGHT);
+					s_default.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
+					window.draw(s_default);
+					s_default.setTextureRect(sf::IntRect(constants::BLOCK_LENGHT * (int)constants::Blocks::GRAY, 0, constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
+				}
 			}
 			else
 			{

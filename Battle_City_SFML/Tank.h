@@ -27,6 +27,9 @@ public:
     void setCoordX(double x);
     void setSubCoordX(double x);
     double getCoordY();
+    void setCoordY(double x);
+    void setSubCoordY(double x);
+    void setDirection(constants::Directions dir);
     int getTankType();
     bool getIsPlayer();
     double getTankSpeed();
@@ -39,16 +42,16 @@ public:
     bool getIsMoving();//pixel per 1 second
     void draw(sf::RenderWindow& window, sf::Texture& texture_all);
     bool collisionWithField(Field& field, double prevX, double prevY, int spriteSize = 2);
-    bool tankWithTankCollision(Tank& tank);
+    int tankWithTankCollision(std::vector<Tank>& tanks);
     bool tankDeath(Tank& tank);
-    void control(sf::RenderWindow& window, Field& field, sf::Event& event);
+    void control(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Tank>& tankAI);
     void bullet_shoot(sf::RenderWindow& window, sf::Event& event);
     void bullets_colision(Field& field);
     void shot();
     std::vector<char*> sendToServer();
-    void moveAI(sf::RenderWindow& window, Field& field, sf::Event& event);
-    void moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& event);
-    void moveAIToAlly(sf::RenderWindow& window, Field& field, sf::Event& event, Tank tank);
+    void moveAI(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Tank>& tankAI);
+    void moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Tank>& tankAI);
+    void moveAIToAlly(sf::RenderWindow& window, Field& field, sf::Event& event, Tank& tank, std::vector<Tank>& tankAI);
     void animation(int fps);
 };
 

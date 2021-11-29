@@ -181,16 +181,4 @@ namespace constants
 
 
 	};
-
-	//std::vector<std::vector<int>> tile1 (TILES_HEIGHT, std::vector<int>(TILES_WIDTH, -1));
-
-	/*std::vector<std::vector<int>> tile1[28][12] = (int)Tiles::BRICK0000;
-	std::vector<std::vector<int>> tile1[28][13] = (int)Tiles::BRICK0000;
-	std::vector<std::vector<int>> tile1[29][12] = (int)Tiles::BRICK0000;
-	std::vector<std::vector<int>> tile1[29][13] = (int)Tiles::BRICK1111;
-
-	std::vector<std::vector<int>> tile1[33][12] = (int)Tiles::BRICK0000;
-	std::vector<std::vector<int>> tile1[33][13] = (int)Tiles::BRICK0000;
-	std::vector<std::vector<int>> tile1[34][12] = (int)Tiles::BRICK1111;
-	std::vector<std::vector<int>> tile1[34][13] = (int)Tiles::BRICK0000;*/
 }

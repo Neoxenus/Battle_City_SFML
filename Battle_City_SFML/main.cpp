@@ -72,14 +72,18 @@ int main()
 
                 for (int i = 0; i < tankAIRespawnTime.size(); ++i)
                 {
-                    if (timer > tankAIRespawnTime[i])
+                    if (timer > tankAIRespawnTime[i] && abs(timer - tankAIRespawnTime[i]) <= 15)
                     {
                         /*for (auto& tank : tankAI)
                         {
                             if ()
                         }*/
                         tankAI[i].setVisibility(true);
-                        tankAIRespawnTime[i] = 0.0;
+                        tankAI[i].setCoordX(constants::DEFAULT_ENEMY_COORD_X[rand() % 2]);
+                        tankAI[i].setSubCoordX(tankAI[i].getCoordX());
+                        tankAI[i].setCoordY(constants::DEFAULT_ENEMY_COORD_Y);
+                        tankAI[i].setSubCoordY(tankAI[i].getCoordY());
+                        tankAIRespawnTime[i] = 257;
                     }
                 }
 
@@ -90,17 +94,19 @@ int main()
                     if (tankAI[i].isVisible() && tankAI[i].tankDeath(tank1))
                     {
                         tankAI[i].setVisibility(false);
-                        tankAIRespawnTime[i] = 100000000000;
+                        tankAI[i].setCoordX(0);
+                        tankAI[i].setCoordY(0);
+                        tankAIRespawnTime[i] = (static_cast<int>(timer) + 3) % 256;
                     }
                 }
 
-                if (timer < 0.0)//24.0)
+                if (timer < 24.0)
                 {
                     for (auto& tank : tankAI)
                     {
                         if (tank.isVisible())
                         {
-                            tank.moveAIRandomly(window, field1, event);
+                            tank.moveAIRandomly(window, field1, event, tankAI);
                         }
                     }
                 }
@@ -110,13 +116,22 @@ int main()
                     {
                         if (tank.isVisible())
                         {
-                            tank.moveAIToAlly(window, field1, event, tank1);
+                            tank.moveAIToAlly(window, field1, event, tank1, tankAI);
                         }
                     }
                 }
                 else
                 {
 
+                }
+
+                for (int i = 0; i < tankAI.size(); ++i)
+                {
+                    if (tankAI[i].tankWithTankCollision(tankAI) != -1)
+                    {
+                        tankAI[i].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[i].getDirection()) + 2) % 4));
+                        tankAI[tankAI[i].tankWithTankCollision(tankAI)].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[tankAI[i].tankWithTankCollision(tankAI)].getDirection()) + 2) % 4));
+                    }
                 }
 
                 delay += constants::delay;
@@ -131,7 +146,7 @@ int main()
                 window.clear(sf::Color::Black);                           
                 field1.draw(window, texture_block, texture_base);
                 tank1.draw(window, texture_all); // coord in tiles // spawn tank
-                tank1.control(window, field1, event);
+                tank1.control(window, field1, event, tankAI);
                 tank1.bullets_colision(field1); 
 
                 for (auto& tank : tankAI)

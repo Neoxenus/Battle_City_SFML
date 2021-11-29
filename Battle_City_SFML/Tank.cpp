@@ -574,6 +574,62 @@ void Tank::moveAIToAlly(sf::RenderWindow& window, Field& field, sf::Event& event
     }
 }
 
+void Tank::moveAIToBase(sf::RenderWindow& window, Field& field, sf::Event& event)
+{
+    double prevX = this->coordX, prevY = this->coordY;
+    moveAI(window, field, event);
+    if (collisionWithField(field, this->coordX, this->coordY))
+    {
+        this->subCoordX = this->coordX = prevX;
+        this->subCoordY = this->coordY = prevY;
+        if (14 >= this->getCoordX() && 28 >= this->getCoordY())
+        {
+            if (!collisionWithField(field, this->getCoordX() + 1, this->getCoordY()) && direction != constants::Directions::LEFT)
+                direction = constants::Directions::RIGHT;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() + 1) && direction != constants::Directions::UP)
+                direction = constants::Directions::DOWN;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() - 1) && direction != constants::Directions::DOWN)
+                direction = constants::Directions::UP;
+            else
+                direction = constants::Directions::LEFT;
+        }
+        else if (14 <= this->getCoordX() && 28 <= this->getCoordY())
+        {
+            if (!collisionWithField(field, this->getCoordX() - 1, this->getCoordY()) && direction != constants::Directions::RIGHT)
+                direction = constants::Directions::LEFT;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() - 1) && direction != constants::Directions::DOWN)
+                direction = constants::Directions::UP;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() + 1) && direction != constants::Directions::UP)
+                direction = constants::Directions::DOWN;
+            else
+                direction = constants::Directions::RIGHT;
+
+        }
+        else if (14 <= this->getCoordX() && 28 >= this->getCoordY())
+        {
+            if (!collisionWithField(field, this->getCoordX() - 1, this->getCoordY()) && direction != constants::Directions::RIGHT)
+                direction = constants::Directions::LEFT;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() + 1) && direction != constants::Directions::UP)
+                direction = constants::Directions::DOWN;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() - 1) && direction != constants::Directions::DOWN)
+                direction = constants::Directions::UP;
+            else
+                direction = constants::Directions::RIGHT;
+        }
+        else if (14 >= this->getCoordX() && 28 <= this->getCoordY())
+        {
+            if (!collisionWithField(field, this->getCoordX() + 1, this->getCoordY()) && direction != constants::Directions::LEFT)
+                direction = constants::Directions::RIGHT;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() - 1) && direction != constants::Directions::DOWN)
+                direction = constants::Directions::UP;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() + 1) && direction != constants::Directions::UP)
+                direction = constants::Directions::DOWN;
+            else
+                direction = constants::Directions::LEFT;
+        }
+    }
+}
+
 void Tank::animation(int fps)
 {
     if (fps % constants::ANIMATION_SPEED == 0 && this->isMoving)

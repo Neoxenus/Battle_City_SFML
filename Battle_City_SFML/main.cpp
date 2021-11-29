@@ -189,20 +189,12 @@ int main()
                             }
                             else
                             {
-                                if (timer < 24)
+                                for (auto& tank : tankAI)
                                 {
-                                    for (auto& tank : tankAI)
+                                    if (tank.isVisible())
                                     {
-                                        tank.moveAI(window, field1, event);
+                                        tank.moveAIToBase(window, field1, event);
                                     }
-                                }
-                                else if (timer < 2 * 24)
-                                {
-
-                                }
-                                else
-                                {
-
                                 }
                             }
                             for (int i = 0; i < tankAI.size(); ++i)

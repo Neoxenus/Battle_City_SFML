@@ -51,6 +51,7 @@ public:
     std::vector<char*> sendToServer();
     void moveAI(sf::RenderWindow& window, Field& field, sf::Event& event);
     void moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& event);
+    void moveAIToBase(sf::RenderWindow& window, Field& field, sf::Event& event);
     void moveAIToAlly(sf::RenderWindow& window, Field& field, sf::Event& event, Tank tank);
     void animation(int fps);
 };

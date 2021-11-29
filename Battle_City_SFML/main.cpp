@@ -8,8 +8,9 @@
 #include "Menu.h"
 //при каждой отрисовке танка рисовать все пули?
 
-void newGame(Tank& tank1, std::vector<Tank>& tankAI)
+void newGame(Tank& tank1, std::vector<Tank>& tankAI, Field& field1)
 {
+    field1.setField(constants::field1);
     Tank buf(true, 0);
     tank1 = buf;
     std::vector<Tank> bufTankAI{ {false, 0}, {false, 0}, {false, 0}, {false, 0} };
@@ -40,51 +41,47 @@ int main()
     std::vector<Tank> tankAI{ {false, 0}, {false, 0}, {false, 0}, {false, 0} };
     std::vector<double> tankAIRespawnTime{ 0.0, 3.0, 6.0, 9.0};
 
-
-
-    
-
-   
     sf::RenderWindow window(sf::VideoMode(768, 768), "", sf::Style::Titlebar | sf::Style::Close);
     window.setFramerateLimit(240);
     sf::View view = window.getDefaultView();
-
-
-   
 
     view.zoom(constants::zoom);
     window.setView(view);
    
     Menu menu(768, 768, constants::MAX_NUMBER_OPTIONS_MAIN_MENU, constants::mainMenu);
 
-
     sf::Clock clock;
     double timer = 0;
     int fps = 0;
     double delay = constants::delay;
 
-
-
     bool isGameActive = false;
-    bool isMP = false , isHost = false, isMenu = false;
+    bool isMP = false , isHost = false;
     while (window.isOpen())
     {
         sf::Event event;
         if (!isGameActive)
         {
             while (window.pollEvent(event))
+            {
+                if (event.type == sf::Event::Closed)
+                    window.close();
                 if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left)
                 {
                     int x = sf::Mouse::getPosition(window).x, y = sf::Mouse::getPosition(window).y;
-                    std::cout << std::endl;
+                    /*std::cout << std::endl;
                     std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
-                    std::cout << menu.choose(x, y) << std::endl;
+                    std::cout << menu.choose(x, y) << std::endl;*/
                     switch (menu.choose(x, y))
                     {
                     case 0://new s0l0 game
-                        newGame(tank1, tankAI);
+                        newGame(tank1, tankAI, field1);
+                        clock.restart();
                         isGameActive = true;
                         isMP = false;
+                        timer = 0;
+                        fps = 0;
+                        delay = constants::delay;
                         break;
                     case 1://new host
                         isGameActive = true;
@@ -103,6 +100,8 @@ int main()
 
 
                 }
+            }
+                
             window.clear(sf::Color::Black);
             menu.draw(window);
             window.display();
@@ -121,8 +120,8 @@ int main()
 
                                     if (event.type == sf::Event::Closed)
                                         window.close();
-                                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-                                        isGameActive = false;
+                                    //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                                    //    isGameActive = false;
                                 }
 
                             for (int i = 0; i < tankAIRespawnTime.size(); ++i)

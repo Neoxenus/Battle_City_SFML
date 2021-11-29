@@ -252,43 +252,63 @@ bool Tank::tankDeath(std::vector<Bullet>& all_bullets)
         {
             if (all_bullets[i].getDirection() == constants::Directions::UP)
             {
-                xb0 = all_bullets[i].getCoordX();
+                xb0 = all_bullets[i].getCoordX() - 1;
                 yb0 = all_bullets[i].getCoordY();
 
-                xb1 = xb0 + 1;
-                yb1 = yb0;
+                xb1 = xb0 + 3;
+                yb1 = yb0 - 6.0 / 8;;
+
+                if (x0 > xb0 || x1 < xb1 && yb0 < y1)
+                {                   
+                    return true;
+                }
             }
             else
             {
-                xb0 = all_bullets[i].getCoordX();
+                xb0 = all_bullets[i].getCoordX() - 1;
                 yb0 = all_bullets[i].getCoordY() + 6.0 / 8;
 
-                xb1 = xb0 + 1;
-                yb1 = yb0;
-            }
+                xb1 = xb0 + 3;
+                yb1 = yb0 - 6.0 / 8;
 
-            //if(xb0 > x0)
+                if (x0 > xb0 || x1 < xb1 && yb0 > y0)
+                {
+                    return true;
+                }
+            }
         }
         else if (all_bullets[i].getDirection() == constants::Directions::RIGHT || all_bullets[i].getDirection() == constants::Directions::LEFT)
         {
-            if (all_bullets[i].getDirection() == constants::Directions::UP)
+            if (all_bullets[i].getDirection() == constants::Directions::RIGHT)
             {
                 xb0 = all_bullets[i].getCoordX() + 6.0 / 8;
-                yb0 = all_bullets[i].getCoordY();
+                yb0 = all_bullets[i].getCoordY() - 1;
 
-                xb1 = xb0 + 1;
-                yb1 = yb0;
+                xb1 = xb0 - 6.0 / 8;
+                yb1 = yb0 + 3;
+
+                if (y0 > yb0 || y1 < yb1 && xb0 > x0)
+                {
+                    return true;
+                }
             }
             else
             {
                 xb0 = all_bullets[i].getCoordX();
-                yb0 = all_bullets[i].getCoordY();
+                yb0 = all_bullets[i].getCoordY() - 1;
 
-                xb1 = xb0 + 1;
-                yb1 = yb0;
+                xb1 = xb0 + 6.0 / 8;
+                yb1 = yb0 + 3;
+
+                if (y0 > yb0 || y1 < yb1 && xb0 < x0)
+                {
+                    return true;
+                }
             }
         }
     }
+
+    return false;
 }
 
 std::vector<char*> Tank::sendToServer()

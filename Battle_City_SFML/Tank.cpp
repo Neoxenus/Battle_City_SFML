@@ -423,7 +423,7 @@ std::vector<char*> Tank::sendToServer()
     return dataVector;
 }
 
-void Tank::moveAI(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Tank>& tankAI)
+void Tank::moveAI(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Tank>& tankAI, double& prevX, double& prevY)
 {
     if (direction == constants::Directions::UP)
     {
@@ -474,8 +474,7 @@ void Tank::moveAI(sf::RenderWindow& window, Field& field, sf::Event& event, std:
 void Tank::moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Tank>& tankAI)
 {
     double prevX = this->coordX, prevY = this->coordY;
-    moveAI(window, field, event, tankAI);
-    moveAI(window, field, event, prevX, prevY);
+    moveAI(window, field, event, tankAI, prevX, prevY);
     if (collisionWithField(field, this->coordX, this->coordY))
     {
         this->subCoordX = this->coordX = prevX;
@@ -558,7 +557,7 @@ void Tank::moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& eve
 void Tank::moveAIToAlly(sf::RenderWindow& window, Field& field, sf::Event& event, Tank& tank, std::vector<Tank>& tankAI)
 {
     double prevX = this->coordX, prevY = this->coordY;
-    moveAI(window, field, event, tankAI);
+    moveAI(window, field, event, tankAI, prevX, prevY);
     if (collisionWithField(field, this->coordX, this->coordY))
     {
         this->subCoordX = this->coordX = prevX;
@@ -622,7 +621,7 @@ void Tank::moveAIToAlly(sf::RenderWindow& window, Field& field, sf::Event& event
 void Tank::moveAIToBase(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Tank>& tankAI)
 {
     double prevX = this->coordX, prevY = this->coordY;
-    moveAI(window, field, event, tankAI);
+    moveAI(window, field, event, tankAI, prevX, prevY);
     if (collisionWithField(field, this->coordX, this->coordY))
     {
         this->subCoordX = this->coordX = prevX;

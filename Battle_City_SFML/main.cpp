@@ -126,7 +126,7 @@ int main()
                             {
                                 if (timer > tankAIRespawnTime[i] && abs(timer - tankAIRespawnTime[i]) <= 15)
                                 {
-                                    int xSpawn = rand() % 3;
+                                  /*  int xSpawn = rand() % 3;
                                     for (int i = 0; i < tankAI.size(); ++i)
                                     {
                                         if (tankAI[i].getCoordX() <= constants::DEFAULT_ENEMY_COORD_X[xSpawn] + 0.5 && tankAI[i].getCoordY() <= 4.5)
@@ -134,7 +134,7 @@ int main()
                                             tankAIRespawnTime[i] += 3;
                                             continue;
                                         }
-                                    }
+                                    }*/
                                     /*for (auto& tank : tankAI)
                                     {
                                         if ()

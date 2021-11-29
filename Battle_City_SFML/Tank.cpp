@@ -277,18 +277,18 @@ bool Tank::collisionWithField(Field& field, double X, double Y, int spriteSize)
     return false;
 }
 
-//bool Tank::tankWithTankCollision(Tank& tank)  //fix
-//{
-//    int x = tank.getCoordX(), y = tank.getCoordY();
-//
-//    if ((this->getCoordY() == y + 2 && this->getCoordX() >=  x - 1 && this->getCoordX() <= x + 1) ||
-//        (this->getCoordX() + 2 == x) ||
-//        (this->getCoordY() + 2 == y && this->getCoordX() >= x - 1 && this->getCoordX() <= x + 1)) ||
-//        (this->getCoordX() == x + 2))
-//        return true;
-//    else
-//        return false;
-//}
+bool Tank::tankWithTankCollision(Tank& tank)  //fix
+{
+    int x = tank.getCoordX(), y = tank.getCoordY();
+
+    if ((this->getCoordY() == y + 2 && this->getCoordX() >=  x - 1 && this->getCoordX() <= x + 1) ||
+        (this->getCoordX() + 2 == x && this->getCoordY() >= y - 1 && this->getCoordY() <= y + 1) ||
+        (this->getCoordY() + 2 == y && this->getCoordX() >= x - 1 && this->getCoordX() <= x + 1) ||
+        (this->getCoordX() == x + 2 && this->getCoordY() >= y - 1 && this->getCoordY() <= y + 1))
+        return true;
+    else
+        return false;
+}
 
 bool Tank::tankDeath(Tank& tank)
 {

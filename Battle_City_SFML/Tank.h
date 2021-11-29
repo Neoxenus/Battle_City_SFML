@@ -49,7 +49,7 @@ public:
     void bullets_colision(Field& field);
     void shot();
     std::vector<char*> sendToServer();
-    void moveAI(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Tank>& tankAI);
+    void moveAI(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Tank>& tankAI, double& prevX, double& prevY);
     void moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Tank>& tankAI);
     void moveAIToBase(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Tank>& tankAI);
     void moveAIToAlly(sf::RenderWindow& window, Field& field, sf::Event& event, Tank& tank, std::vector<Tank>& tankAI);

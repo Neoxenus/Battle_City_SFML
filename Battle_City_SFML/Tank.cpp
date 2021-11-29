@@ -54,7 +54,7 @@ void Tank::newTank(Tank& t, std::vector<char*> data)
     {
        // constants::Directions dir = static_cast<constants::Directions> (convertBackFromCharArrayToInt(data[i + 2]));
         Bullet tmp(static_cast<constants::Directions> 
-            (convertBackFromCharArrayToInt(data[i+ static_cast<int>(constants::PacketsIndexes::BulletDirecton)])),
+            (convertBackFromCharArrayToInt(data[i+ static_cast<int>(constants::PacketsIndexes::BulletDirection)])),
             convertBackFromCharArrayToDouble(data[i + static_cast<int>(constants::PacketsIndexes::BulletCoordX)]), 
             convertBackFromCharArrayToDouble(data[i+ static_cast<int>(constants::PacketsIndexes::BulletCoordY)]),
             this->tankType, this->isPlayer);
@@ -260,7 +260,7 @@ bool Tank::collisionWithField(Field& field, double X, double Y, int spriteSize)
     return false;
 }
 
-bool Tank::tankWithTankCollision(Tank& tank1, Tank& tank2)
+bool Tank::tankWithTankCollision(Tank& tank1, Tank& tank2)  //fix
 {
     int x1 = tank1.getCoordX(), y1 = tank1.getCoordY(), x2 = tank2.getCoordX(), y2 = tank2.getCoordY();
 
@@ -270,25 +270,91 @@ bool Tank::tankWithTankCollision(Tank& tank1, Tank& tank2)
         return false;
 }
 
+bool Tank::tankDeath(std::vector<Bullet>& all_bullets)
+{
+    double x0 = this->coordX, y0 = this->coordY, x1 = x0 + 2, y1 = x0 + 2, xb0, yb0, xb1, yb1;
+
+    for (int i = 0; i < all_bullets.size(); ++i)
+    {
+        if (all_bullets[i].getDirection() == constants::Directions::UP || all_bullets[i].getDirection() == constants::Directions::DOWN)
+        {
+            if (all_bullets[i].getDirection() == constants::Directions::UP)
+            {
+                xb0 = all_bullets[i].getCoordX() - 1;
+                yb0 = all_bullets[i].getCoordY();
+
+                xb1 = xb0 + 3;
+                yb1 = yb0 - 6.0 / 8;;
+
+                if (x0 > xb0 || x1 < xb1 && yb0 < y1)
+                {                   
+                    return true;
+                }
+            }
+            else
+            {
+                xb0 = all_bullets[i].getCoordX() - 1;
+                yb0 = all_bullets[i].getCoordY() + 6.0 / 8;
+
+                xb1 = xb0 + 3;
+                yb1 = yb0 - 6.0 / 8;
+
+                if (x0 > xb0 || x1 < xb1 && yb0 > y0)
+                {
+                    return true;
+                }
+            }
+        }
+        else if (all_bullets[i].getDirection() == constants::Directions::RIGHT || all_bullets[i].getDirection() == constants::Directions::LEFT)
+        {
+            if (all_bullets[i].getDirection() == constants::Directions::RIGHT)
+            {
+                xb0 = all_bullets[i].getCoordX() + 6.0 / 8;
+                yb0 = all_bullets[i].getCoordY() - 1;
+
+                xb1 = xb0 - 6.0 / 8;
+                yb1 = yb0 + 3;
+
+                if (y0 > yb0 || y1 < yb1 && xb0 > x0)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                xb0 = all_bullets[i].getCoordX();
+                yb0 = all_bullets[i].getCoordY() - 1;
+
+                xb1 = xb0 + 6.0 / 8;
+                yb1 = yb0 + 3;
+
+                if (y0 > yb0 || y1 < yb1 && xb0 < x0)
+                {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
 std::vector<char*> Tank::sendToServer()
 {
     std::vector<char*> dataVector
     {   
-        convertToCharArray(static_cast<int>(sizeof(tankType))), convertToCharArray(tankType),
-        convertToCharArray(static_cast<int>(sizeof(alreadyShot))),        convertToCharArray(alreadyShot),
-        convertToCharArray(static_cast<int>(sizeof(coordX))),         convertToCharArray(coordX),
-         convertToCharArray(static_cast<int>(sizeof(coordY))),        convertToCharArray(subCoordX),
-        convertToCharArray(static_cast<int>(sizeof(subCoordY))),       convertToCharArray(subCoordY),
-        convertToCharArray(static_cast<int>(sizeof(static_cast<int>(direction)))),  convertToCharArray(static_cast<int>(direction)),
-        convertToCharArray(static_cast<int>(sizeof(static_cast<int>(bullets.size())))), convertToCharArray(static_cast<int>(bullets.size()))
+        convertToCharArray(tankType),
+        convertToCharArray(alreadyShot),
+        convertToCharArray(coordX),
+         convertToCharArray(subCoordX),
+       convertToCharArray(subCoordY),
+        convertToCharArray(static_cast<int>(direction)),
+        convertToCharArray(static_cast<int>(bullets.size()))
     };
     for (int i = 0; i < bullets.size(); ++i)
     {
-        dataVector.push_back(convertToCharArray(static_cast<int>(sizeof(static_cast<int>(bullets[i].getDirection())))));
         dataVector.push_back(convertToCharArray(static_cast<int>(bullets[i].getDirection())));
-        dataVector.push_back(convertToCharArray(static_cast<int>(sizeof(bullets[i].getCoordX()))));
         dataVector.push_back(convertToCharArray(bullets[i].getCoordX()));
-        dataVector.push_back(convertToCharArray(static_cast<int>(sizeof(bullets[i].getCoordY()))));
         dataVector.push_back(convertToCharArray(bullets[i].getCoordY()));
     }
     return dataVector;

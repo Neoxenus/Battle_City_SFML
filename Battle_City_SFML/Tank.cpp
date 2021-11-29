@@ -94,12 +94,17 @@ bool Tank::getIsPlayer()
     return isPlayer;
 }
 
-void Tank::draw(sf::RenderWindow& window, sf::Texture& texture_all)
+bool Tank::getIsMoving()
+{
+    return isMoving;
+}
+
+void Tank::draw(sf::RenderWindow& window, sf::Texture& texture_all, int animation)
 {
 	sf::Sprite sprite_all(texture_all);
 
 	sprite_all.setTextureRect(sf::IntRect(
-        8 * constants::BLOCK_LENGHT*(isPlayer == false) + 2 * static_cast<int>(direction) * constants::BLOCK_LENGHT,
+        8 * constants::BLOCK_LENGHT*(isPlayer == false) + 2 * static_cast<int>(direction) * constants::BLOCK_LENGHT + animation * constants::BLOCK_LENGHT,
         4 * constants::BLOCK_LENGHT * (isPlayer == false) + tankType * constants::BLOCK_LENGHT,
         constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
     sprite_all.setPosition(this->subCoordX * constants::TILES_LENGHT, this->subCoordY * constants::TILES_LENGHT);
@@ -117,6 +122,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
         this->direction = constants::Directions::UP;
+        this->isMoving = true;
         prevX = round(prevX);
         this->subCoordY -= getTankSpeed() * constants::delay;
         this->coordX = round(subCoordX);
@@ -130,6 +136,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
         this->direction = constants::Directions::DOWN;
+        this->isMoving = true;
         prevX = round(prevX);
         this->subCoordY += getTankSpeed() * constants::delay;
         this->coordX = round(subCoordX);
@@ -142,6 +149,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
         this->direction = constants::Directions::LEFT;
+        this->isMoving = true;
         prevY = round(prevY);
         this->subCoordX -= getTankSpeed() * constants::delay;
         this->coordY = round(subCoordY);
@@ -154,6 +162,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
         this->direction = constants::Directions::RIGHT;
+        this->isMoving = true;
         prevY = round(prevY);
         this->subCoordX += getTankSpeed() * constants::delay;
         this->coordY = round(subCoordY);
@@ -163,6 +172,11 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
             this->coordX += 0.5;
         }
     }
+    else
+    {
+        this->isMoving = false;
+    }
+
     if (collisionWithField(field, this->coordX, this->coordY))
     {
         this->subCoordX = this->coordX = prevX;

@@ -72,14 +72,18 @@ int main()
 
                 for (int i = 0; i < tankAIRespawnTime.size(); ++i)
                 {
-                    if (timer > tankAIRespawnTime[i])
+                    if (timer > tankAIRespawnTime[i] && abs(timer - tankAIRespawnTime[i]) <= 15)
                     {
                         /*for (auto& tank : tankAI)
                         {
                             if ()
                         }*/
                         tankAI[i].setVisibility(true);
-                        tankAIRespawnTime[i] = 0.0;
+                        tankAI[i].setCoordX(constants::DEFAULT_ENEMY_COORD_X[rand() % 2]);
+                        tankAI[i].setSubCoordX(tankAI[i].getCoordX());
+                        tankAI[i].setCoordY(constants::DEFAULT_ENEMY_COORD_Y);
+                        tankAI[i].setSubCoordY(tankAI[i].getCoordY());
+                        tankAIRespawnTime[i] = 257;
                     }
                 }
 
@@ -90,11 +94,13 @@ int main()
                     if (tankAI[i].isVisible() && tankAI[i].tankDeath(tank1))
                     {
                         tankAI[i].setVisibility(false);
-                        tankAIRespawnTime[i] = 100000000000;
+                        tankAI[i].setCoordX(0);
+                        tankAI[i].setCoordY(0);
+                        tankAIRespawnTime[i] = (static_cast<int>(timer) + 3) % 256;
                     }
                 }
 
-                if (timer < 0.0)//24.0)
+                if (timer < 24.0)
                 {
                     for (auto& tank : tankAI)
                     {
@@ -118,6 +124,15 @@ int main()
                 {
 
                 }
+                for (int i = 0; i < tankAI.size(); ++i)
+                    for (int j = 1; j < tankAI.size(); ++j)
+                    {
+                        if (i == j) continue;
+                        if (tankAI[i].tankWithTankCollision(tankAI[j]))
+                        {
+                            tankAI[i].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[i].getDirection()) + 2) % 4));
+                        }
+                    }
 
                 delay += constants::delay;
 

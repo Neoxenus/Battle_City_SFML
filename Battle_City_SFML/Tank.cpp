@@ -64,7 +64,7 @@ void Tank::newTank(Tank& t, std::vector<char*> data)
 
 double Tank::getTankSpeed()
 {
-    return constants::tankSpeed[4 * (isPlayer)+tankType] * 16.0  / constants::TILES_LENGHT;
+    return constants::tankSpeed[4 * (!isPlayer)+tankType] * 16.0  / constants::TILES_LENGHT;
 }
 
 constants::Directions Tank::getDirection()
@@ -121,6 +121,11 @@ void Tank::setVisibility(bool flag)
 bool Tank::isVisible()
 {
     return visibility;
+}
+
+std::vector<Bullet> Tank::getBullets()
+{
+    return bullets;
 }
 
 void Tank::draw(sf::RenderWindow& window, sf::Texture& texture_all, int animation)
@@ -252,11 +257,9 @@ bool Tank::collisionWithField(Field& field, double X, double Y, int spriteSize)
         {
             if (field.getField(i, j) != static_cast<int>(constants::Tiles::BLACK) && field.getField(i, j) != static_cast<int>(constants::Tiles::ICE) && field.getField(i, j) != static_cast<int>(constants::Tiles::TREE))
             {
-                std::cout << "TRUE\n";
                 return true;
             }
         }
-    std::cout << "FALSE\n";
     return false;
 }
 
@@ -270,7 +273,7 @@ bool Tank::tankWithTankCollision(Tank& tank1, Tank& tank2)  //fix
         return false;
 }
 
-bool Tank::tankDeath(std::vector<Bullet>& all_bullets)
+bool Tank::tankDeath(std::vector<Bullet> all_bullets)
 {
     double x0 = this->coordX, y0 = this->coordY, x1 = x0 + 2, y1 = x0 + 2, xb0, yb0, xb1, yb1;
 
@@ -387,7 +390,7 @@ void Tank::moveAI(sf::RenderWindow& window, Field& field, sf::Event& event)
         this->subCoordX += getTankSpeed() * constants::delay;
         this->coordY = round(subCoordY);
         this->subCoordY = this->coordY;
-        if (this->subCoordX <= this->coordX)
+        if (this->subCoordX >= this->coordX)
             this->coordX += 0.5;
     }
     if (direction == constants::Directions::DOWN)
@@ -396,14 +399,14 @@ void Tank::moveAI(sf::RenderWindow& window, Field& field, sf::Event& event)
         this->subCoordY += getTankSpeed() * constants::delay;
         this->coordX = round(subCoordX);
         this->subCoordX = this->coordX;
-        if (this->subCoordY <= this->coordY)
+        if (this->subCoordY >= this->coordY)
             this->coordY += 0.5;
     }
     if (collisionWithField(field, this->coordX, this->coordY))
     {
         this->subCoordX = this->coordX = prevX;
         this->subCoordY = this->coordY = prevY;
-        direction = static_cast<constants::Directions>((static_cast<int>(direction) + 1) % 4);
+        direction = static_cast<constants::Directions>((static_cast<int>(direction) + rand()) % 4);
     }
 }
 

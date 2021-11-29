@@ -37,9 +37,9 @@ int main()
     for (auto& tank : tankAI)
         std::cout << tank.getCoordX();
 
-    Server serv;
+    /*Server serv;
     serv.server();
-    serv.loop(field1, tank1);
+    serv.loop(field1, tank1);*/
 
     
 
@@ -57,7 +57,7 @@ int main()
     bool animation = false;
     double delay = constants::delay;
 
-    bool isMP = true , isHost = false;
+    bool isMP = false, isHost = false;
     if (!isMP )
         while (window.isOpen())
         {
@@ -73,7 +73,7 @@ int main()
                         window.close();
                 }
 
-                for (int i = 0; i < 1/*tankAIRespawnTime.size()*/; ++i)
+                for (int i = 0; i < tankAIRespawnTime.size(); ++i)
                 {
                     if (timer > tankAIRespawnTime[i])
                     {
@@ -86,11 +86,23 @@ int main()
                     }
                 }
 
+                for (int i = 0; i < tankAI.size(); ++i)
+                {
+                    if (tankAI[i].tankDeath(tank1.getBullets()))
+                    {
+                        tankAI[i].setVisibility(false);
+                        tankAIRespawnTime[i] = 100000000000;
+                    }
+                }
+
                 if (timer < 24)
                 {
                     for (auto& tank : tankAI)
                     {
-                        tank.moveAI(window, field1, event);
+                        if (tank.isVisible())
+                        {
+                            tank.moveAI(window, field1, event);
+                        }
                     }
                 }
                 else if (timer < 2 * 24)

@@ -50,6 +50,7 @@ void Bullet::draw(sf::RenderWindow& window, sf::Texture& texture_all)
 	sprite_all.move(constants::WINDOW_OFFSET, constants::WINDOW_OFFSET);
 	window.draw(sprite_all);
 }
+
 double Bullet::getCoordX()
 {
     return coordX;
@@ -87,6 +88,52 @@ double Bullet::getBulletSpeed()
 constants::Directions Bullet::getDirection()
 {
     return direction;
+}
+
+bool Bullet::bulletWithBulletCollision(Bullet& bullet1, Bullet& bullet2)
+{
+    int x1, y1, x2, y2;
+
+    if (bullet1.getDirection() == constants::Directions::UP || direction == constants::Directions::LEFT)
+    {
+        x1 = floor(bullet1.getCoordX());
+        y1 = floor(bullet1.getCoordY());
+    }
+    else if(bullet1.getDirection() == constants::Directions::DOWN)
+    {
+        x1 = floor(bullet1.getCoordX());
+        y1 = floor(bullet1.getCoordY() + 6.0 / 8);
+    }
+    else if (bullet1.getDirection() == constants::Directions::RIGHT)
+    {
+        x1 = floor(bullet1.getCoordX() + 6.0 / 8);
+        y1 = floor(bullet1.getCoordY());
+    }
+
+    x1 /= 2; y1 /= 2;
+
+    if (bullet2.getDirection() == constants::Directions::UP || direction == constants::Directions::LEFT)
+    {
+        x2 = floor(bullet2.getCoordX());
+        y2 = floor(bullet2.getCoordY());
+    }
+    else if (bullet2.getDirection() == constants::Directions::DOWN)
+    {
+        x2 = floor(bullet2.getCoordX());
+        y2 = floor(bullet2.getCoordY() + 6.0 / 8);
+    }
+    else if (bullet2.getDirection() == constants::Directions::RIGHT)
+    {
+        x2 = floor(bullet2.getCoordX() + 6.0 / 8);
+        y2 = floor(bullet2.getCoordY());
+    }
+
+    x2 /= 2; y2 /= 2;
+
+    if (x1 == x2 && y1 == y2)
+        return true;
+    else
+        return false;
 }
 
 bool Bullet::collision_bullet(Field& field)

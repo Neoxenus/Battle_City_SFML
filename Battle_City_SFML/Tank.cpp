@@ -163,7 +163,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
             this->coordX += 0.5;
         }
     }
-    if (collision(field, this->coordX, this->coordY))
+    if (collisionWithField(field, this->coordX, this->coordY))
     {
         this->subCoordX = this->coordX = prevX;
         this->subCoordY = this->coordY = prevY;
@@ -206,7 +206,7 @@ void Tank::shot()
     bullets.push_back(bullet);
 }
 
-bool Tank::collision(Field& field, double X, double Y, int spriteSize)
+bool Tank::collisionWithField(Field& field, double X, double Y, int spriteSize)
 {
     int x0 = X, y0 = Y, x1 = ceil(X + spriteSize), y1 = ceil(Y + spriteSize);
     for(int i = x0; i < x1; ++i)
@@ -218,6 +218,15 @@ bool Tank::collision(Field& field, double X, double Y, int spriteSize)
     return false;
 }
 
+bool Tank::tankWithTankCollision(Tank& tank1, Tank& tank2)
+{
+    int x1 = tank1.getCoordX(), y1 = tank1.getCoordY(), x2 = tank2.getCoordX(), y2 = tank2.getCoordY();
+
+    if (y1 == y2 + 2 || x1 + 2 == x2 || y1 + 2 == y2 || x1 == x2 + 2)
+        return true;
+    else
+        return false;
+}
 
 std::vector<char*> Tank::sendToServer()
 {

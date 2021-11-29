@@ -28,11 +28,11 @@ public:
     double getCoordY();
     int getTankType();
     bool getIsPlayer();
-    bool isVisible();
-    void setVisibility(bool flag);
-    double getTankSpeed();//pixel per 1 second
-    void draw(sf::RenderWindow& window);
-    bool collision(Field& field, double prevX, double prevY, int spriteSize = 2);
+    double getTankSpeed();
+    bool getIsMoving();//pixel per 1 second
+    void draw(sf::RenderWindow& window, sf::Texture& texture_all, int animation);
+    bool collisionWithField(Field& field, double prevX, double prevY, int spriteSize = 2);
+    bool tankWithTankCollision(Tank& tank1, Tank& tank2);
     void control(sf::RenderWindow& window, Field& field, sf::Event& event);
     void bullet_shoot(sf::RenderWindow& window, sf::Event& event);
     void bullets_colision(Field& field);

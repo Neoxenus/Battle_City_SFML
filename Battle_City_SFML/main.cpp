@@ -6,6 +6,7 @@
 #include <iostream>
 #include "windows.h"
 
+//при каждой отрисовке танка рисовать все пули?
 
 int main()
 {
@@ -17,6 +18,13 @@ int main()
     Hide = FindWindowA("ConsoleWindowClass", NULL);
     ShowWindow(Hide, 1);
     //
+
+    sf::Texture texture_all;
+    texture_all.loadFromFile("allSprites.png");
+    sf::Texture texture_block;
+    texture_block.loadFromFile("tiles.png");
+    sf::Texture texture_base;
+    texture_base.loadFromFile("sprites.png");
 
     Field field1;
     field1.setField(constants::field1);
@@ -45,34 +53,18 @@ int main()
 
     sf::Clock clock;
     double timer = 0;
-
-
-    bool isMP = false, isHost = false;
+    int fps = 0;
+    bool animation = false;
     double delay = constants::delay;
-    if (!isMP)
-    {
+
+    bool isMP = false , isHost = false;
+    if (!isMP )
         while (window.isOpen())
         {
-            timer = clock.getElapsedTime().asMicroseconds() / 1000000.0;
+            timer = clock.getElapsedTime().asMilliseconds() / 1000.0;
             sf::Event event;
-            std::cout << "out - " << timer << "\n";
             if (timer > delay)
             {
-                ++fps;
-                delay += constants::delay;
-                //std::cout << timer << "\n";
-                for (int i = 0; i < tankAIRespawnTime.size(); ++i)
-                {
-                    if (timer > tankAIRespawnTime[i])
-                    {
-                        for (auto& tank : tankAI)
-                        {
-                            if()
-                        }
-                        tankAI[i].setVisibility(true);
-                        tankAIRespawnTime[i] = 0.0;
-                    }
-                }
                 while (window.pollEvent(event))
                 {
                     tank1.bullet_shoot(window, event);
@@ -80,27 +72,39 @@ int main()
                     if (event.type == sf::Event::Closed)
                         window.close();
                 }
+
+                delay += constants::delay;
+
+                ++fps;
+                if (timer > 1 && fps < 129)
+                {
+                    std::cout << fps << "\n";
+                    //exit(1);
+                }
+               
+                window.clear(sf::Color::Black);                           
+                field1.draw(window, texture_block, texture_base);
+                tank1.draw(window, texture_all, static_cast<int>(animation)); // coord in tiles // spawn tank
                 tank1.control(window, field1, event);
-                tank1.bullets_colision(field1);
-                window.clear(sf::Color::Black);
-                field1.draw(window);
-                tank1.draw(window); // coord in tiles // spawn tank
-                for (auto& tank : tankAI)
-                    if (tank.isVisible())
-                        tank.draw(window);
+                tank1.bullets_colision(field1); 
 
+                //нужно ли переместить в клас танка?
+                if(fps % constants::ANIMATION_SPEED == 0 && tank1.getIsMoving())
+                    animation = !animation; 
+                //
+                
+                timer = 0;
                 window.display();
-
-                //std::cout << timer << "\n";
+                
+                //clock.restart();
+            }
+            if (timer > constants::delay * 128 * 256)
+            {
+                delay = constants::delay;
+                timer = 0;
+                clock.restart();
             }
         }
-        if (timer > constants::delay * 128 * 256)
-        {
-            delay = constants::delay;
-            timer = 0;
-            clock.restart();
-        }
-    }
 
 
     if (isMP && !isHost)

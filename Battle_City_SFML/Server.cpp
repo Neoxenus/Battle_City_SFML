@@ -39,7 +39,7 @@ void Server::server()
 void Server::loop(Field& field, Tank& tank)
 {
 	std::vector<char*> tankE;
-	std::vector < char*> fieldE;
+	std::vector <char*> fieldE;
 	int bufSize;
 	for (int i = 0; i < 8; i += 2)
 	{

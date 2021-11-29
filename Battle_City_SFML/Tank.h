@@ -43,7 +43,8 @@ public:
     void shot();
     std::vector<char*> sendToServer();
     void moveAI(sf::RenderWindow& window, Field& field, sf::Event& event);
-    void changeDiretion();
+    void moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& event);
+    void moveAIToAlly(sf::RenderWindow& window, Field& field, sf::Event& event, Tank tank);
 };
 
 

@@ -179,7 +179,7 @@ int main()
                                 {
                                     if (tank.isVisible())
                                     {
-                                        tank.moveAIRandomly(window, field1, event);
+                                        tank.moveAIRandomly(window, field1, event, tankAI);
                                     }
                                 }
                             }
@@ -189,7 +189,7 @@ int main()
                                 {
                                     if (tank.isVisible())
                                     {
-                                        tank.moveAIToAlly(window, field1, event, tank1);
+                                        tank.moveAIToAlly(window, field1, event, tank1, tankAI);
                                     }
                                 }
                             }
@@ -199,19 +199,20 @@ int main()
                                 {
                                     if (tank.isVisible())
                                     {
-                                        tank.moveAIToBase(window, field1, event);
+                                        tank.moveAIToBase(window, field1, event, tankAI);
                                     }
                                 }
                             }
-                            for (int i = 0; i < tankAI.size(); ++i)
-                                for (int j = 1; j < tankAI.size(); ++j)
-                                {
-                                    if (i == j) continue;
-                                    if (tankAI[i].tankWithTankCollision(tankAI[j]))
-                                    {
-                                        tankAI[i].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[i].getDirection()) + 2) % 4));
-                                    }
-                                }
+                
+
+                for (int i = 0; i < tankAI.size(); ++i)
+                {
+                    if (tankAI[i].tankWithTankCollision(tankAI) != -1)
+                    {
+                        tankAI[i].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[i].getDirection()) + 2) % 4));
+                        tankAI[tankAI[i].tankWithTankCollision(tankAI)].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[tankAI[i].tankWithTankCollision(tankAI)].getDirection()) + 2) % 4));
+                    }
+                }
 
                                 delay += constants::delay;
 
@@ -222,11 +223,11 @@ int main()
                             //    //exit(1);
                             //}
                
-                            window.clear(sf::Color::Black);                           
-                            field1.draw(window, texture_block, texture_base);
-                            tank1.draw(window, texture_all); // coord in tiles // spawn tank
-                            tank1.control(window, field1, event);
-                            tank1.bullets_colision(field1); 
+                window.clear(sf::Color::Black);                           
+                field1.draw(window, texture_block, texture_base);
+                tank1.draw(window, texture_all); // coord in tiles // spawn tank
+                tank1.control(window, field1, event, tankAI);
+                tank1.bullets_colision(field1); 
 
                             for (auto& tank : tankAI)
                                 if (tank.isVisible())

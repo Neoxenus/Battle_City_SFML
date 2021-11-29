@@ -23,6 +23,8 @@ public:
     constants::Directions getDirection();
     int getMaxShots();
     double getCoordX();
+    void setCoordX(double x);
+    void setSubCoordX(double x);
     double getCoordY();
     int getTankType();
     bool getIsPlayer();

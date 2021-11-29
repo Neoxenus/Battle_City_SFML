@@ -9,6 +9,8 @@
 
 int main()
 {
+    srand(time(NULL)); // for random
+
     //hide console
     HWND Hide;
     AllocConsole();
@@ -24,6 +26,8 @@ int main()
     std::vector<Bullet> bullets;
     std::vector<Tank> tankAI{ {false, 0}, {false, 0}, {false, 0}, {false, 0} };
     std::vector<double> tankAIRespawnTime{ 0.0, 3.0, 6.0, 9.0};
+    for (auto& tank : tankAI)
+        std::cout << tank.getCoordX();
 
     /*Server serv;
     serv.server();
@@ -49,17 +53,22 @@ int main()
     {
         while (window.isOpen())
         {
-            timer += clock.getElapsedTime().asMicroseconds() / 1000000.0;
+            timer = clock.getElapsedTime().asMicroseconds() / 1000000.0;
             sf::Event event;
             std::cout << "out - " << timer << "\n";
             if (timer > delay)
             {
+                ++fps;
                 delay += constants::delay;
                 //std::cout << timer << "\n";
                 for (int i = 0; i < tankAIRespawnTime.size(); ++i)
                 {
                     if (timer > tankAIRespawnTime[i])
                     {
+                        for (auto& tank : tankAI)
+                        {
+                            if()
+                        }
                         tankAI[i].setVisibility(true);
                         tankAIRespawnTime[i] = 0.0;
                     }
@@ -82,7 +91,7 @@ int main()
 
                 window.display();
 
-                std::cout << timer << "\n";
+                //std::cout << timer << "\n";
             }
         }
         if (timer > constants::delay * 128 * 256)

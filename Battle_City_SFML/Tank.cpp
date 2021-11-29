@@ -1,4 +1,5 @@
 #include "Tank.h"
+#include <iostream>
 
 Tank::Tank()
 {
@@ -27,9 +28,8 @@ Tank::Tank(bool isPlayer, int tankType)
     }
     else
     {
-        srand(time(NULL));
         visibility = false;
-        subCoordX = coordX = constants::DEFAULT_ENEMY_COORD_X[rand() % 2];
+        subCoordX = coordX = constants::DEFAULT_ENEMY_COORD_X[rand() % 3];
         subCoordY = coordY = constants::DEFAULT_ENEMY_COORD_Y;
     }
 }
@@ -80,6 +80,16 @@ int Tank::getMaxShots()
 double Tank::getCoordX()
 {
     return coordX;
+}
+
+void Tank::setCoordX(double x)
+{
+    coordX = x;
+}
+
+void Tank::setSubCoordX(double x)
+{
+    subCoordX = x;
 }
 
 double Tank::getCoordY()
@@ -223,10 +233,12 @@ void Tank::shot()
 
 bool Tank::collision(Field& field, double X, double Y, int spriteSize)
 {
+    std::cout << "Cur " << X << " " << Y << "\n";
     int x0 = X, y0 = Y, x1 = ceil(X + spriteSize), y1 = ceil(Y + spriteSize);
     for(int i = x0; i < x1; ++i)
         for (int j = y0; j < y1; ++j)
         {
+            std::cout << i << " " << j << "\n";
             if (field.getField(i, j) != static_cast<int>(constants::Tiles::BLACK) && field.getField(i, j) != static_cast<int>(constants::Tiles::ICE) && field.getField(i, j) != static_cast<int>(constants::Tiles::TREE))
                 return true;
         }

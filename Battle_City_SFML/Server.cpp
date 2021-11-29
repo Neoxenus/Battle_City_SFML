@@ -48,6 +48,7 @@ void Server::loop(Field& field, Tank& tank)
 		buf[bufSize] = '\0';
 		recv(Connection, buf, bufSize, NULL);
 		tankE.push_back(buf);
+		delete[] buf;
 	}
 	tankE.resize(4 * convertBackFromCharArrayToInt(tankE[7] + 8));
 	for (int i = 8; i < 8 + 6 * convertBackFromCharArrayToInt(tankE[7]); i += 2)
@@ -57,6 +58,7 @@ void Server::loop(Field& field, Tank& tank)
 		buf[bufSize] = '\0';
 		recv(Connection, buf, bufSize, NULL);
 		tankE.push_back(buf);
+		delete[] buf;
 	}
 	tank.newTank(tank, tankE);
 

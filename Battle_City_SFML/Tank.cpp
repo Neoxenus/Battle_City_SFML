@@ -1,4 +1,5 @@
 #include "Tank.h"
+#include <iostream>
 
 Tank::Tank()
 {
@@ -21,13 +22,16 @@ Tank::Tank(bool isPlayer, int tankType)
 
     if (isPlayer)
     {
+        visibility = true;
         subCoordX = coordX = constants::DEFAULT_PLAYER_COORD_X[0];
         subCoordY = coordY = constants::DEFAULT_PLAYER_COORD_Y;
     }
     else
     {
-       subCoordX = coordX = constants::DEFAULT_ENEMY_COORD_X[1];
-       subCoordY = coordY = constants::DEFAULT_ENEMY_COORD_Y;
+        isMoving = true;
+        visibility = false;
+        subCoordX = coordX = constants::DEFAULT_ENEMY_COORD_X[rand() % 3];
+        subCoordY = coordY = constants::DEFAULT_ENEMY_COORD_Y;
     }
 }
 
@@ -60,7 +64,7 @@ void Tank::newTank(Tank& t, std::vector<char*> data)
 
 double Tank::getTankSpeed()
 {
-    return constants::tankSpeed[4 * (isPlayer)+tankType] * 16.0  / constants::TILES_LENGHT;
+    return constants::tankSpeed[4 * (!isPlayer)+tankType] * 16.0  / constants::TILES_LENGHT;
 }
 
 constants::Directions Tank::getDirection()
@@ -77,6 +81,16 @@ int Tank::getMaxShots()
 double Tank::getCoordX()
 {
     return coordX;
+}
+
+void Tank::setCoordX(double x)
+{
+    coordX = x;
+}
+
+void Tank::setSubCoordX(double x)
+{
+    subCoordX = x;
 }
 
 double Tank::getCoordY()
@@ -97,6 +111,21 @@ bool Tank::getIsPlayer()
 bool Tank::getIsMoving()
 {
     return isMoving;
+}
+
+void Tank::setVisibility(bool flag)
+{
+    visibility = flag;
+}
+
+bool Tank::isVisible()
+{
+    return visibility;
+}
+
+std::vector<Bullet> Tank::getBullets()
+{
+    return bullets;
 }
 
 void Tank::draw(sf::RenderWindow& window, sf::Texture& texture_all, int animation)
@@ -227,7 +256,9 @@ bool Tank::collisionWithField(Field& field, double X, double Y, int spriteSize)
         for (int j = y0; j < y1; ++j)
         {
             if (field.getField(i, j) != static_cast<int>(constants::Tiles::BLACK) && field.getField(i, j) != static_cast<int>(constants::Tiles::ICE) && field.getField(i, j) != static_cast<int>(constants::Tiles::TREE))
+            {
                 return true;
+            }
         }
     return false;
 }
@@ -245,9 +276,9 @@ bool Tank::collisionWithField(Field& field, double X, double Y, int spriteSize)
 //        return false;
 //}
 
-bool Tank::tankDeath(std::vector<Bullet>& all_bullets)
+bool Tank::tankDeath(std::vector<Bullet> all_bullets)
 {
-    double x0 = this->coordX, y0 = this->coordY, x1 = x0 + 2, y1 = x0 + 2, xb0, yb0, xb1, yb1;
+    double x0 = this->coordX, y0 = this->coordY, x1 = x0 + 2, y1 = y0 + 2, xb0, yb0, xb1, yb1;
 
     for (int i = 0; i < all_bullets.size(); ++i)
     {
@@ -255,26 +286,26 @@ bool Tank::tankDeath(std::vector<Bullet>& all_bullets)
         {
             if (all_bullets[i].getDirection() == constants::Directions::UP)
             {
-                xb0 = all_bullets[i].getCoordX() - 1;
+                xb0 = all_bullets[i].getCoordX(); //- 1;
                 yb0 = all_bullets[i].getCoordY();
 
-                xb1 = xb0 + 3;
-                yb1 = yb0 - 6.0 / 8;;
+                xb1 = xb0 + 2;//3;
+                yb1 = yb0 + 6.0 / 8;;
 
-                if (x0 > xb0 || x1 < xb1 && yb0 < y1)
+                if ((xb0 <= x0 && xb0 >= x0 - 1 || xb1 <= x1 && xb1 >= x0 - 1) && (yb0 <= y1 && yb1 >= y0))
                 {                   
                     return true;
                 }
             }
             else
             {
-                xb0 = all_bullets[i].getCoordX() - 1;
+                xb0 = all_bullets[i].getCoordX(); //- 1;
                 yb0 = all_bullets[i].getCoordY() + 6.0 / 8;
 
-                xb1 = xb0 + 3;
+                xb1 = xb0 + 2;//3;
                 yb1 = yb0 - 6.0 / 8;
 
-                if (x0 > xb0 || x1 < xb1 && yb0 > y0)
+                if ((xb0 <= x0 && xb0 >= x0 - 1 || xb1 <= x1 && xb1 >= x0 - 1) && (yb0 >= y0 && yb1 <= y1))
                 {
                     return true;
                 }
@@ -285,12 +316,12 @@ bool Tank::tankDeath(std::vector<Bullet>& all_bullets)
             if (all_bullets[i].getDirection() == constants::Directions::RIGHT)
             {
                 xb0 = all_bullets[i].getCoordX() + 6.0 / 8;
-                yb0 = all_bullets[i].getCoordY() - 1;
+                yb0 = all_bullets[i].getCoordY(); //- 1;
 
                 xb1 = xb0 - 6.0 / 8;
-                yb1 = yb0 + 3;
+                yb1 = yb0 + 2;//3;
 
-                if (y0 > yb0 || y1 < yb1 && xb0 > x0)
+                if ((yb0 <= y0 && yb0 >= y0 - 1 || yb1 <= y1 && yb1 >= y0 - 1) && (xb0 >= x0 && xb1 <= x1))
                 {
                     return true;
                 }
@@ -298,12 +329,12 @@ bool Tank::tankDeath(std::vector<Bullet>& all_bullets)
             else
             {
                 xb0 = all_bullets[i].getCoordX();
-                yb0 = all_bullets[i].getCoordY() - 1;
+                yb0 = all_bullets[i].getCoordY();//- 1;
 
                 xb1 = xb0 + 6.0 / 8;
-                yb1 = yb0 + 3;
+                yb1 = yb0 + 2;// 3;
 
-                if (y0 > yb0 || y1 < yb1 && xb0 < x0)
+                if ((yb0 <= y0 && yb0 >= y0 - 1 || yb1 <= y1 && yb1 >= y0 - 1) && (xb0 <= x1 && xb1 >= x0))
                 {
                     return true;
                 }
@@ -334,3 +365,51 @@ std::vector<char*> Tank::sendToServer()
     }
     return dataVector;
 }
+
+void Tank::moveAI(sf::RenderWindow& window, Field& field, sf::Event& event)
+{
+    double prevX = this->coordX, prevY = this->coordY;
+    if (direction == constants::Directions::UP)
+    {
+        prevX = round(prevX);
+        this->subCoordY -= getTankSpeed() * constants::delay;
+        this->coordX = round(subCoordX);
+        this->subCoordX = this->coordX;
+        if (this->subCoordY <= this->coordY)
+            this->coordY -= 0.5;
+    }
+    if (direction == constants::Directions::LEFT)
+    {
+        prevY = round(prevY);
+        this->subCoordX -= getTankSpeed() * constants::delay;
+        this->coordY = round(subCoordY);
+        this->subCoordY = this->coordY;
+        if (this->subCoordX <= this->coordX)
+            this->coordX -= 0.5;
+    }
+    if (direction == constants::Directions::RIGHT)
+    {
+        prevY = round(prevY);
+        this->subCoordX += getTankSpeed() * constants::delay;
+        this->coordY = round(subCoordY);
+        this->subCoordY = this->coordY;
+        if (this->subCoordX >= this->coordX)
+            this->coordX += 0.5;
+    }
+    if (direction == constants::Directions::DOWN)
+    {
+        prevX = round(prevX);
+        this->subCoordY += getTankSpeed() * constants::delay;
+        this->coordX = round(subCoordX);
+        this->subCoordX = this->coordX;
+        if (this->subCoordY >= this->coordY)
+            this->coordY += 0.5;
+    }
+    if (collisionWithField(field, this->coordX, this->coordY))
+    {
+        this->subCoordX = this->coordX = prevX;
+        this->subCoordY = this->coordY = prevY;
+        direction = static_cast<constants::Directions>((static_cast<int>(direction) + rand()) % 4);
+    }
+}
+

@@ -10,6 +10,8 @@
 
 int main()
 {
+    srand(time(NULL)); // for random
+
     //hide console
     HWND Hide;
     AllocConsole();
@@ -29,10 +31,15 @@ int main()
     //Design_mode designm;
     //std::vector<Bullet> bullets;
     Tank tank1(true , 0);
+    std::vector<Bullet> bullets;
+    std::vector<Tank> tankAI{ {false, 0}, {false, 0}, {false, 0}, {false, 0} };
+    std::vector<double> tankAIRespawnTime{ 0.0, 3.0, 6.0, 9.0};
+    for (auto& tank : tankAI)
+        std::cout << tank.getCoordX();
 
-    Server serv;
+    /*Server serv;
     serv.server();
-    serv.loop(field1, tank1);
+    serv.loop(field1, tank1);*/
 
     
 
@@ -50,7 +57,7 @@ int main()
     bool animation = false;
     double delay = constants::delay;
 
-    bool isMP = true , isHost = false;
+    bool isMP = false, isHost = false;
     if (!isMP )
         while (window.isOpen())
         {
@@ -66,20 +73,65 @@ int main()
                         window.close();
                 }
 
+                for (int i = 0; i < tankAIRespawnTime.size(); ++i)
+                {
+                    if (timer > tankAIRespawnTime[i])
+                    {
+                        /*for (auto& tank : tankAI)
+                        {
+                            if ()
+                        }*/
+                        tankAI[i].setVisibility(true);
+                        tankAIRespawnTime[i] = 0.0;
+                    }
+                }
+
+                for (int i = 0; i < tankAI.size(); ++i)
+                {
+                    if (tankAI[i].isVisible() && tankAI[i].tankDeath(tank1.getBullets()))
+                    {
+                        tankAI[i].setVisibility(false);
+                        tankAIRespawnTime[i] = 100000000000;
+                    }
+                }
+
+                if (timer < 24)
+                {
+                    for (auto& tank : tankAI)
+                    {
+                        if (tank.isVisible())
+                        {
+                            tank.moveAI(window, field1, event);
+                        }
+                    }
+                }
+                else if (timer < 2 * 24)
+                {
+
+                }
+                else
+                {
+
+                }
+
                 delay += constants::delay;
 
                 ++fps;
-                if (timer > 1 && fps < 129)
-                {
-                    std::cout << fps << "\n";
-                    //exit(1);
-                }
+                //if (timer > 1 && fps < 129)
+                //{
+                //    std::cout << fps << "\n";
+                //    //exit(1);
+                //}
                
                 window.clear(sf::Color::Black);                           
                 field1.draw(window, texture_block, texture_base);
                 tank1.draw(window, texture_all, static_cast<int>(animation)); // coord in tiles // spawn tank
                 tank1.control(window, field1, event);
                 tank1.bullets_colision(field1); 
+
+                for (auto& tank : tankAI)
+                    if (tank.isVisible())
+                        tank.draw(window, texture_all, static_cast<int>(animation));
 
                 //нужно ли переместить в клас танка?
                 if(fps % constants::ANIMATION_SPEED == 0 && tank1.getIsMoving())
@@ -98,6 +150,7 @@ int main()
                 clock.restart();
             }
         }
+
 
     if (isMP && !isHost)
     {

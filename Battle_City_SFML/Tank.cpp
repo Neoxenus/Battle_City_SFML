@@ -142,6 +142,11 @@ void Tank::setAlreadyShot(int value)
     alreadyShot = value;
 }
 
+void Tank::setDirection(constants::Directions dir)
+{
+    direction = dir;
+}
+
 void Tank::setCoordY(double x)
 {
     coordY = x;

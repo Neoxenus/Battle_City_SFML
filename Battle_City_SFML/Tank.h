@@ -28,6 +28,7 @@ public:
     double getCoordY();
     void setCoordY(double x);
     void setSubCoordY(double x);
+    void setDirection(constants::Directions dir);
     int getTankType();
     bool getIsPlayer();
     double getTankSpeed();

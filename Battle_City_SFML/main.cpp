@@ -123,6 +123,15 @@ int main()
                 {
 
                 }
+                for (int i = 0; i < tankAI.size(); ++i)
+                    for (int j = 1; j < tankAI.size(); ++j)
+                    {
+                        if (i == j) continue;
+                        if (tankAI[i].tankWithTankCollision(tankAI[j]))
+                        {
+                            tankAI[i].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[i].getDirection()) + 2) % 4));
+                        }
+                    }
 
                 delay += constants::delay;
 

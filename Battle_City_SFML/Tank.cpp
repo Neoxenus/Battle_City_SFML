@@ -142,6 +142,16 @@ void Tank::setAlreadyShot(int value)
     alreadyShot = value;
 }
 
+void Tank::setCoordY(double x)
+{
+    coordY = x;
+}
+
+void Tank::setSubCoordY(double x)
+{
+    subCoordY = x;
+}
+
 void Tank::draw(sf::RenderWindow& window, sf::Texture& texture_all, int animation)
 {
 	sf::Sprite sprite_all(texture_all);

@@ -26,6 +26,8 @@ public:
     void setCoordX(double x);
     void setSubCoordX(double x);
     double getCoordY();
+    void setCoordY(double x);
+    void setSubCoordY(double x);
     int getTankType();
     bool getIsPlayer();
     double getTankSpeed();

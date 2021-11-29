@@ -93,7 +93,7 @@ int main()
                     }
                 }
 
-                if (timer < 0.0)//24.0)
+                if (timer < 24.0)
                 {
                     for (auto& tank : tankAI)
                     {

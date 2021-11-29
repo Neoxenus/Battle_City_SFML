@@ -1,7 +1,25 @@
 #pragma once
 #include <vector>
+#include <string>
 namespace constants
 {
+	const int windowWidth = 768, windowHeight = 768;
+	const float zoom = 0.33f;
+	
+	// font
+	const std::string fontFile = "../font/arial.ttf";
+
+	//menu
+	const int menuOffset = 30;//px
+	const int fontSize = 20;
+	const int MAX_NUMBER_OPTIONS_MAIN_MENU = 3;
+	const std::string mainMenu[MAX_NUMBER_OPTIONS_MAIN_MENU] =
+	{
+		"Solo game",
+		"Co-op game, host",
+		"Co-op game, client"
+	};
+
 	const double delay = 1.0 / 128;
 	const double bulletOffset = 5.5;//offset for drawing
 	const double bulletSpawnOffset1 = -6.0 / 8;//ofset for correct spawning of bullet

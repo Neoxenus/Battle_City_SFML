@@ -285,9 +285,9 @@ void Tank::shot()
     bullets.push_back(bullet);
 }
 
-bool Tank::collisionWithField(Field& field, double X, double Y, int spriteSize)
+bool Tank::collisionWithField(Field& field, double X, double Y)
 {
-    int x0 = X, y0 = Y, x1 = ceil(X + spriteSize), y1 = ceil(Y + spriteSize);
+    int x0 = X, y0 = Y, x1 = ceil(X + 2), y1 = ceil(Y + 2);
     for(int i = x0; i < x1; ++i)
         for (int j = y0; j < y1; ++j)
         {
@@ -600,6 +600,70 @@ void Tank::moveAIToAlly(sf::RenderWindow& window, Field& field, sf::Event& event
             else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() + 1) && direction != constants::Directions::UP)
                 direction = constants::Directions::DOWN;
             else 
+                direction = constants::Directions::LEFT;
+        }
+    }
+
+    int i = tankWithTankCollision(tankAI);
+    if (i != -1)
+    {
+        tankAI[i].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[i].getDirection()) + 2) % 4));
+        this->subCoordX = this->coordX = prevX;
+        this->subCoordY = this->coordY = prevY;
+    }
+}
+
+void Tank::moveAIToBase(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Tank>& tankAI)
+{
+    double prevX = this->coordX, prevY = this->coordY;
+    moveAI(window, field, event, tankAI);
+    if (collisionWithField(field, this->coordX, this->coordY))
+    {
+        this->subCoordX = this->coordX = prevX;
+        this->subCoordY = this->coordY = prevY;
+        if (14 >= this->getCoordX() && 28 >= this->getCoordY())
+        {
+            if (!collisionWithField(field, this->getCoordX() + 1, this->getCoordY()) && direction != constants::Directions::LEFT)
+                direction = constants::Directions::RIGHT;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() + 1) && direction != constants::Directions::UP)
+                direction = constants::Directions::DOWN;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() - 1) && direction != constants::Directions::DOWN)
+                direction = constants::Directions::UP;
+            else
+                direction = constants::Directions::LEFT;
+        }
+        else if (14 <= this->getCoordX() && 28 <= this->getCoordY())
+        {
+            if (!collisionWithField(field, this->getCoordX() - 1, this->getCoordY()) && direction != constants::Directions::RIGHT)
+                direction = constants::Directions::LEFT;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() - 1) && direction != constants::Directions::DOWN)
+                direction = constants::Directions::UP;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() + 1) && direction != constants::Directions::UP)
+                direction = constants::Directions::DOWN;
+            else
+                direction = constants::Directions::RIGHT;
+
+        }
+        else if (14 <= this->getCoordX() && 28 >= this->getCoordY())
+        {
+            if (!collisionWithField(field, this->getCoordX() - 1, this->getCoordY()) && direction != constants::Directions::RIGHT)
+                direction = constants::Directions::LEFT;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() + 1) && direction != constants::Directions::UP)
+                direction = constants::Directions::DOWN;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() - 1) && direction != constants::Directions::DOWN)
+                direction = constants::Directions::UP;
+            else
+                direction = constants::Directions::RIGHT;
+        }
+        else if (14 >= this->getCoordX() && 28 <= this->getCoordY())
+        {
+            if (!collisionWithField(field, this->getCoordX() + 1, this->getCoordY()) && direction != constants::Directions::LEFT)
+                direction = constants::Directions::RIGHT;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() - 1) && direction != constants::Directions::DOWN)
+                direction = constants::Directions::UP;
+            else if (!collisionWithField(field, this->getCoordX(), this->getCoordY() + 1) && direction != constants::Directions::UP)
+                direction = constants::Directions::DOWN;
+            else
                 direction = constants::Directions::LEFT;
         }
     }

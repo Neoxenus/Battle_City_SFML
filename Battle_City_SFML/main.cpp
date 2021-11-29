@@ -5,8 +5,17 @@
 #include <ctime>
 #include <iostream>
 #include "windows.h"
-
+#include "Menu.h"
 //при каждой отрисовке танка рисовать все пули?
+
+void newGame(Tank& tank1, std::vector<Tank>& tankAI, Field& field1)
+{
+    field1.setField(constants::field1);
+    Tank buf(true, 0);
+    tank1 = buf;
+    std::vector<Tank> bufTankAI{ {false, 0}, {false, 0}, {false, 0}, {false, 0} };
+    tankAI = bufTankAI;
+}
 
 int main()
 {
@@ -28,102 +37,166 @@ int main()
 
     Field field1;
     field1.setField(constants::field1);
-    //Design_mode designm;
-    //std::vector<Bullet> bullets;
     Tank tank1(true , 0);
-    std::vector<Bullet> bullets;
     std::vector<Tank> tankAI{ {false, 0}, {false, 0}, {false, 0}, {false, 0} };
     std::vector<double> tankAIRespawnTime{ 0.0, 3.0, 6.0, 9.0};
 
-    /*Server serv;
-    serv.server();
-    serv.loop(field1, tank1);*/
-
-    
-
-   
     sf::RenderWindow window(sf::VideoMode(768, 768), "", sf::Style::Titlebar | sf::Style::Close);
-
-    sf::View view = window.getDefaultView();
-    view.zoom(0.33f);
-    window.setView(view);
     window.setFramerateLimit(240);
+    sf::View view = window.getDefaultView();
+
+    view.zoom(constants::zoom);
+    window.setView(view);
+   
+    Menu menu(768, 768, constants::MAX_NUMBER_OPTIONS_MAIN_MENU, constants::mainMenu);
 
     sf::Clock clock;
     double timer = 0;
     int fps = 0;
     double delay = constants::delay;
 
-    bool isMP = false, isHost = false;
-    if (!isMP )
-        while (window.isOpen())
+    bool isGameActive = false;
+    bool isMP = false , isHost = false;
+    while (window.isOpen())
+    {
+        sf::Event event;
+        if (!isGameActive)
         {
-            timer = clock.getElapsedTime().asMilliseconds() / 1000.0;
-            sf::Event event;
-            if (timer > delay)
+            while (window.pollEvent(event))
             {
-                while (window.pollEvent(event))
+                if (event.type == sf::Event::Closed)
+                    window.close();
+                if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left)
                 {
-                    tank1.bullet_shoot(window, event);
-
-                    if (event.type == sf::Event::Closed)
-                        window.close();
-                }
-
-                for (int i = 0; i < tankAIRespawnTime.size(); ++i)
-                {
-                    if (timer > tankAIRespawnTime[i] && abs(timer - tankAIRespawnTime[i]) <= 15)
+                    int x = sf::Mouse::getPosition(window).x, y = sf::Mouse::getPosition(window).y;
+                    /*std::cout << std::endl;
+                    std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
+                    std::cout << menu.choose(x, y) << std::endl;*/
+                    switch (menu.choose(x, y))
                     {
-                        /*for (auto& tank : tankAI)
+                    case 0://new s0l0 game
+                        newGame(tank1, tankAI, field1);
+                        clock.restart();
+                        isGameActive = true;
+                        isMP = false;
+                        timer = 0;
+                        fps = 0;
+                        delay = constants::delay;
+                        break;
+                    case 1://new host
+                        isGameActive = true;
+                        isMP = true;
+                        isHost = true;
+                        break;
+                    case 2://new client
+                        isGameActive = true;
+                        isMP = true;
+                        isHost = false;
+                        break;
+                    default:
+                        //std::cout << "Something wrong with mouse coordinate\n";
+                        break;
+                    }
+
+
+                }
+            }
+                
+            window.clear(sf::Color::Black);
+            menu.draw(window);
+            window.display();
+        }
+        else
+        {
+                if (!isMP )
+                    {
+                        timer = clock.getElapsedTime().asMilliseconds() / 1000.0;
+                        sf::Event event;
+                        if (timer > delay)
                         {
-                            if ()
-                        }*/
-                        tankAI[i].setVisibility(true);
-                        tankAI[i].setCoordX(constants::DEFAULT_ENEMY_COORD_X[rand() % 2]);
-                        tankAI[i].setSubCoordX(tankAI[i].getCoordX());
-                        tankAI[i].setCoordY(constants::DEFAULT_ENEMY_COORD_Y);
-                        tankAI[i].setSubCoordY(tankAI[i].getCoordY());
-                        tankAIRespawnTime[i] = 257;
-                    }
-                }
+                            while (window.pollEvent(event))
+                            {
+                                tank1.bullet_shoot(window, event);
 
-                tank1.animation(fps);
-                for (int i = 0; i < tankAI.size(); ++i)
-                {
-                    tankAI[i].animation(fps);
-                    if (tankAI[i].isVisible() && tankAI[i].tankDeath(tank1))
-                    {
-                        tankAI[i].setVisibility(false);
-                        tankAI[i].setCoordX(0);
-                        tankAI[i].setCoordY(0);
-                        tankAIRespawnTime[i] = (static_cast<int>(timer) + 3) % 256;
-                    }
-                }
+                                    if (event.type == sf::Event::Closed)
+                                        window.close();
+                                    //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                                    //    isGameActive = false;
+                                }
 
-                if (timer < 24.0)
-                {
-                    for (auto& tank : tankAI)
-                    {
-                        if (tank.isVisible())
-                        {
-                            tank.moveAIRandomly(window, field1, event, tankAI);
-                        }
-                    }
-                }
-                else if (timer < 48.0)
-                {
-                    for (auto& tank : tankAI)
-                    {
-                        if (tank.isVisible())
-                        {
-                            tank.moveAIToAlly(window, field1, event, tank1, tankAI);
-                        }
-                    }
-                }
-                else
-                {
+                            for (int i = 0; i < tankAIRespawnTime.size(); ++i)
+                            {
+                                if (timer > tankAIRespawnTime[i] && abs(timer - tankAIRespawnTime[i]) <= 15)
+                                {
+                                    /*for (auto& tank : tankAI)
+                                    {
+                                        if ()
+                                    }*/
+                                    tankAI[i].setVisibility(true);
+                                    tankAI[i].setCoordX(constants::DEFAULT_ENEMY_COORD_X[rand() % 2]);
+                                    tankAI[i].setSubCoordX(tankAI[i].getCoordX());
+                                    tankAI[i].setCoordY(constants::DEFAULT_ENEMY_COORD_Y);
+                                    tankAI[i].setSubCoordY(tankAI[i].getCoordY());
+                                    tankAIRespawnTime[i] = 257;
+                                }
+                            }
+                                for (int i = 0; i < 1/*tankAIRespawnTime.size()*/; ++i)
+                                {
+                                    if (timer > tankAIRespawnTime[i])
+                                    {
+                                        /*for (auto& tank : tankAI)
+                                        {
+                                            if ()
+                                        }*/
+                                        tankAI[i].setVisibility(true);
+                                        tankAIRespawnTime[i] = 0.0;
+                                    }
+                                }
 
-                }
+                            tank1.animation(fps);
+                            for (int i = 0; i < tankAI.size(); ++i)
+                            {
+                                tankAI[i].animation(fps);
+                                if (tankAI[i].isVisible() && tankAI[i].tankDeath(tank1))
+                                {
+                                    tankAI[i].setVisibility(false);
+                                    tankAI[i].setCoordX(0);
+                                    tankAI[i].setCoordY(0);
+                                    tankAIRespawnTime[i] = (static_cast<int>(timer) + 3) % 256;
+                                }
+                            }
+
+                            if (timer < 24.0)
+                            {
+                                for (auto& tank : tankAI)
+                                {
+                                    if (tank.isVisible())
+                                    {
+                                        tank.moveAIRandomly(window, field1, event, tankAI);
+                                    }
+                                }
+                            }
+                            else if (timer < 48.0)
+                            {
+                                for (auto& tank : tankAI)
+                                {
+                                    if (tank.isVisible())
+                                    {
+                                        tank.moveAIToAlly(window, field1, event, tank1, tankAI);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                for (auto& tank : tankAI)
+                                {
+                                    if (tank.isVisible())
+                                    {
+                                        tank.moveAIToBase(window, field1, event, tankAI);
+                                    }
+                                }
+                            }
+                
 
                 for (int i = 0; i < tankAI.size(); ++i)
                 {
@@ -134,14 +207,14 @@ int main()
                     }
                 }
 
-                delay += constants::delay;
+                                delay += constants::delay;
 
-                ++fps;
-                //if (timer > 1 && fps < 129)
-                //{
-                //    std::cout << fps << "\n";
-                //    //exit(1);
-                //}
+                            ++fps;
+                            //if (timer > 1 && fps < 129)
+                            //{
+                            //    std::cout << fps << "\n";
+                            //    //exit(1);
+                            //}
                
                 window.clear(sf::Color::Black);                           
                 field1.draw(window, texture_block, texture_base);
@@ -149,29 +222,40 @@ int main()
                 tank1.control(window, field1, event, tankAI);
                 tank1.bullets_colision(field1); 
 
-                for (auto& tank : tankAI)
-                    if (tank.isVisible())
-                        tank.draw(window, texture_all);
+                            for (auto& tank : tankAI)
+                                if (tank.isVisible())
+                                    tank.draw(window, texture_all);
                 
-                timer = 0;
-                window.display();
+                            timer = 0;
+                            window.display();
                 
-                //clock.restart();
-            }
-            if (timer > constants::delay * 128 * 256)
-            {
-                delay = constants::delay;
-                timer = 0;
-                clock.restart();
+                            //clock.restart();
+                        }
+                        if (timer > constants::delay * 128 * 256)
+                        {
+                            delay = constants::delay;
+                            timer = 0;
+                            clock.restart();
+                        }
+                    }
+
+                if (isMP)
+                {
+                    if (isHost)
+                    {
+                        Server serv;
+                        serv.server();
+                        serv.loop(field1, tank1);
+                    }
+                    else
+                    {
+                        Client cl;
+                        cl.client();
+                        cl.exchange(field1, tank1);
+                    }
+                }
             }
         }
 
-
-    if (isMP && !isHost)
-    {
-        Client cl;
-        cl.client();
-        cl.exchange(field1, tank1);
-    }
     
 }

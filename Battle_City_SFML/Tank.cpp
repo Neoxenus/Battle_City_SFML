@@ -142,12 +142,12 @@ void Tank::setAlreadyShot(int value)
     alreadyShot = value;
 }
 
-void Tank::draw(sf::RenderWindow& window, sf::Texture& texture_all, int animation)
+void Tank::draw(sf::RenderWindow& window, sf::Texture& texture_all)
 {
 	sf::Sprite sprite_all(texture_all);
 
 	sprite_all.setTextureRect(sf::IntRect(
-        8 * constants::BLOCK_LENGHT*(isPlayer == false) + 2 * static_cast<int>(direction) * constants::BLOCK_LENGHT + animation * constants::BLOCK_LENGHT,
+        8 * constants::BLOCK_LENGHT*(isPlayer == false) + 2 * static_cast<int>(direction) * constants::BLOCK_LENGHT + this->anim * constants::BLOCK_LENGHT,
         4 * constants::BLOCK_LENGHT * (isPlayer == false) + tankType * constants::BLOCK_LENGHT,
         constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
     sprite_all.setPosition(this->subCoordX * constants::TILES_LENGHT, this->subCoordY * constants::TILES_LENGHT);
@@ -506,4 +506,10 @@ void Tank::moveAIToAlly(sf::RenderWindow& window, Field& field, sf::Event& event
                 direction = constants::Directions::LEFT;
         }
     }
+}
+
+void Tank::animation(int fps)
+{
+    if (fps % constants::ANIMATION_SPEED == 0 && this->isMoving)
+        this->anim = !anim;
 }

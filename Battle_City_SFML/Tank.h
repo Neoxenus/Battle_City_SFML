@@ -12,6 +12,7 @@ private:
     bool isPlayer;//true - player
     constants::Directions direction;
     bool isMoving = false;
+    bool anim = false;
     int tankType;//0 to 3
     double coordX, coordY;//coords with step 0.5 tiles
     double subCoordX, subCoordY;//absolute coords for drawing
@@ -36,7 +37,7 @@ public:
     void setBullets(std::vector<Bullet> tmpbullets);
     std::vector <Bullet> getBullets();
     bool getIsMoving();//pixel per 1 second
-    void draw(sf::RenderWindow& window, sf::Texture& texture_all, int animation);
+    void draw(sf::RenderWindow& window, sf::Texture& texture_all);
     bool collisionWithField(Field& field, double prevX, double prevY, int spriteSize = 2);
     bool tankWithTankCollision(Tank& tank);
     bool tankDeath(Tank& tank);
@@ -48,6 +49,7 @@ public:
     void moveAI(sf::RenderWindow& window, Field& field, sf::Event& event);
     void moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& event);
     void moveAIToAlly(sf::RenderWindow& window, Field& field, sf::Event& event, Tank tank);
+    void animation(int fps);
 };
 
 

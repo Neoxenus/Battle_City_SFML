@@ -52,7 +52,6 @@ int main()
     sf::Clock clock;
     double timer = 0;
     int fps = 0;
-    bool animation = false;
     double delay = constants::delay;
 
     bool isMP = false, isHost = false;
@@ -84,8 +83,10 @@ int main()
                     }
                 }
 
+                tank1.animation(fps);
                 for (int i = 0; i < tankAI.size(); ++i)
                 {
+                    tankAI[i].animation(fps);
                     if (tankAI[i].isVisible() && tankAI[i].tankDeath(tank1))
                     {
                         tankAI[i].setVisibility(false);
@@ -129,18 +130,13 @@ int main()
                
                 window.clear(sf::Color::Black);                           
                 field1.draw(window, texture_block, texture_base);
-                tank1.draw(window, texture_all, static_cast<int>(animation)); // coord in tiles // spawn tank
+                tank1.draw(window, texture_all); // coord in tiles // spawn tank
                 tank1.control(window, field1, event);
                 tank1.bullets_colision(field1); 
 
                 for (auto& tank : tankAI)
                     if (tank.isVisible())
-                        tank.draw(window, texture_all, static_cast<int>(animation));
-
-                //нужно ли переместить в клас танка?
-                if(fps % constants::ANIMATION_SPEED == 0 && tank1.getIsMoving())
-                    animation = !animation; 
-                //
+                        tank.draw(window, texture_all);
                 
                 timer = 0;
                 window.display();

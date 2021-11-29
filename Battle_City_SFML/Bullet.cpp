@@ -94,7 +94,7 @@ bool Bullet::bulletWithBulletCollision(Bullet& bullet1, Bullet& bullet2)
 {
     int x1, y1, x2, y2;
 
-    if (bullet1.getDirection() == constants::Directions::UP || direction == constants::Directions::LEFT)
+    if (bullet1.getDirection() == constants::Directions::UP || bullet1.getDirection() == constants::Directions::LEFT)
     {
         x1 = floor(bullet1.getCoordX());
         y1 = floor(bullet1.getCoordY());
@@ -112,7 +112,7 @@ bool Bullet::bulletWithBulletCollision(Bullet& bullet1, Bullet& bullet2)
 
     x1 /= 2; y1 /= 2;
 
-    if (bullet2.getDirection() == constants::Directions::UP || direction == constants::Directions::LEFT)
+    if (bullet2.getDirection() == constants::Directions::UP || bullet2.getDirection() == constants::Directions::LEFT)
     {
         x2 = floor(bullet2.getCoordX());
         y2 = floor(bullet2.getCoordY());

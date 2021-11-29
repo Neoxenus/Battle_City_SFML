@@ -94,12 +94,17 @@ bool Tank::getIsPlayer()
     return isPlayer;
 }
 
-void Tank::draw(sf::RenderWindow& window, sf::Texture& texture_all)
+bool Tank::getIsMoving()
+{
+    return isMoving;
+}
+
+void Tank::draw(sf::RenderWindow& window, sf::Texture& texture_all, int animation)
 {
 	sf::Sprite sprite_all(texture_all);
 
 	sprite_all.setTextureRect(sf::IntRect(
-        8 * constants::BLOCK_LENGHT*(isPlayer == false) + 2 * static_cast<int>(direction) * constants::BLOCK_LENGHT,
+        8 * constants::BLOCK_LENGHT*(isPlayer == false) + 2 * static_cast<int>(direction) * constants::BLOCK_LENGHT + animation * constants::BLOCK_LENGHT,
         4 * constants::BLOCK_LENGHT * (isPlayer == false) + tankType * constants::BLOCK_LENGHT,
         constants::BLOCK_LENGHT, constants::BLOCK_LENGHT));
     sprite_all.setPosition(this->subCoordX * constants::TILES_LENGHT, this->subCoordY * constants::TILES_LENGHT);
@@ -117,6 +122,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
         this->direction = constants::Directions::UP;
+        this->isMoving = true;
         prevX = round(prevX);
         this->subCoordY -= getTankSpeed() * constants::delay;
         this->coordX = round(subCoordX);
@@ -130,6 +136,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
         this->direction = constants::Directions::DOWN;
+        this->isMoving = true;
         prevX = round(prevX);
         this->subCoordY += getTankSpeed() * constants::delay;
         this->coordX = round(subCoordX);
@@ -142,6 +149,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
         this->direction = constants::Directions::LEFT;
+        this->isMoving = true;
         prevY = round(prevY);
         this->subCoordX -= getTankSpeed() * constants::delay;
         this->coordY = round(subCoordY);
@@ -154,6 +162,7 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
         this->direction = constants::Directions::RIGHT;
+        this->isMoving = true;
         prevY = round(prevY);
         this->subCoordX += getTankSpeed() * constants::delay;
         this->coordY = round(subCoordY);
@@ -163,6 +172,11 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event)
             this->coordX += 0.5;
         }
     }
+    else
+    {
+        this->isMoving = false;
+    }
+
     if (collisionWithField(field, this->coordX, this->coordY))
     {
         this->subCoordX = this->coordX = prevX;
@@ -218,7 +232,7 @@ bool Tank::collisionWithField(Field& field, double X, double Y, int spriteSize)
     return false;
 }
 
-bool Tank::tankWithTankCollision(Tank& tank1, Tank& tank2)
+bool Tank::tankWithTankCollision(Tank& tank1, Tank& tank2)  //fix
 {
     int x1 = tank1.getCoordX(), y1 = tank1.getCoordY(), x2 = tank2.getCoordX(), y2 = tank2.getCoordY();
 
@@ -226,6 +240,55 @@ bool Tank::tankWithTankCollision(Tank& tank1, Tank& tank2)
         return true;
     else
         return false;
+}
+
+bool Tank::tankDeath(std::vector<Bullet>& all_bullets)
+{
+    double x0 = this->coordX, y0 = this->coordY, x1 = x0 + 2, y1 = x0 + 2, xb0, yb0, xb1, yb1;
+
+    for (int i = 0; i < all_bullets.size(); ++i)
+    {
+        if (all_bullets[i].getDirection() == constants::Directions::UP || all_bullets[i].getDirection() == constants::Directions::DOWN)
+        {
+            if (all_bullets[i].getDirection() == constants::Directions::UP)
+            {
+                xb0 = all_bullets[i].getCoordX();
+                yb0 = all_bullets[i].getCoordY();
+
+                xb1 = xb0 + 1;
+                yb1 = yb0;
+            }
+            else
+            {
+                xb0 = all_bullets[i].getCoordX();
+                yb0 = all_bullets[i].getCoordY() + 6.0 / 8;
+
+                xb1 = xb0 + 1;
+                yb1 = yb0;
+            }
+
+            //if(xb0 > x0)
+        }
+        else if (all_bullets[i].getDirection() == constants::Directions::RIGHT || all_bullets[i].getDirection() == constants::Directions::LEFT)
+        {
+            if (all_bullets[i].getDirection() == constants::Directions::UP)
+            {
+                xb0 = all_bullets[i].getCoordX() + 6.0 / 8;
+                yb0 = all_bullets[i].getCoordY();
+
+                xb1 = xb0 + 1;
+                yb1 = yb0;
+            }
+            else
+            {
+                xb0 = all_bullets[i].getCoordX();
+                yb0 = all_bullets[i].getCoordY();
+
+                xb1 = xb0 + 1;
+                yb1 = yb0;
+            }
+        }
+    }
 }
 
 std::vector<char*> Tank::sendToServer()

@@ -15,6 +15,7 @@ private:
     bool anim = false;
     int tankType;//0 to 3
     double coordX, coordY;//coords with step 0.5 tiles
+    double prX, prY;
     double subCoordX, subCoordY;//absolute coords for drawing
     std::vector <Bullet> bullets;
 public:
@@ -24,6 +25,8 @@ public:
     constants::Directions getDirection();
     int getMaxShots();
     double getCoordX();
+    double getPrX();
+    double getPrY();
     void setCoordX(double x);
     void setSubCoordX(double x);
     double getCoordY();

@@ -31,6 +31,8 @@ public:
     double getTankSpeed();
     void setVisibility(bool flag);
     bool isVisible();
+    int getAlreadyShot();
+    void setAlreadyShot(int value);
     std::vector <Bullet> getBullets();
     bool getIsMoving();//pixel per 1 second
     void draw(sf::RenderWindow& window, sf::Texture& texture_all, int animation);

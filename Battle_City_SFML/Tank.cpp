@@ -128,6 +128,15 @@ std::vector<Bullet> Tank::getBullets()
     return bullets;
 }
 
+int Tank::getAlreadyShot()
+{
+    return alreadyShot;
+}
+void Tank::setAlreadyShot(int value)
+{
+    alreadyShot = value;
+}
+
 void Tank::draw(sf::RenderWindow& window, sf::Texture& texture_all, int animation)
 {
 	sf::Sprite sprite_all(texture_all);
@@ -417,6 +426,12 @@ void Tank::moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& eve
 {
     double prevX = this->coordX, prevY = this->coordY;
     moveAI(window, field, event);
+    if (rand() % 16 == 0)
+    {
+        if (direction == constants::Directions::UP)
+        {
+        }
+    }
     if (collisionWithField(field, this->coordX, this->coordY))
     {
         this->subCoordX = this->coordX = prevX;

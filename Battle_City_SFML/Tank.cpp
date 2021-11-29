@@ -495,7 +495,7 @@ void Tank::moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& eve
         if (direction == constants::Directions::LEFT)
             direction = constants::Directions::RIGHT;
     }
-    if (direction == constants::Directions::UP && !collisionWithField(field, getCoordX(), getCoordY() - 1)|| direction == constants::Directions::DOWN && !collisionWithField(field, getCoordX(), getCoordY() + 1))
+    if (direction == constants::Directions::UP && !collisionWithField(field, getCoordX(), getCoordY() - 1) || direction == constants::Directions::UP && !collisionWithField(field, getCoordX(), getCoordY() + 1 ) || direction == constants::Directions::DOWN && !collisionWithField(field, getCoordX(), getCoordY() - 1) || direction == constants::Directions::DOWN && !collisionWithField(field, getCoordX(), getCoordY() + 1))
     {
         if (!collisionWithField(field, getCoordX() + 1, getCoordY()) && !collisionWithField(field, getCoordX() - 1, getCoordY()))
         {
@@ -518,7 +518,7 @@ void Tank::moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& eve
                 direction = constants::Directions::LEFT;
         }
     }
-    if (direction == constants::Directions::LEFT && !collisionWithField(field, getCoordX() - 1, getCoordY())|| direction == constants::Directions::RIGHT && !collisionWithField(field, getCoordX() + 1, getCoordY()))
+    if (direction == constants::Directions::LEFT && !collisionWithField(field, getCoordX() - 1, getCoordY()) || direction == constants::Directions::LEFT && !collisionWithField(field, getCoordX() + 1, getCoordY()) || direction == constants::Directions::RIGHT && !collisionWithField(field, getCoordX() - 1, getCoordY()) || direction == constants::Directions::RIGHT && !collisionWithField(field, getCoordX() + 1, getCoordY()))
     {
         if (!collisionWithField(field, getCoordX(), getCoordY() + 1) && !collisionWithField(field, getCoordX(), getCoordY() - 1))
         {
@@ -607,6 +607,34 @@ void Tank::moveAIToAlly(sf::RenderWindow& window, Field& field, sf::Event& event
         }
     }
 
+    if (direction == constants::Directions::UP && !collisionWithField(field, getCoordX(), getCoordY() - 1) || direction == constants::Directions::UP && !collisionWithField(field, getCoordX(), getCoordY() + 1) || direction == constants::Directions::DOWN && !collisionWithField(field, getCoordX(), getCoordY() - 1) || direction == constants::Directions::DOWN && !collisionWithField(field, getCoordX(), getCoordY() + 1))
+    {
+
+        if (!collisionWithField(field, getCoordX() + 1, getCoordY()) && tank.getCoordX() >= this->getCoordX())
+        {
+            if (rand() % 128 == 0)
+                direction = constants::Directions::RIGHT;
+        }
+        else if (!collisionWithField(field, getCoordX() - 1, getCoordY()) && tank.getCoordX() <= this->getCoordX())
+        {
+            if (rand() % 128 == 0)
+                direction = constants::Directions::LEFT;
+        }
+    }
+    else if (direction == constants::Directions::LEFT && !collisionWithField(field, getCoordX() - 1, getCoordY()) || direction == constants::Directions::LEFT && !collisionWithField(field, getCoordX() + 1, getCoordY()) || direction == constants::Directions::RIGHT && !collisionWithField(field, getCoordX() - 1, getCoordY()) || direction == constants::Directions::RIGHT && !collisionWithField(field, getCoordX() + 1, getCoordY()))
+    {
+        if (!collisionWithField(field, getCoordX(), getCoordY() + 1) && tank.getCoordY() >= this->getCoordX())
+        {
+            if (rand() % 128 == 0)
+                direction = constants::Directions::DOWN;
+        }
+        else if (!collisionWithField(field, getCoordX(), getCoordY() - 1) && tank.getCoordY() <= this->getCoordX())
+        {
+            if (rand() % 128 == 0)
+                direction = constants::Directions::UP;
+        }
+    }
+
     int i = tankWithTankCollision(tankAI);
     if (i != -1)
     {
@@ -669,6 +697,34 @@ void Tank::moveAIToBase(sf::RenderWindow& window, Field& field, sf::Event& event
                 direction = constants::Directions::DOWN;
             else
                 direction = constants::Directions::LEFT;
+        }
+    }
+
+    if (direction == constants::Directions::UP && !collisionWithField(field, getCoordX(), getCoordY() - 1) || direction == constants::Directions::UP && !collisionWithField(field, getCoordX(), getCoordY() + 1) || direction == constants::Directions::DOWN && !collisionWithField(field, getCoordX(), getCoordY() - 1) || direction == constants::Directions::DOWN && !collisionWithField(field, getCoordX(), getCoordY() + 1))
+    {
+
+        if (!collisionWithField(field, getCoordX() + 1, getCoordY()) && 14 >= this->getCoordX())
+        {
+            if (rand() % 128 == 0)
+                direction = constants::Directions::RIGHT;
+        }
+        else if (!collisionWithField(field, getCoordX() - 1, getCoordY()) && 14 <= this->getCoordX())
+        {
+            if (rand() % 128 == 0)
+                direction = constants::Directions::LEFT;
+        }
+    }
+    else if (direction == constants::Directions::LEFT && !collisionWithField(field, getCoordX() - 1, getCoordY()) || direction == constants::Directions::LEFT && !collisionWithField(field, getCoordX() + 1, getCoordY()) || direction == constants::Directions::RIGHT && !collisionWithField(field, getCoordX() - 1, getCoordY()) || direction == constants::Directions::RIGHT && !collisionWithField(field, getCoordX() + 1, getCoordY()))
+    {
+        if (!collisionWithField(field, getCoordX(), getCoordY() + 1) && 28 >= this->getCoordX())
+        {
+            if (rand() % 128 == 0)
+                direction = constants::Directions::DOWN;
+        }
+        else if (!collisionWithField(field, getCoordX(), getCoordY() - 1) && 28 <= this->getCoordX())
+        {
+            if (rand() % 128 == 0)
+                direction = constants::Directions::UP;
         }
     }
 

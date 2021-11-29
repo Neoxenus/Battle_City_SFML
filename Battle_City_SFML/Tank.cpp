@@ -408,9 +408,8 @@ std::vector<char*> Tank::sendToServer()
     return dataVector;
 }
 
-void Tank::moveAI(sf::RenderWindow& window, Field& field, sf::Event& event)
+void Tank::moveAI(sf::RenderWindow& window, Field& field, sf::Event& event, double& prevX, double& prevY)
 {
-    double prevX = this->coordX, prevY = this->coordY;
     if (direction == constants::Directions::UP)
     {
         prevX = round(prevX);
@@ -452,7 +451,13 @@ void Tank::moveAI(sf::RenderWindow& window, Field& field, sf::Event& event)
 void Tank::moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& event)
 {
     double prevX = this->coordX, prevY = this->coordY;
-    moveAI(window, field, event);
+    moveAI(window, field, event, prevX, prevY);
+    if (collisionWithField(field, this->coordX, this->coordY))
+    {
+        this->subCoordX = this->coordX = prevX;
+        this->subCoordY = this->coordY = prevY;
+        direction = static_cast<constants::Directions>(rand() % 4);
+    }
     if (rand() % 500 == 0)
     {
         if (direction == constants::Directions::UP)
@@ -468,7 +473,7 @@ void Tank::moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& eve
     {
         if (!collisionWithField(field, getCoordX() + 1, getCoordY()) && !collisionWithField(field, getCoordX() - 1, getCoordY()))
         {
-            if (rand() % 16 == 0)
+            if (rand() % 128 == 0)
             {
                 if (rand() % 2)
                     direction = constants::Directions::LEFT;
@@ -478,12 +483,12 @@ void Tank::moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& eve
         }
         else if (!collisionWithField(field, getCoordX() + 1, getCoordY()))
         {
-            if (rand() % 16 == 0)
+            if (rand() % 128 == 0)
                 direction = constants::Directions::RIGHT;
         }
         else if (!collisionWithField(field, getCoordX() - 1, getCoordY()))
         {
-            if(rand() % 16 == 0)
+            if(rand() % 128 == 0)
                 direction = constants::Directions::LEFT;
         }
     }
@@ -491,7 +496,7 @@ void Tank::moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& eve
     {
         if (!collisionWithField(field, getCoordX(), getCoordY() + 1) && !collisionWithField(field, getCoordX(), getCoordY() - 1))
         {
-            if (rand() % 16 == 0)
+            if (rand() % 128 == 0)
             {
                 if (rand() % 2)
                     direction = constants::Directions::UP;
@@ -501,12 +506,12 @@ void Tank::moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& eve
         }
         else if (!collisionWithField(field, getCoordX(), getCoordY() + 1))
         {
-            if (rand() % 16 == 0)
+            if (rand() % 128 == 0)
                 direction = constants::Directions::DOWN;
         }
         else if (!collisionWithField(field, getCoordX(), getCoordY() - 1))
         {
-            if (rand() % 16 == 0)
+            if (rand() % 128 == 0)
                 direction = constants::Directions::UP;
         }
     }
@@ -521,7 +526,7 @@ void Tank::moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& eve
 void Tank::moveAIToAlly(sf::RenderWindow& window, Field& field, sf::Event& event, Tank tank)
 {
     double prevX = this->coordX, prevY = this->coordY;
-    moveAI(window, field, event);
+    moveAI(window, field, event, prevX, prevY);
     if (collisionWithField(field, this->coordX, this->coordY))
     {
         this->subCoordX = this->coordX = prevX;
@@ -577,7 +582,7 @@ void Tank::moveAIToAlly(sf::RenderWindow& window, Field& field, sf::Event& event
 void Tank::moveAIToBase(sf::RenderWindow& window, Field& field, sf::Event& event)
 {
     double prevX = this->coordX, prevY = this->coordY;
-    moveAI(window, field, event);
+    moveAI(window, field, event, prevX, prevY);
     if (collisionWithField(field, this->coordX, this->coordY))
     {
         this->subCoordX = this->coordX = prevX;

@@ -6,6 +6,7 @@
 #include <iostream>
 #include "windows.h"
 
+//при каждой отрисовке танка рисовать все пули?
 
 int main()
 {
@@ -15,6 +16,13 @@ int main()
     Hide = FindWindowA("ConsoleWindowClass", NULL);
     ShowWindow(Hide, 1);
     //
+
+    sf::Texture texture_all;
+    texture_all.loadFromFile("allSprites.png");
+    sf::Texture texture_block;
+    texture_block.loadFromFile("tiles.png");
+    sf::Texture texture_base;
+    texture_base.loadFromFile("sprites.png");
 
     Field field1;
     field1.setField(constants::field1);
@@ -38,15 +46,16 @@ int main()
 
     sf::Clock clock;
     double timer = 0;
-
+    int fps = 0;
+    double delay = constants::delay;
 
     bool isMP = false , isHost = false;
     if (!isMP )
         while (window.isOpen())
         {
-            timer += clock.getElapsedTime().asMilliseconds() / 1000.0;
+            timer = clock.getElapsedTime().asMilliseconds() / 1000.0;
             sf::Event event;
-            if (timer > constants::delay)
+            if (timer > delay)
             {
                 while (window.pollEvent(event))
                 {
@@ -55,14 +64,30 @@ int main()
                     if (event.type == sf::Event::Closed)
                         window.close();
                 }
+
+                delay += constants::delay;
+
+                ++fps;
+                if (timer > 1 && fps < 129)
+                {
+                    std::cout << fps << "\n";
+                    //exit(1);
+                }
+               
+                window.clear(sf::Color::Black);                           
+                field1.draw(window, texture_block, texture_base);
+                tank1.draw(window, texture_all); // coord in tiles // spawn tank
                 tank1.control(window, field1, event);
-                tank1.bullets_colision(field1);
-                window.clear(sf::Color::Black);
-                field1.draw(window);
-                tank1.draw(window); // coord in tiles // spawn tank
+                tank1.bullets_colision(field1);     
 
                 window.display();
 
+                timer = 0;
+                //clock.restart();
+            }
+            if (timer > constants::delay * 128 * 256)
+            {
+                delay = constants::delay;
                 timer = 0;
                 clock.restart();
             }

@@ -94,10 +94,8 @@ bool Tank::getIsPlayer()
     return isPlayer;
 }
 
-void Tank::draw(sf::RenderWindow& window)
+void Tank::draw(sf::RenderWindow& window, sf::Texture& texture_all)
 {
-	sf::Texture texture_all;
-	texture_all.loadFromFile("allSprites.png");
 	sf::Sprite sprite_all(texture_all);
 
 	sprite_all.setTextureRect(sf::IntRect(
@@ -109,7 +107,7 @@ void Tank::draw(sf::RenderWindow& window)
 	window.draw(sprite_all);
     for (int i = 0; i < bullets.size(); ++i)
     {
-        bullets[i].draw(window);
+        bullets[i].draw(window, texture_all);
     }
 }
 

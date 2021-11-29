@@ -29,19 +29,22 @@ void Client::exchange(Field& field, Tank& tank)
 {
 	std::vector<char*> tankE = tank.sendToServer();
 	std::vector<char*> fieldE = field.sendToServer();
-	for (int i = 0; i < tankE.size(); ++i)
-	{
-		int bufSize = sizeof(tankE[i]);
-		send(Connection, (char*)&bufSize, sizeof(int), NULL);
-		send(Connection, tankE[i], bufSize, NULL);
-	}
-		
-	for (int i = 0; i < fieldE.size(); ++i)
-	{
-		int bufSize = sizeof(fieldE[i]);
-		send(Connection, (char*)&bufSize, sizeof(int), NULL);
-		send(Connection, fieldE[i], bufSize, NULL);
-	}
+	char bufSize = sizeof(tankE[0]);
+	send(Connection, (char*)&bufSize, sizeof(char), NULL);
+	send(Connection, tankE[0], bufSize, NULL);
+	//for (int i = 0; i < tankE.size(); ++i)
+	//{
+	//	int bufSize = sizeof(tankE[i]);
+	//	send(Connection, (char*)&bufSize, sizeof(int), NULL);
+	//	send(Connection, tankE[i], bufSize, NULL);
+	//}
+	//	
+	//for (int i = 0; i < fieldE.size(); ++i)
+	//{
+	//	int bufSize = sizeof(fieldE[i]);
+	//	send(Connection, (char*)&bufSize, sizeof(int), NULL);
+	//	send(Connection, fieldE[i], bufSize, NULL);
+	//}
 		
 
 	//

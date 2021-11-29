@@ -267,82 +267,88 @@ bool Tank::collisionWithField(Field& field, double X, double Y, int spriteSize)
 //{
 //    int x = tank.getCoordX(), y = tank.getCoordY();
 //
-//    if ((this->getCoordY() == y + 2 && this->getCoordX() ==  x || ) ||
+//    if ((this->getCoordY() == y + 2 && this->getCoordX() >=  x - 1 && this->getCoordX() <= x + 1) ||
 //        (this->getCoordX() + 2 == x) ||
-//        (this->getCoordY() + 2 == y) || 
+//        (this->getCoordY() + 2 == y && this->getCoordX() >= x - 1 && this->getCoordX() <= x + 1)) ||
 //        (this->getCoordX() == x + 2))
 //        return true;
 //    else
 //        return false;
 //}
 
-bool Tank::tankDeath(std::vector<Bullet> all_bullets)
+void Tank::tankDeath(Tank& tank)
 {
     double x0 = this->coordX, y0 = this->coordY, x1 = x0 + 2, y1 = y0 + 2, xb0, yb0, xb1, yb1;
 
-    for (int i = 0; i < all_bullets.size(); ++i)
+    for (int i = 0; i < tank.getBullets().size(); ++i)
     {
-        if (all_bullets[i].getDirection() == constants::Directions::UP || all_bullets[i].getDirection() == constants::Directions::DOWN)
+        if (tank.getBullets()[i].getDirection() == constants::Directions::UP || tank.getBullets()[i].getDirection() == constants::Directions::DOWN)
         {
-            if (all_bullets[i].getDirection() == constants::Directions::UP)
+            if (tank.getBullets()[i].getDirection() == constants::Directions::UP)
             {
-                xb0 = all_bullets[i].getCoordX(); //- 1;
-                yb0 = all_bullets[i].getCoordY();
+                xb0 = tank.getBullets()[i].getCoordX(); //- 1;
+                yb0 = tank.getBullets()[i].getCoordY();
 
                 xb1 = xb0 + 2;//3;
                 yb1 = yb0 + 6.0 / 8;;
 
                 if ((xb0 <= x0 && xb0 >= x0 - 1 || xb1 <= x1 && xb1 >= x0 - 1) && (yb0 <= y1 && yb1 >= y0))
                 {                   
-                    return true;
+                    tank.bullets.erase(bullets.begin() + i);
+                    tank.setAlreadyShot(tank.getAlreadyShot() - 1);
+                    return;
                 }
             }
             else
             {
-                xb0 = all_bullets[i].getCoordX(); //- 1;
-                yb0 = all_bullets[i].getCoordY() + 6.0 / 8;
+                xb0 = tank.getBullets()[i].getCoordX(); //- 1;
+                yb0 = tank.getBullets()[i].getCoordY() + 6.0 / 8;
 
                 xb1 = xb0 + 2;//3;
                 yb1 = yb0 - 6.0 / 8;
 
                 if ((xb0 <= x0 && xb0 >= x0 - 1 || xb1 <= x1 && xb1 >= x0 - 1) && (yb0 >= y0 && yb1 <= y1))
                 {
-                    return true;
+                    tank.bullets.erase(bullets.begin() + i);
+                    tank.setAlreadyShot(tank.getAlreadyShot() - 1);
+                    return;
                 }
             }
         }
-        else if (all_bullets[i].getDirection() == constants::Directions::RIGHT || all_bullets[i].getDirection() == constants::Directions::LEFT)
+        else if (tank.getBullets()[i].getDirection() == constants::Directions::RIGHT || tank.getBullets()[i].getDirection() == constants::Directions::LEFT)
         {
-            if (all_bullets[i].getDirection() == constants::Directions::RIGHT)
+            if (tank.getBullets()[i].getDirection() == constants::Directions::RIGHT)
             {
-                xb0 = all_bullets[i].getCoordX() + 6.0 / 8;
-                yb0 = all_bullets[i].getCoordY(); //- 1;
+                xb0 = tank.getBullets()[i].getCoordX() + 6.0 / 8;
+                yb0 = tank.getBullets()[i].getCoordY(); //- 1;
 
                 xb1 = xb0 - 6.0 / 8;
                 yb1 = yb0 + 2;//3;
 
                 if ((yb0 <= y0 && yb0 >= y0 - 1 || yb1 <= y1 && yb1 >= y0 - 1) && (xb0 >= x0 && xb1 <= x1))
                 {
-                    return true;
+                    tank.bullets.erase(bullets.begin() + i);
+                    tank.setAlreadyShot(tank.getAlreadyShot() - 1);
+                    return;
                 }
             }
             else
             {
-                xb0 = all_bullets[i].getCoordX();
-                yb0 = all_bullets[i].getCoordY();//- 1;
+                xb0 = tank.getBullets()[i].getCoordX();
+                yb0 = tank.getBullets()[i].getCoordY();//- 1;
 
                 xb1 = xb0 + 6.0 / 8;
                 yb1 = yb0 + 2;// 3;
 
                 if ((yb0 <= y0 && yb0 >= y0 - 1 || yb1 <= y1 && yb1 >= y0 - 1) && (xb0 <= x1 && xb1 >= x0))
                 {
-                    return true;
+                    tank.bullets.erase(bullets.begin() + i);
+                    tank.setAlreadyShot(tank.getAlreadyShot() - 1);
+                    return;
                 }
             }
         }
     }
-
-    return false;
 }
 
 std::vector<char*> Tank::sendToServer()
@@ -352,8 +358,8 @@ std::vector<char*> Tank::sendToServer()
         convertToCharArray(tankType),
         convertToCharArray(alreadyShot),
         convertToCharArray(coordX),
-         convertToCharArray(subCoordX),
-       convertToCharArray(subCoordY),
+        convertToCharArray(subCoordX),
+        convertToCharArray(subCoordY),
         convertToCharArray(static_cast<int>(direction)),
         convertToCharArray(static_cast<int>(bullets.size()))
     };

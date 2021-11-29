@@ -40,12 +40,12 @@ void Server::loop(Field& field, Tank& tank)
 {
 	std::vector<char*> tankE;
 	std::vector <char*> fieldE;
-	int bufSize;
+	char bufSize;
 	for (int i = 0; i < 8; i += 2)
 	{
-		recv(Connection, (char*)&bufSize, sizeof(int), NULL);
+		recv(Connection, (char*)&bufSize, sizeof(char), NULL);
 		char* buf = new char[bufSize + 1];
-		tankE.push_back((char*)&bufSize);
+		buf[bufSize] = '\0';
 		recv(Connection, buf, bufSize, NULL);
 		tankE.push_back(buf);
 	}
@@ -54,7 +54,7 @@ void Server::loop(Field& field, Tank& tank)
 	{
 		recv(Connection, (char*)&bufSize, sizeof(int), NULL);
 		char* buf = new char[bufSize + 1];
-		tankE.push_back((char*)&bufSize);
+		buf[bufSize] = '\0';
 		recv(Connection, buf, bufSize, NULL);
 		tankE.push_back(buf);
 	}

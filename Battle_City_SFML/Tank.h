@@ -29,7 +29,7 @@ public:
     bool getIsMoving();//pixel per 1 second
     void draw(sf::RenderWindow& window, sf::Texture& texture_all, int animation);
     bool collisionWithField(Field& field, double prevX, double prevY, int spriteSize = 2);
-    bool tankWithTankCollision(Tank& tank1, Tank& tank2);
+    bool tankWithTankCollision(Tank& tank);
     bool tankDeath(std::vector<Bullet>& all_bullets);
     void control(sf::RenderWindow& window, Field& field, sf::Event& event);
     void bullet_shoot(sf::RenderWindow& window, sf::Event& event);

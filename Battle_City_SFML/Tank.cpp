@@ -28,6 +28,7 @@ Tank::Tank(bool isPlayer, int tankType)
     }
     else
     {
+        isMoving = true;
         visibility = false;
         subCoordX = coordX = constants::DEFAULT_ENEMY_COORD_X[rand() % 3];
         subCoordY = coordY = constants::DEFAULT_ENEMY_COORD_Y;
@@ -110,6 +111,16 @@ bool Tank::getIsPlayer()
 bool Tank::getIsMoving()
 {
     return isMoving;
+}
+
+void Tank::setVisibility(bool flag)
+{
+    visibility = flag;
+}
+
+bool Tank::isVisible()
+{
+    return visibility;
 }
 
 void Tank::draw(sf::RenderWindow& window, sf::Texture& texture_all, int animation)
@@ -235,15 +246,17 @@ void Tank::shot()
 
 bool Tank::collisionWithField(Field& field, double X, double Y, int spriteSize)
 {
-    std::cout << "Cur " << X << " " << Y << "\n";
     int x0 = X, y0 = Y, x1 = ceil(X + spriteSize), y1 = ceil(Y + spriteSize);
     for(int i = x0; i < x1; ++i)
         for (int j = y0; j < y1; ++j)
         {
-            std::cout << i << " " << j << "\n";
             if (field.getField(i, j) != static_cast<int>(constants::Tiles::BLACK) && field.getField(i, j) != static_cast<int>(constants::Tiles::ICE) && field.getField(i, j) != static_cast<int>(constants::Tiles::TREE))
+            {
+                std::cout << "TRUE\n";
                 return true;
+            }
         }
+    std::cout << "FALSE\n";
     return false;
 }
 
@@ -280,3 +293,51 @@ std::vector<char*> Tank::sendToServer()
     }
     return dataVector;
 }
+
+void Tank::moveAI(sf::RenderWindow& window, Field& field, sf::Event& event)
+{
+    double prevX = this->coordX, prevY = this->coordY;
+    if (direction == constants::Directions::UP)
+    {
+        prevX = round(prevX);
+        this->subCoordY -= getTankSpeed() * constants::delay;
+        this->coordX = round(subCoordX);
+        this->subCoordX = this->coordX;
+        if (this->subCoordY <= this->coordY)
+            this->coordY -= 0.5;
+    }
+    if (direction == constants::Directions::LEFT)
+    {
+        prevY = round(prevY);
+        this->subCoordX -= getTankSpeed() * constants::delay;
+        this->coordY = round(subCoordY);
+        this->subCoordY = this->coordY;
+        if (this->subCoordX <= this->coordX)
+            this->coordX -= 0.5;
+    }
+    if (direction == constants::Directions::RIGHT)
+    {
+        prevY = round(prevY);
+        this->subCoordX += getTankSpeed() * constants::delay;
+        this->coordY = round(subCoordY);
+        this->subCoordY = this->coordY;
+        if (this->subCoordX <= this->coordX)
+            this->coordX += 0.5;
+    }
+    if (direction == constants::Directions::DOWN)
+    {
+        prevX = round(prevX);
+        this->subCoordY += getTankSpeed() * constants::delay;
+        this->coordX = round(subCoordX);
+        this->subCoordX = this->coordX;
+        if (this->subCoordY <= this->coordY)
+            this->coordY += 0.5;
+    }
+    if (collisionWithField(field, this->coordX, this->coordY))
+    {
+        this->subCoordX = this->coordX = prevX;
+        this->subCoordY = this->coordY = prevY;
+        direction = static_cast<constants::Directions>((static_cast<int>(direction) + 1) % 4);
+    }
+}
+

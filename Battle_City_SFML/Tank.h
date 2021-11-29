@@ -31,12 +31,14 @@ public:
     double getTankSpeed();
     void setVisibility(bool flag);
     bool isVisible();
+    int getAlreadyShot();
+    void setAlreadyShot(int value);
     std::vector <Bullet> getBullets();
     bool getIsMoving();//pixel per 1 second
     void draw(sf::RenderWindow& window, sf::Texture& texture_all, int animation);
     bool collisionWithField(Field& field, double prevX, double prevY, int spriteSize = 2);
     bool tankWithTankCollision(Tank& tank);
-    void tankDeath(Tank& tank);
+    bool tankDeath(Tank& tank);
     void control(sf::RenderWindow& window, Field& field, sf::Event& event);
     void bullet_shoot(sf::RenderWindow& window, sf::Event& event);
     void bullets_colision(Field& field);

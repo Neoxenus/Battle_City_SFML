@@ -128,6 +128,15 @@ std::vector<Bullet> Tank::getBullets()
     return bullets;
 }
 
+int Tank::getAlreadyShot()
+{
+    return alreadyShot;
+}
+void Tank::setAlreadyShot(int value)
+{
+    alreadyShot = value;
+}
+
 void Tank::draw(sf::RenderWindow& window, sf::Texture& texture_all, int animation)
 {
 	sf::Sprite sprite_all(texture_all);
@@ -276,7 +285,7 @@ bool Tank::collisionWithField(Field& field, double X, double Y, int spriteSize)
 //        return false;
 //}
 
-void Tank::tankDeath(Tank& tank)
+bool Tank::tankDeath(Tank& tank)
 {
     double x0 = this->coordX, y0 = this->coordY, x1 = x0 + 2, y1 = y0 + 2, xb0, yb0, xb1, yb1;
 
@@ -296,7 +305,7 @@ void Tank::tankDeath(Tank& tank)
                 {                   
                     tank.bullets.erase(bullets.begin() + i);
                     tank.setAlreadyShot(tank.getAlreadyShot() - 1);
-                    return;
+                    return true;
                 }
             }
             else
@@ -311,7 +320,7 @@ void Tank::tankDeath(Tank& tank)
                 {
                     tank.bullets.erase(bullets.begin() + i);
                     tank.setAlreadyShot(tank.getAlreadyShot() - 1);
-                    return;
+                    return true;
                 }
             }
         }
@@ -329,7 +338,7 @@ void Tank::tankDeath(Tank& tank)
                 {
                     tank.bullets.erase(bullets.begin() + i);
                     tank.setAlreadyShot(tank.getAlreadyShot() - 1);
-                    return;
+                    return true;
                 }
             }
             else
@@ -344,11 +353,13 @@ void Tank::tankDeath(Tank& tank)
                 {
                     tank.bullets.erase(bullets.begin() + i);
                     tank.setAlreadyShot(tank.getAlreadyShot() - 1);
-                    return;
+                    return true;
                 }
             }
         }
     }
+
+    return false;
 }
 
 std::vector<char*> Tank::sendToServer()
@@ -417,6 +428,12 @@ void Tank::moveAIRandomly(sf::RenderWindow& window, Field& field, sf::Event& eve
 {
     double prevX = this->coordX, prevY = this->coordY;
     moveAI(window, field, event);
+    if (rand() % 16 == 0)
+    {
+        if (direction == constants::Directions::UP)
+        {
+        }
+    }
     if (collisionWithField(field, this->coordX, this->coordY))
     {
         this->subCoordX = this->coordX = prevX;

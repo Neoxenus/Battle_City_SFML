@@ -109,8 +109,9 @@ int main()
         else
         {
                 if (!isMP )
-                 {
+                    {
                         timer = clock.getElapsedTime().asMilliseconds() / 1000.0;
+                        sf::Event event;
                         if (timer > delay)
                         {
                             while (window.pollEvent(event))
@@ -119,14 +120,10 @@ int main()
 
                                     if (event.type == sf::Event::Closed)
                                         window.close();
-                                    /*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-                                    {
-                                        isGameActive = false;
-                                        break;
-                                    }          */
-                            }
-                            if (!isGameActive)
-                                continue;
+                                    //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                                    //    isGameActive = false;
+                                }
+
                             for (int i = 0; i < tankAIRespawnTime.size(); ++i)
                             {
                                 if (timer > tankAIRespawnTime[i] && abs(timer - tankAIRespawnTime[i]) <= 15)

@@ -6,6 +6,9 @@ namespace constants
 	const int windowWidth = 768, windowHeight = 768;
 	const float zoom = 0.33f;
 	
+	const int defaultEnemyCount = 20;
+	const int defultPlayerLives = 2;
+
 	// font
 	const std::string fontFile = "../font/arial.ttf";
 	
@@ -39,7 +42,7 @@ namespace constants
 	};
 	const double statisticDefault[MAX_NUMBER_OF_STATISTICS_ITEMS]
 	{
-		0, 20, 2, 1
+		0, defaultEnemyCount, defultPlayerLives, 1
 	};
 
 	const double delay = 1.0 / 128;

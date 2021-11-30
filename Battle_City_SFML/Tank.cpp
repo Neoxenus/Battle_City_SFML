@@ -255,13 +255,17 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
     if (i != -1)
     {
         if (isMoving)
+        { 
             if(static_cast<int>(this->direction) == (static_cast<int>(tankAI[i].getDirection()) + 2) % 4)
                 tankAI[i].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[i].getDirection()) + 2) % 4));
+        }
         else
             tankAI[i].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[i].getDirection()) + 2) % 4));
 
         tankAI[i].setCoordX(tankAI[i].getPrX());
         tankAI[i].setCoordY(tankAI[i].getPrY());
+        tankAI[i].setSubCoordX(tankAI[i].getPrX());
+        tankAI[i].setSubCoordY(tankAI[i].getPrY());
 
         this->subCoordX = this->coordX = prevX;
         this->subCoordY = this->coordY = prevY;
@@ -326,26 +330,33 @@ bool Tank::collisionWithField(Field& field, double X, double Y)
 
 int Tank::tankWithTankCollision(std::vector<Tank>& tanks)
 {
-    double x, y;
+    double xenemy, yenemy, x, y;
     for (int i = 0; i < tanks.size(); ++i)
     {
         if (!tanks[i].isVisible())
             continue;
 
-        x = floor(tanks[i].getCoordX() * 2) / 2;
-        y = floor(tanks[i].getCoordY() * 2) / 2;
+        xenemy = tanks[i].getCoordX();
+        yenemy = tanks[i].getCoordY();
 
-        //x = floor(this->getCoordX());
-        //y = floor(this->getCoordY());
+        x = this->getCoordX();
+        y = this->getCoordY();
 
-        if (this->getCoordX() == x && this->getCoordY() == y)
+        if (x == xenemy && y == yenemy)
             continue;
 
-        if (((this->getCoordY() == y + 2 || this->getCoordY() == y + 1) && this->getCoordX() >= x - 1 && this->getCoordX() <= x + 1) ||
+        /*if (((this->getCoordY() == y + 2 || this->getCoordY() == y + 1) && this->getCoordX() >= x - 1 && this->getCoordX() <= x + 1) ||
             ((this->getCoordX() + 2 == x || this->getCoordX() + 1 == x) && this->getCoordY() >= y - 1 && this->getCoordY() <= y + 1) ||
             ((this->getCoordY() + 2 == y || this->getCoordY() + 1 == y) && this->getCoordX() >= x - 1 && this->getCoordX() <= x + 1) ||
             ((this->getCoordX() == x + 2 || this->getCoordX() == x + 1) && this->getCoordY() >= y - 1 && this->getCoordY() <= y + 1))
-                return i;
+                return i;*/
+
+        if ((this->direction == constants::Directions::UP || this->direction == constants::Directions::DOWN) && 
+            xenemy >= x - 1 && xenemy <= x + 1 && yenemy >= y - 2 && yenemy <= y + 2)
+            return i;
+        else if ((this->direction == constants::Directions::RIGHT || this->direction == constants::Directions::LEFT) && 
+            xenemy >= x - 2 && xenemy <= x + 2 && yenemy >= y - 1 && yenemy <= y + 1)
+            return i;
     }
         
     return -1;

@@ -255,13 +255,17 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
     if (i != -1)
     {
         if (isMoving)
+        { 
             if(static_cast<int>(this->direction) == (static_cast<int>(tankAI[i].getDirection()) + 2) % 4)
                 tankAI[i].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[i].getDirection()) + 2) % 4));
+        }
         else
             tankAI[i].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[i].getDirection()) + 2) % 4));
 
         tankAI[i].setCoordX(tankAI[i].getPrX());
         tankAI[i].setCoordY(tankAI[i].getPrY());
+        tankAI[i].setSubCoordX(tankAI[i].getPrX());
+        tankAI[i].setSubCoordY(tankAI[i].getPrY());
 
         this->subCoordX = this->coordX = prevX;
         this->subCoordY = this->coordY = prevY;
@@ -355,7 +359,6 @@ bool Tank::tankDeath(Tank& tank)
 {
     double x0 = this->coordX, y0 = this->coordY, x1 = x0 + 2, y1 = y0 + 2, xb0, yb0, xb1, yb1;
     std::vector<Bullet> bullets = tank.getBullets();
-
     for (int i = 0; i < tank.getBullets().size(); ++i)
     {
         if (tank.getBullets()[i].getDirection() == constants::Directions::UP || tank.getBullets()[i].getDirection() == constants::Directions::DOWN)
@@ -364,33 +367,33 @@ bool Tank::tankDeath(Tank& tank)
             {
                 xb0 = tank.getBullets()[i].getCoordX(); //- 1;
                 yb0 = tank.getBullets()[i].getCoordY();
-
                 xb1 = xb0 + 2;//3;
                 yb1 = yb0 + 6.0 / 8;;
 
-                if ((xb0 <= x0 && xb0 >= x0 - 1 || xb1 == x1) && (yb0 <= y1 && yb1 >= y0)) //&& xb1 >= x0 + 1) && (yb0 <= y1 && yb1 >= y0))
-                {                   
-                    bullets.erase(bullets.begin() + i);
-                    tank.setBullets(bullets);
-                    tank.setAlreadyShot(tank.getAlreadyShot() - 1);
-                    return true;
-                }
+                if ((xb0 <= x0 && xb0 >= x0 - 1 || xb1 <= x1 + 0.1 && xb1 >= x1 - 0.1) && (yb0 <= y1 && yb1 >= y0)) //&& xb1 >= x0 + 1) && (yb0 <= y1 && yb1 >= y0))
+                    if ((xb0 <= x0 && xb0 >= x0 - 1 || xb1 == x1) && (yb0 <= y1 && yb1 >= y0)) //&& xb1 >= x0 + 1) && (yb0 <= y1 && yb1 >= y0))
+                    {
+                        bullets.erase(bullets.begin() + i);
+                        tank.setBullets(bullets);
+                        tank.setAlreadyShot(tank.getAlreadyShot() - 1);
+                        return true;
+                    }
             }
             else
             {
                 xb0 = tank.getBullets()[i].getCoordX(); //- 1;
                 yb0 = tank.getBullets()[i].getCoordY() + 6.0 / 8;
-
                 xb1 = xb0 + 2;//3;
                 yb1 = yb0 - 6.0 / 8;
 
-                if ((xb0 <= x0 && xb0 >= x0 - 1 || xb1 == x1) && (yb0 >= y0 && yb1 <= y1))
-                {
-                    bullets.erase(bullets.begin() + i);
-                    tank.setBullets(bullets);
-                    tank.setAlreadyShot(tank.getAlreadyShot() - 1);
-                    return true;
-                }
+                if ((xb0 <= x0 && xb0 >= x0 - 1 || xb1 <= x1 && xb1 >= x0 - 1) && (yb0 >= y0 && yb1 <= y1))
+                    if ((xb0 <= x0 && xb0 >= x0 - 1 || xb1 == x1) && (yb0 >= y0 && yb1 <= y1))
+                    {
+                        bullets.erase(bullets.begin() + i);
+                        tank.setBullets(bullets);
+                        tank.setAlreadyShot(tank.getAlreadyShot() - 1);
+                        return true;
+                    }
             }
         }
         else if (tank.getBullets()[i].getDirection() == constants::Directions::RIGHT || tank.getBullets()[i].getDirection() == constants::Directions::LEFT)
@@ -399,39 +402,39 @@ bool Tank::tankDeath(Tank& tank)
             {
                 xb0 = tank.getBullets()[i].getCoordX() + 6.0 / 8;
                 yb0 = tank.getBullets()[i].getCoordY(); //- 1;
-
                 xb1 = xb0 - 6.0 / 8;
                 yb1 = yb0 + 2;//3;
 
-                if ((yb0 <= y0 && yb0 >= y0 - 1 || yb1 == y1) && (xb0 >= x0 && xb1 <= x1))
-                {
-                    bullets.erase(bullets.begin() + i);
-                    tank.setBullets(bullets);
-                    tank.setAlreadyShot(tank.getAlreadyShot() - 1);
-                    return true;
-                }
+                if ((yb0 <= y0 && yb0 >= y0 - 1 || yb1 <= y1 && yb1 >= y0 - 1) && (xb0 >= x0 && xb1 <= x1))
+                    if ((yb0 <= y0 && yb0 >= y0 - 1 || yb1 == y1) && (xb0 >= x0 && xb1 <= x1))
+                    {
+                        bullets.erase(bullets.begin() + i);
+                        tank.setBullets(bullets);
+                        tank.setAlreadyShot(tank.getAlreadyShot() - 1);
+                        return true;
+                    }
             }
             else
             {
                 xb0 = tank.getBullets()[i].getCoordX();
                 yb0 = tank.getBullets()[i].getCoordY();//- 1;
-
                 xb1 = xb0 + 6.0 / 8;
                 yb1 = yb0 + 2;// 3;
 
-                if ((yb0 <= y0 && yb0 >= y0 - 1 || yb1 == y1) && (xb0 <= x1 && xb1 >= x0)) //&& yb1 >= y0 - 1) && (xb0 <= x1 && xb1 >= x0))
-                {
-                    bullets.erase(bullets.begin() + i);
-                    tank.setBullets(bullets);
-                    tank.setAlreadyShot(tank.getAlreadyShot() - 1);
-                    return true;
-                }
+                if ((yb0 <= y0 && yb0 >= y0 - 1 || yb1 <= y1 + 0.1 && yb1 >= y1 - 0.1) && (xb0 <= x1 && xb1 >= x0)) //&& yb1 >= y0 - 1) && (xb0 <= x1 && xb1 >= x0))
+                    if ((yb0 <= y0 && yb0 >= y0 - 1 || yb1 == y1) && (xb0 <= x1 && xb1 >= x0)) //&& yb1 >= y0 - 1) && (xb0 <= x1 && xb1 >= x0))
+                    {
+                        bullets.erase(bullets.begin() + i);
+                        tank.setBullets(bullets);
+                        tank.setAlreadyShot(tank.getAlreadyShot() - 1);
+                        return true;
+                    }
             }
         }
     }
-
     return false;
 }
+
 
 std::vector<char*> Tank::sendToServer()
 {

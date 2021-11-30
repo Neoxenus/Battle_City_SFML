@@ -10,6 +10,26 @@ Field::~Field()
 {
 }
 
+void Field::setPlayerLives(int val)
+{
+	this->playerLives = val;
+}
+
+int Field::getPlayerLives()
+{
+	return this->playerLives;
+}
+
+void Field::setEnemyCount(int val)
+{
+	this->enemyCount = val;
+}
+
+int Field::getEnemyCount()
+{
+	return this->enemyCount;
+}
+
 int Field::getField(int x, int y)
 {
 	if (x < 0 || x >= constants::FIELD_WIDTH || y < 0 || y >= constants::FIELD_HEIGHT)
@@ -38,6 +58,8 @@ void Field::setField(const std::vector<std::vector<int>>& level)
 		}
 	this->setField(13,27, constants::BRICK1111);
 	this->setField(16, 27, constants::BRICK1111);
+	playerLives = constants::defultPlayerLives;
+	enemyCount = constants::defaultEnemyCount;
 }
 
 void Field::draw(sf::RenderWindow& window, sf::Texture& texture_block, sf::Texture& texture_base)

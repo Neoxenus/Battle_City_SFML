@@ -16,6 +16,7 @@ public:
 	int getPlayerLives();
 	void setEnemyCount(int val);
 	int getEnemyCount();
+	bool isBaseAlive();
 
 	int getField(int x, int y);
 	void setField(int x, int y, constants::Tiles value);

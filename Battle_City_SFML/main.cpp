@@ -239,11 +239,13 @@ int main()
                     //    //exit(1);
                     //}
 
+
                     window.clear(sf::Color::Black);
-                    field1.draw(window, texture_block, texture_base);
-                    tank1.draw(window, texture_all); // coord in tiles // spawn tank
+
                     tank1.control(window, field1, event, tankAI);
                     tank1.bullets_colision(field1);
+                    field1.draw(window, texture_block, texture_base);
+                    tank1.draw(window, texture_all); // coord in tiles // spawn tank
                     stat.draw(window);
                     for (auto& tank : tankAI)
                         if (tank.isVisible())
@@ -253,6 +255,14 @@ int main()
                     window.display();
 
                     //clock.restart();
+                    if (!field1.isBaseAlive() || field1.getPlayerLives()==0)
+                    {
+
+                        Sleep(500);
+                        std::cout << "Game over!\0";
+                        isGameActive = false;
+                        continue;
+                    }
                 }
                 if (timer > constants::delay * 128 * 256)
                 {

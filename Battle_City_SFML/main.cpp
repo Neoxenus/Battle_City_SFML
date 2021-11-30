@@ -58,7 +58,7 @@ int main()
     double timer = 0, mainTimer = 0;
     int fps = 0;
     double delay = constants::delay;
-
+    std::vector<Bullet> tmpBullets;
     bool isGameActive = false;
     bool isMP = false , isHost = false;
     while (window.isOpen())
@@ -160,16 +160,23 @@ int main()
                     tank1.animation(fps);
                     for (int i = 0; i < tankAI.size(); ++i)
                     {
-                        /*for (int j = 0; j < tankAI[i].getBullets().size(); ++i)
+                        if (tankAI[i].isVisible())
                         {
-                            if (tank1.getBullets().size() > 0 && tankAI[i].getBullets()[j].bulletWithBulletCollision(tankAI[i].getBullets()[j], tank1.getBullets()[0]))
+                            for (int j = 0; j < tankAI[i].getBullets().size(); ++j)
                             {
-                                tank1.getBullets().erase(tank1.getBullets().begin());
-                                tank1.setAlreadyShot(tank1.getAlreadyShot() - 1);
-                                tankAI[i].getBullets().erase(tankAI[i].getBullets().begin() + j);
-                                tankAI[i].setAlreadyShot(tankAI[i].getAlreadyShot() - 1);
+                                if (tank1.getBullets().size() > 0 && tankAI[i].getBullets()[j].bulletWithBulletCollision(tank1.getBullets()[0]))
+                                {
+                                    tmpBullets = tank1.getBullets();
+                                    tmpBullets.erase(tmpBullets.begin());
+                                    tank1.setBullets(tmpBullets);
+                                    tank1.setAlreadyShot(tank1.getAlreadyShot() - 1);
+                                    tmpBullets = tankAI[i].getBullets();
+                                    tmpBullets.erase(tmpBullets.begin() + j);
+                                    tankAI[i].setBullets(tmpBullets);
+                                    tankAI[i].setAlreadyShot(tankAI[i].getAlreadyShot() - 1);
+                                }
                             }
-                        }*/
+                        }
                         if (tankAI[i].isVisible())
                         {
                             if (rand() % 64 == 0)

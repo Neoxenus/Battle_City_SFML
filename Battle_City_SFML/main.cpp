@@ -9,6 +9,8 @@
 #include "StatisticBox.h"
 //при каждой отрисовке танка рисовать все пули?
 
+#define godMode 1
+
 void newGame(Tank& tank1, std::vector<Tank>& tankAI, Field& field1, std::vector<double>& tankAIRespawnTime)
 {
     field1.setField(constants::field1);
@@ -206,7 +208,7 @@ int main()
                                 continue;
                             } 
                         }
-                        if (tankAI[i].isVisible() && tank1.tankDeath(tankAI[i]))
+                        if (tankAI[i].isVisible() && tank1.tankDeath(tankAI[i]) && !godMode)
                         {
                             field1.setPlayerLives(field1.getPlayerLives() - 1);
                             tank1.setDirection(constants::Directions::UP);

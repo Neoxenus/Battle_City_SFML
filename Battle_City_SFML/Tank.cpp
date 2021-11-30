@@ -351,7 +351,11 @@ int Tank::tankWithTankCollision(std::vector<Tank>& tanks)
             ((this->getCoordX() == x + 2 || this->getCoordX() == x + 1) && this->getCoordY() >= y - 1 && this->getCoordY() <= y + 1))
                 return i;*/
 
-        if (xenemy >= x - 1 && xenemy <= x + 1 && yenemy >= y - 1.5 && yenemy <= y + 1.5)
+        if ((this->direction == constants::Directions::UP || this->direction == constants::Directions::DOWN) && 
+            xenemy >= x - 1 && xenemy <= x + 1 && yenemy >= y - 2 && yenemy <= y + 2)
+            return i;
+        else if ((this->direction == constants::Directions::RIGHT || this->direction == constants::Directions::LEFT) && 
+            xenemy >= x - 2 && xenemy <= x + 2 && yenemy >= y - 1 && yenemy <= y + 1)
             return i;
     }
         

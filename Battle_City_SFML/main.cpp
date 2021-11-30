@@ -173,10 +173,19 @@ int main()
                         }
                         if (tankAI[i].isVisible() && tankAI[i].tankDeath(tank1))
                         {
+                            field1.setEnemyCount(field1.getEnemyCount()-1);
+                            stat.SetStatistics(field1.getEnemyCount(), static_cast<int>(constants::Stat::ENEMIES));
                             tankAI[i].setVisibility(false);
                             tankAI[i].setCoordX(-10);
                             tankAI[i].setCoordY(-10);
                             tankAIRespawnTime[i] = (static_cast<int>(timer) + 3) % 256;
+                            if (field1.getEnemyCount() == 0)
+                            {
+                                std::cout << "You win!\0";
+                                isGameActive = false;
+                                continue;
+                            }
+                          
                         }
                     }
 

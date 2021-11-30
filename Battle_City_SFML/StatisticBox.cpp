@@ -52,3 +52,12 @@ long double StatisticBox::GetStatistics(int type)
 		exit(-5);
 	return values[type];
 }
+
+void StatisticBox::statisticReset()
+{
+	for (int i = 0; i < constants::MAX_NUMBER_OF_STATISTICS_ITEMS; i++)
+	{
+		values[i] = constants::statisticDefault[i];
+		SetStatistics(values[i], i);
+	}
+}

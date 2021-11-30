@@ -330,26 +330,29 @@ bool Tank::collisionWithField(Field& field, double X, double Y)
 
 int Tank::tankWithTankCollision(std::vector<Tank>& tanks)
 {
-    double x, y;
+    double xenemy, yenemy, x, y;
     for (int i = 0; i < tanks.size(); ++i)
     {
         if (!tanks[i].isVisible())
             continue;
 
-        x = floor(tanks[i].getCoordX() * 2) / 2;
-        y = floor(tanks[i].getCoordY() * 2) / 2;
+        xenemy = tanks[i].getCoordX();
+        yenemy = tanks[i].getCoordY();
 
-        //x = floor(this->getCoordX());
-        //y = floor(this->getCoordY());
+        x = this->getCoordX();
+        y = this->getCoordY();
 
-        if (this->getCoordX() == x && this->getCoordY() == y)
+        if (x == xenemy && y == yenemy)
             continue;
 
-        if (((this->getCoordY() == y + 2 || this->getCoordY() == y + 1) && this->getCoordX() >= x - 1 && this->getCoordX() <= x + 1) ||
+        /*if (((this->getCoordY() == y + 2 || this->getCoordY() == y + 1) && this->getCoordX() >= x - 1 && this->getCoordX() <= x + 1) ||
             ((this->getCoordX() + 2 == x || this->getCoordX() + 1 == x) && this->getCoordY() >= y - 1 && this->getCoordY() <= y + 1) ||
             ((this->getCoordY() + 2 == y || this->getCoordY() + 1 == y) && this->getCoordX() >= x - 1 && this->getCoordX() <= x + 1) ||
             ((this->getCoordX() == x + 2 || this->getCoordX() == x + 1) && this->getCoordY() >= y - 1 && this->getCoordY() <= y + 1))
-                return i;
+                return i;*/
+
+        if (xenemy >= x - 1 && xenemy <= x + 1 && yenemy >= y - 1.5 && yenemy <= y + 1.5)
+            return i;
     }
         
     return -1;

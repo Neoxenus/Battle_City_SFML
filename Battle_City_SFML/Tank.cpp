@@ -254,13 +254,19 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
     int i = tankWithTankCollision(tankAI);
     if (i != -1)
     {
-        tankAI[i].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[i].getDirection()) + 2) % 4));
+        if (isMoving)
+            if(static_cast<int>(this->direction) == (static_cast<int>(tankAI[i].getDirection()) + 2) % 4)
+                tankAI[i].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[i].getDirection()) + 2) % 4));
+        else
+            tankAI[i].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[i].getDirection()) + 2) % 4));
+
         tankAI[i].setCoordX(tankAI[i].getPrX());
         tankAI[i].setCoordY(tankAI[i].getPrY());
 
         this->subCoordX = this->coordX = prevX;
         this->subCoordY = this->coordY = prevY;
     }
+
     if (collisionWithField(field, this->coordX, this->coordY))
     {
         this->subCoordX = this->coordX = prevX;
@@ -325,8 +331,12 @@ int Tank::tankWithTankCollision(std::vector<Tank>& tanks)
     {
         if (!tanks[i].isVisible())
             continue;
+
         x = floor(tanks[i].getCoordX() * 2) / 2;
         y = floor(tanks[i].getCoordY() * 2) / 2;
+
+        //x = floor(this->getCoordX());
+        //y = floor(this->getCoordY());
 
         if (this->getCoordX() == x && this->getCoordY() == y)
             continue;
@@ -358,7 +368,7 @@ bool Tank::tankDeath(Tank& tank)
                 xb1 = xb0 + 2;//3;
                 yb1 = yb0 + 6.0 / 8;;
 
-                if ((xb0 <= x0 && xb0 >= x0 - 1 || xb1 <= x1 + 0.1 && xb1 >= x1 - 0.1) && (yb0 <= y1 && yb1 >= y0)) //&& xb1 >= x0 + 1) && (yb0 <= y1 && yb1 >= y0))
+                if ((xb0 <= x0 && xb0 >= x0 - 1 || xb1 == x1) && (yb0 <= y1 && yb1 >= y0)) //&& xb1 >= x0 + 1) && (yb0 <= y1 && yb1 >= y0))
                 {                   
                     bullets.erase(bullets.begin() + i);
                     tank.setBullets(bullets);
@@ -374,7 +384,7 @@ bool Tank::tankDeath(Tank& tank)
                 xb1 = xb0 + 2;//3;
                 yb1 = yb0 - 6.0 / 8;
 
-                if ((xb0 <= x0 && xb0 >= x0 - 1 || xb1 <= x1 && xb1 >= x0 - 1) && (yb0 >= y0 && yb1 <= y1))
+                if ((xb0 <= x0 && xb0 >= x0 - 1 || xb1 == x1) && (yb0 >= y0 && yb1 <= y1))
                 {
                     bullets.erase(bullets.begin() + i);
                     tank.setBullets(bullets);
@@ -393,7 +403,7 @@ bool Tank::tankDeath(Tank& tank)
                 xb1 = xb0 - 6.0 / 8;
                 yb1 = yb0 + 2;//3;
 
-                if ((yb0 <= y0 && yb0 >= y0 - 1 || yb1 <= y1 && yb1 >= y0 - 1) && (xb0 >= x0 && xb1 <= x1))
+                if ((yb0 <= y0 && yb0 >= y0 - 1 || yb1 == y1) && (xb0 >= x0 && xb1 <= x1))
                 {
                     bullets.erase(bullets.begin() + i);
                     tank.setBullets(bullets);
@@ -409,7 +419,7 @@ bool Tank::tankDeath(Tank& tank)
                 xb1 = xb0 + 6.0 / 8;
                 yb1 = yb0 + 2;// 3;
 
-                if ((yb0 <= y0 && yb0 >= y0 - 1 || yb1 <= y1 + 0.1 && yb1 >= y1 - 0.1) && (xb0 <= x1 && xb1 >= x0)) //&& yb1 >= y0 - 1) && (xb0 <= x1 && xb1 >= x0))
+                if ((yb0 <= y0 && yb0 >= y0 - 1 || yb1 == y1) && (xb0 <= x1 && xb1 >= x0)) //&& yb1 >= y0 - 1) && (xb0 <= x1 && xb1 >= x0))
                 {
                     bullets.erase(bullets.begin() + i);
                     tank.setBullets(bullets);
@@ -446,9 +456,13 @@ std::vector<char*> Tank::sendToServer()
 
 void Tank::moveAI(sf::RenderWindow& window, Field& field, sf::Event& event, std::vector<Tank>& tankAI, double& prevX, double& prevY)
 {
+    prX = prevX;
+    prY = prevY;
+
     if (direction == constants::Directions::UP)
     {
         prevX = round(prevX);
+        prX = prevX;
         this->subCoordY -= getTankSpeed() * constants::delay;
         this->coordX = round(subCoordX);
         this->subCoordX = this->coordX;
@@ -458,6 +472,7 @@ void Tank::moveAI(sf::RenderWindow& window, Field& field, sf::Event& event, std:
     if (direction == constants::Directions::LEFT)
     {
         prevY = round(prevY);
+        prY = prevY;
         this->subCoordX -= getTankSpeed() * constants::delay;
         this->coordY = round(subCoordY);
         this->subCoordY = this->coordY;
@@ -467,6 +482,7 @@ void Tank::moveAI(sf::RenderWindow& window, Field& field, sf::Event& event, std:
     if (direction == constants::Directions::RIGHT)
     {
         prevY = round(prevY);
+        prY = prevY;
         this->subCoordX += getTankSpeed() * constants::delay;
         this->coordY = round(subCoordY);
         this->subCoordY = this->coordY;
@@ -476,6 +492,7 @@ void Tank::moveAI(sf::RenderWindow& window, Field& field, sf::Event& event, std:
     if (direction == constants::Directions::DOWN)
     {
         prevX = round(prevX);
+        prX = prevX;
         this->subCoordY += getTankSpeed() * constants::delay;
         this->coordX = round(subCoordX);
         this->subCoordX = this->coordX;
@@ -483,7 +500,7 @@ void Tank::moveAI(sf::RenderWindow& window, Field& field, sf::Event& event, std:
             this->coordY += 0.5;
     }
 
-    int i = tankWithTankCollision(tankAI);
+    //int i = tankWithTankCollision(tankAI);
     //if (i != -1)
     //{
     //    tankAI[i].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[i].getDirection()) + 2) % 4));

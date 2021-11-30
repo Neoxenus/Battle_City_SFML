@@ -135,22 +135,30 @@ int main()
                         //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                         //    isGameActive = false;
                     }
+                    bool next = false;
                     for (int i = 0; i < tankAIRespawnTime.size(); ++i)
-                    {
+                    { 
                         if (timer > tankAIRespawnTime[i] && abs(timer - tankAIRespawnTime[i]) <= 15)
                         {
                             int xSpawn = rand() % 3;
                             for (int j = 0; j < tankAI.size(); ++j)
                             {
-                                if (abs(tankAI[j].getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn])) <= 2.0 && tankAI[j].getCoordY() - (constants::DEFAULT_ENEMY_COORD_Y) <= 2.0)
-                                {
-                                    tankAIRespawnTime[i] = (static_cast<int>(tankAIRespawnTime[i]) + 3) % 256;
-                                    continue;
-                                }
+                                if(tankAI[j].isVisible())
+                                    if (abs(tankAI[j].getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn])) <= 2.0 && abs(tankAI[j].getCoordY() - (constants::DEFAULT_ENEMY_COORD_Y)) <= 2.0)
+                                    {
+                                        tankAIRespawnTime[i] = (static_cast<int>(tankAIRespawnTime[i]) + 3) % 256;
+                                        next = true;
+                                        break;
+                                    }
                             }
-                            if (abs(tank1.getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn])) <= 2.0 && tank1.getCoordY() - (constants::DEFAULT_ENEMY_COORD_Y) <= 2.0)
+                            if (next)
                             {
-                                tankAIRespawnTime[i] = static_cast<int>(tankAIRespawnTime[i] + 3) % 256;
+                                next = false;
+                                continue;
+                            }
+                            if (abs(tank1.getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn])) <= 2.0 && abs(tank1.getCoordY() - (constants::DEFAULT_ENEMY_COORD_Y)) <= 2.0)
+                            {
+                                tankAIRespawnTime[i] = (static_cast<int>(tankAIRespawnTime[i] + 3)) % 256;
                                 continue;
                             }
                             tankAI[i].setVisibility(true);

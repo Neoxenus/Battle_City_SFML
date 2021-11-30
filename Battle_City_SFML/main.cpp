@@ -48,7 +48,8 @@ int main()
     view.zoom(constants::zoom);
     window.setView(view);
    
-    Menu menu(768, 768, constants::MAX_NUMBER_OPTIONS_MAIN_MENU, constants::mainMenu);
+    Menu menu(constants::windowWidth,constants::windowHeight, 
+        constants::MAX_NUMBER_OPTIONS_MAIN_MENU, constants::mainMenu, constants::menuOffset,constants::fontSize);
 
     sf::Clock clock;
     double timer = 0;

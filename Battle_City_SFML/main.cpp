@@ -42,7 +42,7 @@ int main()
     std::vector<Tank> tankAI{ {false, 0}, {false, 0}, {false, 0}, {false, 0} };
     std::vector<double> tankAIRespawnTime{ 0.0, 3.0, 6.0, 9.0};
 
-    sf::RenderWindow window(sf::VideoMode(768, 768), "", sf::Style::Titlebar | sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode(constants::windowWidth, constants::windowHeight), "", sf::Style::Titlebar | sf::Style::Close);
     window.setFramerateLimit(240);
     sf::View view = window.getDefaultView();
 
@@ -52,8 +52,8 @@ int main()
     Menu menu(constants::windowWidth,constants::windowHeight, 
         constants::MAX_NUMBER_OPTIONS_MAIN_MENU, constants::mainMenu, constants::menuOffset,constants::fontSize);
     StatisticBox stat(0, constants::windowHeight, 1+(constants::FIELD_WIDTH -4)* constants::TILES_LENGHT, 2* constants::TILES_LENGHT);
-    sf::Clock clock;
-    double timer = 0;
+    sf::Clock clock, mainClock;
+    double timer = 0, mainTimer = 0;
     int fps = 0;
     double delay = constants::delay;
 
@@ -80,10 +80,10 @@ int main()
                     {
                     case 0://new s0l0 game
                         newGame(tank1, tankAI, field1);
-                        clock.restart();
+                        clock.restart(); mainClock.restart();
                         isGameActive = true;
                         isMP = false;
-                        timer = 0;
+                        timer = 0; mainTimer = 0;
                         fps = 0;
                         delay = constants::delay;
                         break;
@@ -113,6 +113,8 @@ int main()
             if (!isMP)
             {
                 timer = clock.getElapsedTime().asMilliseconds() / 1000.0;
+                mainTimer = mainClock.getElapsedTime().asSeconds();
+                stat.SetStatistics(static_cast<long>(mainTimer), static_cast<int>(constants::Stat::TIME));
                 sf::Event event;
                 if (timer > delay)
                 {
@@ -133,7 +135,7 @@ int main()
                             int xSpawn = rand() % 3;
                             for (int i = 0; i < tankAI.size(); ++i)
                             {
-                                if (tankAI[i].getCoordX() <= constants::DEFAULT_ENEMY_COORD_X[xSpawn] + 2 + 0.5 && tankAI[i].getCoordY() <= 4.5)
+                                if ((tankAI[i].getCoordX() - constants::DEFAULT_ENEMY_COORD_X[xSpawn] + 2 + 0.5) <= 2.0 && tankAI[i].getCoordY() <= 4.5)
                                 {
                                     tankAIRespawnTime[i] = static_cast<int>(tankAIRespawnTime[i] + 3) % 256;
                                     continue;

@@ -181,6 +181,7 @@ int main()
                             if (field1.getEnemyCount() == 0)
                             {
                                 std::cout << "You win!\0";
+                                Sleep(1000);
                                 isGameActive = false;
                                 continue;
                             } 
@@ -193,6 +194,7 @@ int main()
                             tank1.setSubCoordX(constants::DEFAULT_PLAYER_COORD_X[0]);
                             tank1.setCoordY(constants::DEFAULT_PLAYER_COORD_Y);
                             tank1.setSubCoordY(constants::DEFAULT_PLAYER_COORD_Y);
+                            stat.SetStatistics(field1.getPlayerLives(), static_cast<int>(constants::Stat::HP));
                         }
                     }
 
@@ -246,11 +248,13 @@ int main()
                     //    //exit(1);
                     //}
 
+
                     window.clear(sf::Color::Black);
-                    field1.draw(window, texture_block, texture_base);
-                    tank1.draw(window, texture_all); // coord in tiles // spawn tank
+
                     tank1.control(window, field1, event, tankAI);
                     tank1.bullets_colision(field1);
+                    field1.draw(window, texture_block, texture_base);
+                    tank1.draw(window, texture_all); // coord in tiles // spawn tank
                     stat.draw(window);
                     for (auto& tank : tankAI)
                         if (tank.isVisible())
@@ -260,6 +264,15 @@ int main()
                     window.display();
 
                     //clock.restart();
+                    if (!field1.isBaseAlive() || field1.getPlayerLives()<=0)
+                    {
+
+                        
+                        std::cout << "Game over!\0";
+                        Sleep(1000);
+                        isGameActive = false;
+                        continue;
+                    }
                 }
                 if (timer > constants::delay * 128 * 256)
                 {

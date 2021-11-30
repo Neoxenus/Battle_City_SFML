@@ -127,7 +127,6 @@ int main()
                         //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                         //    isGameActive = false;
                     }
-
                     for (int i = 0; i < tankAIRespawnTime.size(); ++i)
                     {
                         if (timer > tankAIRespawnTime[i] && abs(timer - tankAIRespawnTime[i]) <= 15)
@@ -135,7 +134,7 @@ int main()
                             int xSpawn = rand() % 3;
                             for (int j = 0; j < tankAI.size(); ++j)
                             {
-                                if (abs(tankAI[j].getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn] + 2 + 0.5)) <= 2.0 && tankAI[j].getCoordY() <= 4.5)
+                                if (abs(tankAI[j].getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn])) <= 2.0 && tankAI[j].getCoordY() <= 4.5)
                                 {
                                     tankAIRespawnTime[i] = (static_cast<int>(tankAIRespawnTime[i]) + 3) % 256;
                                     continue;
@@ -173,7 +172,7 @@ int main()
                         }
                         if (tankAI[i].isVisible() && tankAI[i].tankDeath(tank1))
                         {
-                            field1.setEnemyCount(field1.getEnemyCount()-1);
+                            field1.setEnemyCount(field1.getEnemyCount() - 1);
                             stat.SetStatistics(field1.getEnemyCount(), static_cast<int>(constants::Stat::ENEMIES));
                             tankAI[i].setVisibility(false);
                             tankAI[i].setCoordX(-10);
@@ -184,8 +183,16 @@ int main()
                                 std::cout << "You win!\0";
                                 isGameActive = false;
                                 continue;
-                            }
-                          
+                            } 
+                        }
+                        if (tankAI[i].isVisible() && tank1.tankDeath(tankAI[i]))
+                        {
+                            field1.setPlayerLives(field1.getPlayerLives() - 1);
+                            tank1.setDirection(constants::Directions::UP);
+                            tank1.setCoordX(constants::DEFAULT_PLAYER_COORD_X[0]);
+                            tank1.setSubCoordX(constants::DEFAULT_PLAYER_COORD_X[0]);
+                            tank1.setCoordY(constants::DEFAULT_PLAYER_COORD_Y);
+                            tank1.setSubCoordY(constants::DEFAULT_PLAYER_COORD_Y);
                         }
                     }
 

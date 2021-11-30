@@ -39,7 +39,7 @@ namespace constants
 	};
 	const double statisticDefault[MAX_NUMBER_OF_STATISTICS_ITEMS]
 	{
-		0, 10, 3, 1
+		0, 20, 2, 1
 	};
 
 	const double delay = 1.0 / 128;

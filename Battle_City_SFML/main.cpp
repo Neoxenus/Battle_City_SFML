@@ -9,13 +9,15 @@
 #include "StatisticBox.h"
 //при каждой отрисовке танка рисовать все пули?
 
-void newGame(Tank& tank1, std::vector<Tank>& tankAI, Field& field1)
+void newGame(Tank& tank1, std::vector<Tank>& tankAI, Field& field1, std::vector<double>& tankAIRespawnTime)
 {
     field1.setField(constants::field1);
     Tank buf(true, 0);
     tank1 = buf;
     std::vector<Tank> bufTankAI{ {false, 0}, {false, 0}, {false, 0}, {false, 0} };
     tankAI = bufTankAI;
+    std::vector<double> bufTankAIRespawnTime{ 0.0, 3.0, 6.0, 9.0 };
+    tankAIRespawnTime = bufTankAIRespawnTime;
 }
 
 int main()
@@ -79,13 +81,14 @@ int main()
                     switch (menu.choose(x, y))
                     {
                     case 0://new s0l0 game
-                        newGame(tank1, tankAI, field1);
+                        newGame(tank1, tankAI, field1, tankAIRespawnTime);
                         clock.restart(); mainClock.restart();
                         isGameActive = true;
                         isMP = false;
                         timer = 0; mainTimer = 0;
                         fps = 0;
                         delay = constants::delay;
+                        stat.statisticReset();
                         break;
                     case 1://new host
                         isGameActive = true;

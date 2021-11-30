@@ -21,7 +21,7 @@ namespace constants
 	};
 	//staticstics
 	const int MAX_NUMBER_OF_STATISTICS_ITEMS = 4;
-	const int staticsticFontSize = 8;
+	const int staticsticFontSize = 9;
 	enum class Stat
 	{
 		TIME,
@@ -32,14 +32,14 @@ namespace constants
 
 	const std::string statisticsText[MAX_NUMBER_OF_STATISTICS_ITEMS]
 	{
-		"Time:\n",
-		"Enemy:\n",
-		"HP: \n",
-		"Level:\n"
+		"Time\n",
+		"Enemy\n",
+		"HP \n",
+		"Level\n"
 	};
 	const double statisticDefault[MAX_NUMBER_OF_STATISTICS_ITEMS]
 	{
-		0, 10, 3, 1
+		0, 20, 2, 1
 	};
 
 	const double delay = 1.0 / 128;

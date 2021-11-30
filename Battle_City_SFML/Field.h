@@ -8,6 +8,7 @@ class Field
 	std::vector<std::vector<int>> field;
 	int enemyCount;
 	int playerLives;
+	int enemyToSpawn;
 public: 
 	Field();
 	~Field();
@@ -16,6 +17,8 @@ public:
 	int getPlayerLives();
 	void setEnemyCount(int val);
 	int getEnemyCount();
+	void setEnemyToSpawn(int val);
+	int getEnemyToSpawn();
 	bool isBaseAlive();
 
 	int getField(int x, int y);

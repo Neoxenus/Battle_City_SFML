@@ -148,12 +148,17 @@ int main()
                                 tankAIRespawnTime[i] = static_cast<int>(tankAIRespawnTime[i] + 3) % 256;
                                 continue;
                             }
-                            tankAI[i].setVisibility(true);
-                            tankAI[i].setCoordX(constants::DEFAULT_ENEMY_COORD_X[xSpawn]);
-                            tankAI[i].setSubCoordX(tankAI[i].getCoordX());
-                            tankAI[i].setCoordY(constants::DEFAULT_ENEMY_COORD_Y);
-                            tankAI[i].setSubCoordY(tankAI[i].getCoordY());
-                            tankAIRespawnTime[i] = 257;
+                            if (field1.getEnemyToSpawn() > 0)
+                            {
+                                tankAI[i].setVisibility(true);
+                                tankAI[i].setCoordX(constants::DEFAULT_ENEMY_COORD_X[xSpawn]);
+                                tankAI[i].setSubCoordX(tankAI[i].getCoordX());
+                                tankAI[i].setCoordY(constants::DEFAULT_ENEMY_COORD_Y);
+                                tankAI[i].setSubCoordY(tankAI[i].getCoordY());
+                                tankAIRespawnTime[i] = 257;
+                                field1.setEnemyToSpawn(field1.getEnemyToSpawn() - 1);
+                            }
+
                         }
                     }
 

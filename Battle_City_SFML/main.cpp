@@ -182,6 +182,7 @@ int main()
                             if (field1.getEnemyCount() == 0)
                             {
                                 std::cout << "You win!\0";
+                                Sleep(1000);
                                 isGameActive = false;
                                 continue;
                             }
@@ -255,11 +256,12 @@ int main()
                     window.display();
 
                     //clock.restart();
-                    if (!field1.isBaseAlive() || field1.getPlayerLives()==0)
+                    if (!field1.isBaseAlive() || field1.getPlayerLives()<=0)
                     {
 
-                        Sleep(500);
+                        
                         std::cout << "Game over!\0";
+                        Sleep(1000);
                         isGameActive = false;
                         continue;
                     }

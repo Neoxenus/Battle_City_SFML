@@ -20,6 +20,11 @@ void newGame(Tank& tank1, std::vector<Tank>& tankAI, Field& field1, std::vector<
     tankAIRespawnTime = bufTankAIRespawnTime;
 }
 
+int min(int a, int b)
+{
+    return (a > b) ? b : a;
+}
+
 int main()
 {
     srand(time(NULL)); // for random
@@ -58,7 +63,7 @@ int main()
     double timer = 0, mainTimer = 0;
     int fps = 0;
     double delay = constants::delay;
-
+    std::vector<Bullet> tmpBullets;
     bool isGameActive = false;
     bool isMP = false , isHost = false;
     while (window.isOpen())
@@ -130,22 +135,30 @@ int main()
                         //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                         //    isGameActive = false;
                     }
+                    bool next = false;
                     for (int i = 0; i < tankAIRespawnTime.size(); ++i)
-                    {
+                    { 
                         if (timer > tankAIRespawnTime[i] && abs(timer - tankAIRespawnTime[i]) <= 15)
                         {
                             int xSpawn = rand() % 3;
                             for (int j = 0; j < tankAI.size(); ++j)
                             {
-                                if (abs(tankAI[j].getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn])) <= 2.0 && tankAI[j].getCoordY() - (constants::DEFAULT_ENEMY_COORD_Y) <= 2.0)
-                                {
-                                    tankAIRespawnTime[i] = (static_cast<int>(tankAIRespawnTime[i]) + 3) % 256;
-                                    continue;
-                                }
+                                if(tankAI[j].isVisible())
+                                    if (abs(tankAI[j].getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn])) <= 2.0 && abs(tankAI[j].getCoordY() - (constants::DEFAULT_ENEMY_COORD_Y)) <= 2.0)
+                                    {
+                                        tankAIRespawnTime[i] = (static_cast<int>(tankAIRespawnTime[i]) + 3) % 256;
+                                        next = true;
+                                        break;
+                                    }
                             }
-                            if (abs(tank1.getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn])) <= 2.0 && tank1.getCoordY() - (constants::DEFAULT_ENEMY_COORD_Y) <= 2.0)
+                            if (next)
                             {
-                                tankAIRespawnTime[i] = static_cast<int>(tankAIRespawnTime[i] + 3) % 256;
+                                next = false;
+                                continue;
+                            }
+                            if (abs(tank1.getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn])) <= 2.0 && abs(tank1.getCoordY() - (constants::DEFAULT_ENEMY_COORD_Y)) <= 2.0)
+                            {
+                                tankAIRespawnTime[i] = (static_cast<int>(tankAIRespawnTime[i] + 3)) % 256;
                                 continue;
                             }
                             if (field1.getEnemyToSpawn() > 0)
@@ -165,16 +178,23 @@ int main()
                     tank1.animation(fps);
                     for (int i = 0; i < tankAI.size(); ++i)
                     {
-                        /*for (int j = 0; j < tankAI[i].getBullets().size(); ++i)
+                        if (tankAI[i].isVisible())
                         {
-                            if (tank1.getBullets().size() > 0 && tankAI[i].getBullets()[j].bulletWithBulletCollision(tankAI[i].getBullets()[j], tank1.getBullets()[0]))
+                            for (int j = 0; j < tankAI[i].getBullets().size(); ++j)
                             {
-                                tank1.getBullets().erase(tank1.getBullets().begin());
-                                tank1.setAlreadyShot(tank1.getAlreadyShot() - 1);
-                                tankAI[i].getBullets().erase(tankAI[i].getBullets().begin() + j);
-                                tankAI[i].setAlreadyShot(tankAI[i].getAlreadyShot() - 1);
+                                if (tank1.getBullets().size() > 0 && tankAI[i].getBullets()[j].bulletWithBulletCollision(tank1.getBullets()[0]))
+                                {
+                                    tmpBullets = tank1.getBullets();
+                                    tmpBullets.erase(tmpBullets.begin());
+                                    tank1.setBullets(tmpBullets);
+                                    tank1.setAlreadyShot(tank1.getAlreadyShot() - 1);
+                                    tmpBullets = tankAI[i].getBullets();
+                                    tmpBullets.erase(tmpBullets.begin() + j);
+                                    tankAI[i].setBullets(tmpBullets);
+                                    tankAI[i].setAlreadyShot(tankAI[i].getAlreadyShot() - 1);
+                                }
                             }
-                        }*/
+                        }
                         if (tankAI[i].isVisible())
                         {
                             if (rand() % 64 == 0)

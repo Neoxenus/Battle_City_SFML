@@ -433,7 +433,7 @@ bool Tank::tankDeath(Tank& tank)
 
                 //if ((yb0 <= y0 && yb0 >= y0 - 1 || yb1 <= y1 + 0.1 && yb1 >= y1 - 0.1) && (xb0 <= x1 && xb1 >= x0)) //&& yb1 >= y0 - 1) && (xb0 <= x1 && xb1 >= x0))
                     //if ((yb0 <= y0 && yb0 >= y0 - 1 || yb1 == y1) && (xb0 <= x1 && xb1 >= x0)) //&& yb1 >= y0 - 1) && (xb0 <= x1 && xb1 >= x0))
-                    if (xb0 >= x0 - 2 && xb0 <= x0 + 6.0  / 8 && yb0 >= y0 - 1 && yb0 <= y0 + 1)
+                    if (xb0 >= x0 - 0.6 / 8 && xb0 <= x0 + 2  / 8 && yb0 >= y0 - 1 && yb0 <= y0 + 1)
                     {
                         bullets.erase(bullets.begin() + i);
                         tank.setBullets(bullets);

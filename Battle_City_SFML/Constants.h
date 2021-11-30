@@ -8,16 +8,38 @@ namespace constants
 	
 	// font
 	const std::string fontFile = "../font/arial.ttf";
-
+	
 	//menu
 	const int menuOffset = 30;//px
 	const int fontSize = 20;
 	const int MAX_NUMBER_OPTIONS_MAIN_MENU = 3;
-	const std::string mainMenu[MAX_NUMBER_OPTIONS_MAIN_MENU] =
+	const std::string mainMenu[MAX_NUMBER_OPTIONS_MAIN_MENU]
 	{
 		"Solo game",
 		"Co-op game, host",
 		"Co-op game, client"
+	};
+	//staticstics
+	const int MAX_NUMBER_OF_STATISTICS_ITEMS = 4;
+	const int staticsticFontSize = 8;
+	enum class Stat
+	{
+		TIME,
+		ENEMIES,
+		HP,
+		LEVEL,
+	};
+
+	const std::string statisticsText[MAX_NUMBER_OF_STATISTICS_ITEMS]
+	{
+		"Time:\n",
+		"Enemy:\n",
+		"HP: \n",
+		"Level:\n"
+	};
+	const double statisticDefault[MAX_NUMBER_OF_STATISTICS_ITEMS]
+	{
+		0, 10, 3, 1
 	};
 
 	const double delay = 1.0 / 128;

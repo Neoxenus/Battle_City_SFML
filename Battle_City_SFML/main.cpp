@@ -6,6 +6,7 @@
 #include <iostream>
 #include "windows.h"
 #include "Menu.h"
+#include "StatisticBox.h"
 //при каждой отрисовке танка рисовать все пули?
 
 void newGame(Tank& tank1, std::vector<Tank>& tankAI, Field& field1)
@@ -25,7 +26,7 @@ int main()
     HWND Hide;
     AllocConsole();
     Hide = FindWindowA("ConsoleWindowClass", NULL);
-    ShowWindow(Hide, 1);
+    ShowWindow(Hide, 1);//1 - show, 0 - hide
     //
 
     sf::Texture texture_all;
@@ -50,7 +51,7 @@ int main()
    
     Menu menu(constants::windowWidth,constants::windowHeight, 
         constants::MAX_NUMBER_OPTIONS_MAIN_MENU, constants::mainMenu, constants::menuOffset,constants::fontSize);
-
+    StatisticBox stat(0, constants::windowHeight, 1+(constants::FIELD_WIDTH -4)* constants::TILES_LENGHT, 2* constants::TILES_LENGHT);
     sf::Clock clock;
     double timer = 0;
     int fps = 0;
@@ -65,6 +66,8 @@ int main()
         {
             while (window.pollEvent(event))
             {
+                if (isGameActive)
+                    break;
                 if (event.type == sf::Event::Closed)
                     window.close();
                 if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left)
@@ -213,7 +216,7 @@ int main()
                     tank1.draw(window, texture_all); // coord in tiles // spawn tank
                     tank1.control(window, field1, event, tankAI);
                     tank1.bullets_colision(field1);
-
+                    stat.draw(window);
                     for (auto& tank : tankAI)
                         if (tank.isVisible())
                             tank.draw(window, texture_all);

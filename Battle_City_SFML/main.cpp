@@ -194,6 +194,7 @@ int main()
                             tank1.setSubCoordX(constants::DEFAULT_PLAYER_COORD_X[0]);
                             tank1.setCoordY(constants::DEFAULT_PLAYER_COORD_Y);
                             tank1.setSubCoordY(constants::DEFAULT_PLAYER_COORD_Y);
+                            stat.SetStatistics(field1.getPlayerLives(), static_cast<int>(constants::Stat::HP));
                         }
                     }
 

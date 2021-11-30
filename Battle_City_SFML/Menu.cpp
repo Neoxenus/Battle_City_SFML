@@ -1,6 +1,6 @@
 #include "Menu.h"
 
-Menu::Menu(float width, float height,int numberOfOptions, const std::string *text)
+Menu::Menu(float width, float height,int numberOfOptions, const std::string *text, const float offsetX, const float fontSize)
 {
 	this->height = height;
 	this->width = width;
@@ -10,20 +10,20 @@ Menu::Menu(float width, float height,int numberOfOptions, const std::string *tex
 	{
 		exit(-4);
 	}
-	using namespace std;
-	cout << endl;
+	//using namespace std;
+	//cout << endl;
 	for (int i = 0; i < numberOfOptions; i++)
 	{
 		menu[i].setFont(font);
 		menu[i].setFillColor(sf::Color::White);
-		menu[i].setPosition(0+ constants::WINDOW_OFFSET+ constants::menuOffset, 
+		menu[i].setPosition(0+ constants::WINDOW_OFFSET+ offsetX, 
 			constants::menuOffset +	constants::WINDOW_OFFSET + (height / numberOfOptions * i)*constants::zoom);
 		
 		
-		cout << menu[i].getPosition().x << " " << menu[i].getPosition().y;
-		cout << endl;
+		/*cout << menu[i].getPosition().x << " " << menu[i].getPosition().y;
+		cout << endl;*/
 		menu[i].setString(text[i]);
-		menu[i].setCharacterSize(constants::fontSize);
+		menu[i].setCharacterSize(fontSize);
 	}
 }
 

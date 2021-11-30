@@ -135,13 +135,13 @@ int main()
                             int xSpawn = rand() % 3;
                             for (int j = 0; j < tankAI.size(); ++j)
                             {
-                                if ((tankAI[j].getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn] + 2 + 0.5)) <= 2.0 && tankAI[j].getCoordY() <= 4.5)
+                                if (abs(tankAI[j].getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn] + 2 + 0.5)) <= 2.0 && tankAI[j].getCoordY() <= 4.5)
                                 {
-                                    tankAIRespawnTime[i] = static_cast<int>(tankAIRespawnTime[i] + 3) % 256;
+                                    tankAIRespawnTime[i] = (static_cast<int>(tankAIRespawnTime[i]) + 3) % 256;
                                     continue;
                                 }
                             }
-                            if ((tank1.getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn] + 2 + 0.5)) <= 2.0 && tank1.getCoordY() <= 4.5)
+                            if (abs(tank1.getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn])) <= 2.0 && tank1.getCoordY() <= 4.0)
                             {
                                 tankAIRespawnTime[i] = static_cast<int>(tankAIRespawnTime[i] + 3) % 256;
                                 continue;

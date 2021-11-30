@@ -30,6 +30,14 @@ int Field::getEnemyCount()
 	return this->enemyCount;
 }
 
+bool Field::isBaseAlive()
+{
+	int i = 28;  int j = 14;
+		
+	return (field[i][j] == constants::BASE && field[i][j + 1] == constants::BASE &&
+		field[i + 1][j] == constants::BASE && field[i + 1][j + 1] == constants::BASE);
+}
+
 int Field::getField(int x, int y)
 {
 	if (x < 0 || x >= constants::FIELD_WIDTH || y < 0 || y >= constants::FIELD_HEIGHT)
@@ -42,6 +50,10 @@ void Field::setField(int x, int y, constants::Tiles value)
 	if (x < 0 || x >= constants::FIELD_WIDTH || y < 0 || y >= constants::FIELD_HEIGHT)
 		exit(-1);
 	field[y][x] = static_cast<int>(value);
+
+
+
+			
 	return;
 }
 

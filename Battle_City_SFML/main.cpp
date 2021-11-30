@@ -127,7 +127,6 @@ int main()
                         //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                         //    isGameActive = false;
                     }
-
                     for (int i = 0; i < tankAIRespawnTime.size(); ++i)
                     {
                         if (timer > tankAIRespawnTime[i] && abs(timer - tankAIRespawnTime[i]) <= 15)
@@ -135,13 +134,13 @@ int main()
                             int xSpawn = rand() % 3;
                             for (int j = 0; j < tankAI.size(); ++j)
                             {
-                                if ((tankAI[j].getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn] + 2 + 0.5)) <= 2.0 && tankAI[j].getCoordY() <= 4.5)
+                                if (abs(tankAI[j].getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn])) <= 2.0 && tankAI[j].getCoordY() - (constants::DEFAULT_ENEMY_COORD_Y) <= 2.0)
                                 {
-                                    tankAIRespawnTime[i] = static_cast<int>(tankAIRespawnTime[i] + 3) % 256;
+                                    tankAIRespawnTime[i] = (static_cast<int>(tankAIRespawnTime[i]) + 3) % 256;
                                     continue;
                                 }
                             }
-                            if ((tank1.getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn] + 2 + 0.5)) <= 2.0 && tank1.getCoordY() <= 4.5)
+                            if (abs(tank1.getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn])) <= 2.0 && tank1.getCoordY() - (constants::DEFAULT_ENEMY_COORD_Y) <= 2.0)
                             {
                                 tankAIRespawnTime[i] = static_cast<int>(tankAIRespawnTime[i] + 3) % 256;
                                 continue;
@@ -173,7 +172,7 @@ int main()
                         }
                         if (tankAI[i].isVisible() && tankAI[i].tankDeath(tank1))
                         {
-                            field1.setEnemyCount(field1.getEnemyCount()-1);
+                            field1.setEnemyCount(field1.getEnemyCount() - 1);
                             stat.SetStatistics(field1.getEnemyCount(), static_cast<int>(constants::Stat::ENEMIES));
                             tankAI[i].setVisibility(false);
                             tankAI[i].setCoordX(-10);
@@ -182,10 +181,20 @@ int main()
                             if (field1.getEnemyCount() == 0)
                             {
                                 std::cout << "You win!\0";
+                                Sleep(1000);
                                 isGameActive = false;
                                 continue;
-                            }
-                          
+                            } 
+                        }
+                        if (tankAI[i].isVisible() && tank1.tankDeath(tankAI[i]))
+                        {
+                            field1.setPlayerLives(field1.getPlayerLives() - 1);
+                            tank1.setDirection(constants::Directions::UP);
+                            tank1.setCoordX(constants::DEFAULT_PLAYER_COORD_X[0]);
+                            tank1.setSubCoordX(constants::DEFAULT_PLAYER_COORD_X[0]);
+                            tank1.setCoordY(constants::DEFAULT_PLAYER_COORD_Y);
+                            tank1.setSubCoordY(constants::DEFAULT_PLAYER_COORD_Y);
+                            stat.SetStatistics(field1.getPlayerLives(), static_cast<int>(constants::Stat::HP));
                         }
                     }
 
@@ -239,11 +248,13 @@ int main()
                     //    //exit(1);
                     //}
 
+
                     window.clear(sf::Color::Black);
-                    field1.draw(window, texture_block, texture_base);
-                    tank1.draw(window, texture_all); // coord in tiles // spawn tank
+
                     tank1.control(window, field1, event, tankAI);
                     tank1.bullets_colision(field1);
+                    field1.draw(window, texture_block, texture_base);
+                    tank1.draw(window, texture_all); // coord in tiles // spawn tank
                     stat.draw(window);
                     for (auto& tank : tankAI)
                         if (tank.isVisible())
@@ -253,6 +264,15 @@ int main()
                     window.display();
 
                     //clock.restart();
+                    if (!field1.isBaseAlive() || field1.getPlayerLives()<=0)
+                    {
+
+                        
+                        std::cout << "Game over!\0";
+                        Sleep(1000);
+                        isGameActive = false;
+                        continue;
+                    }
                 }
                 if (timer > constants::delay * 128 * 256)
                 {

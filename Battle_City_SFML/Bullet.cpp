@@ -90,42 +90,42 @@ constants::Directions Bullet::getDirection()
     return direction;
 }
 
-bool Bullet::bulletWithBulletCollision(Bullet& bullet1, Bullet& bullet2)
+bool Bullet::bulletWithBulletCollision(Bullet& bullet)
 {
     int x1, y1, x2, y2;
 
-    if (bullet1.getDirection() == constants::Directions::UP || bullet1.getDirection() == constants::Directions::LEFT)
+    if (this->direction == constants::Directions::UP || this->direction == constants::Directions::LEFT)
     {
-        x1 = floor(bullet1.getCoordX());
-        y1 = floor(bullet1.getCoordY());
+        x1 = floor(this->coordX);
+        y1 = floor(this->coordY);
     }
-    else if(bullet1.getDirection() == constants::Directions::DOWN)
+    else if(this->direction == constants::Directions::DOWN)
     {
-        x1 = floor(bullet1.getCoordX());
-        y1 = floor(bullet1.getCoordY() + 6.0 / 8);
+        x1 = floor(this->coordX);
+        y1 = floor(this->coordY + 6.0 / 8);
     }
-    else if (bullet1.getDirection() == constants::Directions::RIGHT)
+    else if (this->direction == constants::Directions::RIGHT)
     {
-        x1 = floor(bullet1.getCoordX() + 6.0 / 8);
-        y1 = floor(bullet1.getCoordY());
+        x1 = floor(this->coordX + 6.0 / 8);
+        y1 = floor(this->coordY);
     }
 
     x1 /= 2; y1 /= 2;
 
-    if (bullet2.getDirection() == constants::Directions::UP || bullet2.getDirection() == constants::Directions::LEFT)
+    if (bullet.getDirection() == constants::Directions::UP || bullet.getDirection() == constants::Directions::LEFT)
     {
-        x2 = floor(bullet2.getCoordX());
-        y2 = floor(bullet2.getCoordY());
+        x2 = floor(bullet.getCoordX());
+        y2 = floor(bullet.getCoordY());
     }
-    else if (bullet2.getDirection() == constants::Directions::DOWN)
+    else if (bullet.getDirection() == constants::Directions::DOWN)
     {
-        x2 = floor(bullet2.getCoordX());
-        y2 = floor(bullet2.getCoordY() + 6.0 / 8);
+        x2 = floor(bullet.getCoordX());
+        y2 = floor(bullet.getCoordY() + 6.0 / 8);
     }
-    else if (bullet2.getDirection() == constants::Directions::RIGHT)
+    else if (bullet.getDirection() == constants::Directions::RIGHT)
     {
-        x2 = floor(bullet2.getCoordX() + 6.0 / 8);
-        y2 = floor(bullet2.getCoordY());
+        x2 = floor(bullet.getCoordX() + 6.0 / 8);
+        y2 = floor(bullet.getCoordY());
     }
 
     x2 /= 2; y2 /= 2;

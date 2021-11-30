@@ -9,6 +9,7 @@ public:
 	void draw(sf::RenderWindow& window);
 	void SetStatistics(double value, int type);
 	long double GetStatistics(int type);
+	void statisticReset();
 private:
 	double values[constants::MAX_NUMBER_OF_STATISTICS_ITEMS];
 	sf::Font font;

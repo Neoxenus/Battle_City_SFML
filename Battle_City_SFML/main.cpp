@@ -157,6 +157,16 @@ int main()
                     tank1.animation(fps);
                     for (int i = 0; i < tankAI.size(); ++i)
                     {
+                        /*for (int j = 0; j < tankAI[i].getBullets().size(); ++i)
+                        {
+                            if (tank1.getBullets().size() > 0 && tankAI[i].getBullets()[j].bulletWithBulletCollision(tankAI[i].getBullets()[j], tank1.getBullets()[0]))
+                            {
+                                tank1.getBullets().erase(tank1.getBullets().begin());
+                                tank1.setAlreadyShot(tank1.getAlreadyShot() - 1);
+                                tankAI[i].getBullets().erase(tankAI[i].getBullets().begin() + j);
+                                tankAI[i].setAlreadyShot(tankAI[i].getAlreadyShot() - 1);
+                            }
+                        }*/
                         if (tankAI[i].isVisible())
                         {
                             if (rand() % 64 == 0)

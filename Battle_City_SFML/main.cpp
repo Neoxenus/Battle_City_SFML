@@ -68,6 +68,18 @@ int main()
     std::vector<Bullet> tmpBullets;
     bool isGameActive = false;
     bool isMP = false , isHost = false;
+    Server serv;
+    Client cl;
+
+    if (isMP && isHost)
+    {        
+        serv.server();
+    }
+    else if (isMP)
+    {        
+        cl.client();
+    }
+
     while (window.isOpen())
     {
         sf::Event event;
@@ -326,14 +338,10 @@ int main()
             {
                 if (isHost)
                 {
-                    Server serv;
-                    serv.server();
                     serv.loop(field1, tank1);
                 }
                 else
                 {
-                    Client cl;
-                    cl.client();
                     cl.exchange(field1, tank1);
                 }
             }

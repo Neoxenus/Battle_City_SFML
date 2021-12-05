@@ -147,6 +147,7 @@ int Tank::getAlreadyShot()
 {
     return alreadyShot;
 }
+
 void Tank::setAlreadyShot(int value)
 {
     alreadyShot = value;
@@ -262,10 +263,10 @@ void Tank::control(sf::RenderWindow& window, Field& field, sf::Event& event, std
         else
             tankAI[i].setDirection(static_cast<constants::Directions>((static_cast<int>(tankAI[i].getDirection()) + 2) % 4));
 
-        tankAI[i].setCoordX(tankAI[i].getPrX());
-        tankAI[i].setCoordY(tankAI[i].getPrY());
-        tankAI[i].setSubCoordX(tankAI[i].getPrX());
-        tankAI[i].setSubCoordY(tankAI[i].getPrY());
+        //tankAI[i].setCoordX(tankAI[i].getPrX());
+        //tankAI[i].setCoordY(tankAI[i].getPrY());
+        //tankAI[i].setSubCoordX(tankAI[i].getPrX());
+        //tankAI[i].setSubCoordY(tankAI[i].getPrY());
 
         this->subCoordX = this->coordX = prevX;
         this->subCoordY = this->coordY = prevY;

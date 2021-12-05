@@ -30,6 +30,16 @@ int Field::getEnemyCount()
 	return this->enemyCount;
 }
 
+void Field::setEnemyToSpawn(int val)
+{
+	this->enemyToSpawn = val;
+}
+
+int Field::getEnemyToSpawn()
+{
+	return this->enemyToSpawn;
+}
+
 bool Field::isBaseAlive()
 {
 	int i = 28;  int j = 14;
@@ -72,6 +82,7 @@ void Field::setField(const std::vector<std::vector<int>>& level)
 	this->setField(16, 27, constants::BRICK1111);
 	playerLives = constants::defultPlayerLives;
 	enemyCount = constants::defaultEnemyCount;
+	enemyToSpawn = constants::defaultEnemyCount;
 }
 
 void Field::draw(sf::RenderWindow& window, sf::Texture& texture_block, sf::Texture& texture_base)

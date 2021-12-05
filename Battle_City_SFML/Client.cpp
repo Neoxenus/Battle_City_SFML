@@ -27,11 +27,20 @@ void Client::client()
 
 void Client::exchange(Field& field, Tank& tank)
 {
-	std::vector<char*> tankE = tank.sendToServer();
+	if (connect(Connection, (SOCKADDR*)&addr, sizeof(addr)) != 0)
+	{
+		std::string tmp = "sdasdfsasf";
+		int tmpSize = tmp.size();
+
+		send(Connection, (char*)&tmpSize, sizeof(int), NULL);
+		send(Connection, tmp.c_str(), tmpSize, NULL);
+	}
+
+	/*std::vector<char*> tankE = tank.sendToServer();
 	std::vector<char*> fieldE = field.sendToServer();
-	char bufSize = sizeof(tankE[0]);
+	char bufSize = sizeof(tankE[0]);	
 	send(Connection, (char*)&bufSize, sizeof(char), NULL);
-	send(Connection, tankE[0], bufSize, NULL);
+	send(Connection, tankE[0], bufSize, NULL);*/
 	//for (int i = 0; i < tankE.size(); ++i)
 	//{
 	//	int bufSize = sizeof(tankE[i]);

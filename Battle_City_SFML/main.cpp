@@ -344,7 +344,7 @@ int main()
                 }
                 else
                 {
-                    cl.exchange(field1, tank1);
+                    
                 }
             }
         }

@@ -24,8 +24,8 @@ void Client::client()
 	}
 	std::cout << "Connected!\n";
 	char msg[256];
-	recv(Connection, msg, sizeof(msg), NULL);
-	std::cout << msg << std::endl;
+	//recv(Connection, msg, sizeof(msg), NULL);
+	//std::cout << msg << std::endl;
 
 
 

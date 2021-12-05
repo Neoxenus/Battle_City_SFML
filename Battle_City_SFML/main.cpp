@@ -1,5 +1,5 @@
 #include "SFML/Graphics.hpp"
-#include "Server.h"
+//#include "Server.h"
 #include "Client.h"
 #include "Tank.h"
 #include <ctime>
@@ -7,7 +7,6 @@
 #include "windows.h"
 #include "Menu.h"
 #include "StatisticBox.h"
-//при каждой отрисовке танка рисовать все пули?
 
 #define godMode 1
 
@@ -27,10 +26,93 @@ int min(int a, int b)
     return (a > b) ? b : a;
 }
 
+bool sendAll(SOCKET sock, void* buf, int buflen)
+{
+    char* ptr = (char*)buf;
+    int sent;
+
+    while (buflen > 0) {
+        sent = send(sock, ptr, buflen, 0);
+        if (sent == SOCKET_ERROR) {
+            return false;
+        }
+        ptr += sent;
+        buflen -= sent;
+    }
+
+    return true;
+}
+
+DWORD WINAPI process_thread(LPVOID lpParam) {
+
+    SOCKET client = (SOCKET)lpParam;
+    char buf[1024], * ptr;
+    int recvd;
+
+    do {
+        recvd = recv(client, buf, sizeof(buf), 0);
+        std::cout << recvd;
+        if (recvd <= 0) {
+            break;
+        }
+        if (!sendAll(client, buf, recvd)) {
+            break;
+        }
+    } while (true);
+
+    closesocket(client);
+    return 0;
+}
+
 int main()
 {
     srand(time(NULL)); // for random
 
+    
+
+        WSADATA wsaData;
+        SOCKET server, client;
+        SOCKADDR_IN serveraddr;
+        SOCKADDR_IN clientaddr;
+        int res, clientaddrlen;
+        HANDLE hThread;
+        DWORD threadID;
+
+        res = WSAStartup(MAKEWORD(2, 1), &wsaData);
+        if (res != 0) {
+            return 1;
+        }
+
+        ZeroMemory(&serveraddr, sizeof(serveraddr));
+        serveraddr.sin_family = AF_INET;
+        serveraddr.sin_addr.s_addr = INADDR_ANY;
+        serveraddr.sin_port = htons(3490);
+
+        server = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+        if (server == INVALID_SOCKET) {
+            WSACleanup();
+            return 1;
+        }
+
+        res = bind(server, (SOCKADDR*)&serveraddr, sizeof(serveraddr));
+        if (res == SOCKET_ERROR) {
+            closesocket(server);
+            WSACleanup();
+            return 1;
+        }
+
+        res = listen(server, 5);
+        if (res == SOCKET_ERROR) {
+            closesocket(server);
+            WSACleanup();
+            return 1;
+        }
+
+        //do while (true);
+
+        
+
+    
     //hide console
     HWND Hide;
     AllocConsole();
@@ -68,17 +150,8 @@ int main()
     std::vector<Bullet> tmpBullets;
     bool isGameActive = false;
     bool isMP = false , isHost = false;
-    Server serv;
+  //  Server serv;
     Client cl;
-
-    /*if (isMP && isHost)
-    {        
-        serv.server();
-    }
-    else if (isMP)
-    {        
-        cl.client();
-    }*/
 
     while (window.isOpen())
     {
@@ -113,7 +186,7 @@ int main()
                         isGameActive = true;
                         isMP = true;
                         isHost = true;
-                        serv.server();
+                        
                         break;
                     case 2://new client
                         isGameActive = true;
@@ -340,13 +413,32 @@ int main()
             {
                 if (isHost)
                 {
-                    serv.loop(field1, tank1);
+                    {
+                        clientaddrlen = sizeof(clientaddr);
+
+                        client = accept(server, (SOCKADDR*)&clientaddr, &clientaddrlen);
+                        if (client == INVALID_SOCKET) {
+                            closesocket(server);
+                            WSACleanup();
+                            return 1;
+                        }
+
+                        hThread = CreateThread(NULL, 0, process_thread, (LPVOID)client, 0, &threadID);
+                        if (hThread)
+                            CloseHandle(hThread);
+                        else
+                            closesocket(client);
+                    }
+                    continue;
                 }
                 else
                 {
-                    
+                    cl.exchange(field1,tank1);
                 }
             }
+           
         }
     }
+    closesocket(server);
+    WSACleanup();
 }

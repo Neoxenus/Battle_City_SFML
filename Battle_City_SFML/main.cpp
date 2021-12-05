@@ -71,14 +71,14 @@ int main()
     Server serv;
     Client cl;
 
-    if (isMP && isHost)
-    {        
-        serv.server();
-    }
-    else if (isMP)
-    {        
-        cl.client();
-    }
+    //if (isMP && isHost)
+    //{        
+    //    serv.server();
+    //}
+    //else if (isMP)
+    //{        
+    //    cl.client();
+    //}
 
     while (window.isOpen())
     {
@@ -113,11 +113,13 @@ int main()
                         isGameActive = true;
                         isMP = true;
                         isHost = true;
+                        serv.server();
                         break;
                     case 2://new client
                         isGameActive = true;
                         isMP = true;
                         isHost = false;
+                        cl.client();
                         break;
                     default:
                         //std::cout << "Something wrong with mouse coordinate\n";

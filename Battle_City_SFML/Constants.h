@@ -10,7 +10,7 @@ namespace constants
 	const int defultPlayerLives = 2;
 
 	// font
-	const std::string fontFile = "../font/arial.ttf";
+	const std::string fontFile = "../Resources/font/arial.ttf";
 	
 	//menu
 	const int menuOffset = 30;//px

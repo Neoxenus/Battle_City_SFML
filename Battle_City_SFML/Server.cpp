@@ -33,12 +33,22 @@ void Server::server()
 		std::cout << "Client Connected!\n";
 		char msg[256] = "Hello. It`s my first network program!";
 		send(newConnection, msg, sizeof(msg), NULL);
+
+		//CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)loop, (LPVOID)(0), NULL, NULL);
 	}
 }
 
 void Server::loop(Field& field, Tank& tank)
-{
-	std::vector<char*> tankE;
+{	
+	int tmpSize;
+	recv(Connection, (char*)&tmpSize, sizeof(int), NULL);
+	char *tmp = new char[tmpSize + 1];
+	tmp[tmpSize] = '\0';
+	recv(Connection, tmp, tmpSize, NULL);
+	std::cout << tmp[0] << tmp[1] << tmp[2];
+	delete[] tmp;
+
+	/*std::vector<char*> tankE;
 	std::vector <char*> fieldE;
 	char bufSize;
 	for (int i = 0; i < 8; i += 2)
@@ -66,6 +76,6 @@ void Server::loop(Field& field, Tank& tank)
 	{
 		for (int j = 0; j < constants::FIELD_WIDTH; ++j)
 			field.setField(j, i, static_cast<constants::Tiles>(convertBackFromCharArrayToInt(fieldE[i * constants::FIELD_WIDTH + j])));
-	}
+	}*/
 		
 }

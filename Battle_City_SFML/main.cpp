@@ -22,6 +22,11 @@ void newGame(Tank& tank1, std::vector<Tank>& tankAI, Field& field1, std::vector<
     tankAIRespawnTime = bufTankAIRespawnTime;
 }
 
+int min(int a, int b)
+{
+    return (a > b) ? b : a;
+}
+
 int main()
 {
     srand(time(NULL)); // for random
@@ -132,30 +137,43 @@ int main()
                         //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                         //    isGameActive = false;
                     }
+                    bool next = false;
                     for (int i = 0; i < tankAIRespawnTime.size(); ++i)
-                    {
+                    { 
                         if (timer > tankAIRespawnTime[i] && abs(timer - tankAIRespawnTime[i]) <= 15)
                         {
                             int xSpawn = rand() % 3;
                             for (int j = 0; j < tankAI.size(); ++j)
                             {
-                                if (abs(tankAI[j].getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn])) <= 2.0 && tankAI[j].getCoordY() - (constants::DEFAULT_ENEMY_COORD_Y) <= 2.0)
-                                {
-                                    tankAIRespawnTime[i] = (static_cast<int>(tankAIRespawnTime[i]) + 3) % 256;
-                                    continue;
-                                }
+                                if(tankAI[j].isVisible())
+                                    if (abs(tankAI[j].getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn])) <= 2.0 && abs(tankAI[j].getCoordY() - (constants::DEFAULT_ENEMY_COORD_Y)) <= 2.0)
+                                    {
+                                        tankAIRespawnTime[i] = (static_cast<int>(tankAIRespawnTime[i]) + 3) % 256;
+                                        next = true;
+                                        break;
+                                    }
                             }
-                            if (abs(tank1.getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn])) <= 2.0 && tank1.getCoordY() - (constants::DEFAULT_ENEMY_COORD_Y) <= 2.0)
+                            if (next)
                             {
-                                tankAIRespawnTime[i] = static_cast<int>(tankAIRespawnTime[i] + 3) % 256;
+                                next = false;
                                 continue;
                             }
-                            tankAI[i].setVisibility(true);
-                            tankAI[i].setCoordX(constants::DEFAULT_ENEMY_COORD_X[xSpawn]);
-                            tankAI[i].setSubCoordX(tankAI[i].getCoordX());
-                            tankAI[i].setCoordY(constants::DEFAULT_ENEMY_COORD_Y);
-                            tankAI[i].setSubCoordY(tankAI[i].getCoordY());
-                            tankAIRespawnTime[i] = 257;
+                            if (abs(tank1.getCoordX() - (constants::DEFAULT_ENEMY_COORD_X[xSpawn])) <= 2.0 && abs(tank1.getCoordY() - (constants::DEFAULT_ENEMY_COORD_Y)) <= 2.0)
+                            {
+                                tankAIRespawnTime[i] = (static_cast<int>(tankAIRespawnTime[i] + 3)) % 256;
+                                continue;
+                            }
+                            if (field1.getEnemyToSpawn() > 0)
+                            {
+                                tankAI[i].setVisibility(true);
+                                tankAI[i].setCoordX(constants::DEFAULT_ENEMY_COORD_X[xSpawn]);
+                                tankAI[i].setSubCoordX(tankAI[i].getCoordX());
+                                tankAI[i].setCoordY(constants::DEFAULT_ENEMY_COORD_Y);
+                                tankAI[i].setSubCoordY(tankAI[i].getCoordY());
+                                tankAIRespawnTime[i] = 257;
+                                field1.setEnemyToSpawn(field1.getEnemyToSpawn() - 1);
+                            }
+
                         }
                     }
 

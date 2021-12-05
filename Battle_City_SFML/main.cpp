@@ -39,11 +39,11 @@ int main()
     //
 
     sf::Texture texture_all;
-    texture_all.loadFromFile("allSprites.png");
+    texture_all.loadFromFile("../Resources/allSprites.png");
     sf::Texture texture_block;
-    texture_block.loadFromFile("tiles.png");
+    texture_block.loadFromFile("../Resources/tiles.png");
     sf::Texture texture_base;
-    texture_base.loadFromFile("sprites.png");
+    texture_base.loadFromFile("../Resources/sprites.png");
 
     Field field1;
     field1.setField(constants::field1);

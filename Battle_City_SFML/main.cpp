@@ -152,6 +152,12 @@ int main()
     bool isMP = false , isHost = false;
   //  Server serv;
     Client cl;
+    {
+        using namespace std;
+        newGame(tank1, tankAI, field1, tankAIRespawnTime);
+        cout << endl;
+        cout << sizeof(tank1) << " " << sizeof(field1)<<endl;
+    }
 
     while (window.isOpen())
     {

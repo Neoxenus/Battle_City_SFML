@@ -10,7 +10,7 @@ namespace constants
 	const int defultPlayerLives = 2;
 
 	// font
-	const std::string fontFile = "../font/arial.ttf";
+	const std::string fontFile = "../Resources/font/arial.ttf";
 	
 	//menu
 	const int menuOffset = 30;//px
@@ -217,6 +217,12 @@ namespace constants
 		TankSubCoordY,
 		TankDirecton,
 		TankBulletsSize,
+		Visibility,
+		isPlayer,
+		isMoving,
+		anim,
+		prX,
+		prY,
 
 		BulletDirection =0,
 		BulletCoordX,
@@ -225,3 +231,4 @@ namespace constants
 
 	};
 }
+

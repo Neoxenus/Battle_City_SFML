@@ -4,6 +4,7 @@
 #include "Convert.h"
 #include <winsock2.h>
 #include <iostream>
+//#include <string>
 #pragma warning(disable: 4996)
 
 
@@ -15,7 +16,7 @@ class Client
 	SOCKET Connection;
 public:
 	void client();
-	void exchange(Field& field, Tank& tank);
+	void exchange(Field& field, Tank& tank, Tank& tank2, std::vector<Tank>& tankAI);
 	
 
 };

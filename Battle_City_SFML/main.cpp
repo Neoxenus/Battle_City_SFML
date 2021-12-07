@@ -215,6 +215,7 @@ int main()
                         clock.restart(); mainClock.restart();
                         isGameActive = true;
                         isClient = false;
+                        //isHost = true;
                         timer = 0; mainTimer = 0;
                         fps = 0;
                         delay = constants::delay;
@@ -297,7 +298,7 @@ int main()
                             tank1.setCoordX(constants::DEFAULT_PLAYER_COORD_X[1]);
                             tank1.setSubCoordX(constants::DEFAULT_PLAYER_COORD_X[1]);
                         }
-                        cl.exchange(field1, tank1, tank1, tankAI);
+                        cl.exchange(field1, tank1, tank2, tankAI);
                     }
 
                     while (window.pollEvent(event))
@@ -351,97 +352,100 @@ int main()
 
                     tank1.animation(fps);
                     if(isHost) tank2.animation(fps);
-
-                    for (int i = 0; i < tankAI.size(); ++i)
+                    if (!isClient)
                     {
-                        if (tankAI[i].isVisible())
+                        for (int i = 0; i < tankAI.size(); ++i)
                         {
-                            for (int j = 0; j < tankAI[i].getBullets().size(); ++j)
+                            if (tankAI[i].isVisible())
                             {
-                                if (tank1.getBullets().size() > 0 && tankAI[i].getBullets()[j].bulletWithBulletCollision(tank1.getBullets()[0]))
+                                for (int j = 0; j < tankAI[i].getBullets().size(); ++j)
                                 {
-                                    tmpBullets = tank1.getBullets();
-                                    tmpBullets.erase(tmpBullets.begin());
-                                    tank1.setBullets(tmpBullets);
-                                    tank1.setAlreadyShot(tank1.getAlreadyShot() - 1);
-                                    tmpBullets = tankAI[i].getBullets();
-                                    tmpBullets.erase(tmpBullets.begin() + j);
-                                    tankAI[i].setBullets(tmpBullets);
-                                    tankAI[i].setAlreadyShot(tankAI[i].getAlreadyShot() - 1);
+                                    if (tank1.getBullets().size() > 0 && tankAI[i].getBullets()[j].bulletWithBulletCollision(tank1.getBullets()[0]))
+                                    {
+                                        tmpBullets = tank1.getBullets();
+                                        tmpBullets.erase(tmpBullets.begin());
+                                        tank1.setBullets(tmpBullets);
+                                        tank1.setAlreadyShot(tank1.getAlreadyShot() - 1);
+                                        tmpBullets = tankAI[i].getBullets();
+                                        tmpBullets.erase(tmpBullets.begin() + j);
+                                        tankAI[i].setBullets(tmpBullets);
+                                        tankAI[i].setAlreadyShot(tankAI[i].getAlreadyShot() - 1);
+                                    }
+                                }
+                            }
+                            if (tankAI[i].isVisible())
+                            {
+                                if (rand() % 64 == 0)
+                                {
+                                    if (tankAI[i].getAlreadyShot() != tankAI[i].getMaxShots())
+                                    {
+                                        tankAI[i].setAlreadyShot(tankAI[i].getAlreadyShot() + 1);
+                                        tankAI[i].shot();
+                                    }
+                                }
+                                tankAI[i].bullets_colision(field1);
+                                tankAI[i].animation(fps);
+                            }
+                            if (tankAI[i].isVisible() && tankAI[i].tankDeath(tank1))
+                            {
+                                field1.setEnemyCount(field1.getEnemyCount() - 1);
+                                stat.SetStatistics(field1.getEnemyCount(), static_cast<int>(constants::Stat::ENEMIES));
+                                tankAI[i].setVisibility(false);
+                                tankAI[i].setCoordX(-10);
+                                tankAI[i].setCoordY(-10);
+                                tankAIRespawnTime[i] = (static_cast<int>(timer) + 3) % 256;
+                                if (field1.getEnemyCount() == 0)
+                                {
+                                    std::cout << "You win!\0";
+                                    Sleep(1000);
+                                    isGameActive = false;
+                                    continue;
+                                }
+                            }
+                            if (tankAI[i].isVisible() && tank1.tankDeath(tankAI[i]) && !godMode)
+                            {
+                                field1.setPlayerLives(field1.getPlayerLives() - 1);
+                                tank1.setDirection(constants::Directions::UP);
+                                tank1.setCoordX(constants::DEFAULT_PLAYER_COORD_X[0]);
+                                tank1.setSubCoordX(constants::DEFAULT_PLAYER_COORD_X[0]);
+                                tank1.setCoordY(constants::DEFAULT_PLAYER_COORD_Y);
+                                tank1.setSubCoordY(constants::DEFAULT_PLAYER_COORD_Y);
+                                stat.SetStatistics(field1.getPlayerLives(), static_cast<int>(constants::Stat::HP));
+                            }
+                        }
+
+                        if (timer < 24.0)
+                        {
+                            for (auto& tank : tankAI)
+                            {
+                                if (tank.isVisible())
+                                {
+                                    tank.moveAIRandomly(window, field1, event, tankAI);
                                 }
                             }
                         }
-                        if (tankAI[i].isVisible())
+                        else if (timer < 48.0)
                         {
-                            if (rand() % 64 == 0)
+                            for (auto& tank : tankAI)
                             {
-                                if (tankAI[i].getAlreadyShot() != tankAI[i].getMaxShots())
+                                if (tank.isVisible())
                                 {
-                                    tankAI[i].setAlreadyShot(tankAI[i].getAlreadyShot() + 1);
-                                    tankAI[i].shot();
+                                    tank.moveAIToAlly(window, field1, event, tank1, tankAI);
                                 }
                             }
-                            tankAI[i].bullets_colision(field1);
-                            tankAI[i].animation(fps);
                         }
-                        if (tankAI[i].isVisible() && tankAI[i].tankDeath(tank1))
+                        else
                         {
-                            field1.setEnemyCount(field1.getEnemyCount() - 1);
-                            stat.SetStatistics(field1.getEnemyCount(), static_cast<int>(constants::Stat::ENEMIES));
-                            tankAI[i].setVisibility(false);
-                            tankAI[i].setCoordX(-10);
-                            tankAI[i].setCoordY(-10);
-                            tankAIRespawnTime[i] = (static_cast<int>(timer) + 3) % 256;
-                            if (field1.getEnemyCount() == 0)
+                            for (auto& tank : tankAI)
                             {
-                                std::cout << "You win!\0";
-                                Sleep(1000);
-                                isGameActive = false;
-                                continue;
-                            } 
-                        }
-                        if (tankAI[i].isVisible() && tank1.tankDeath(tankAI[i]) && !godMode)
-                        {
-                            field1.setPlayerLives(field1.getPlayerLives() - 1);
-                            tank1.setDirection(constants::Directions::UP);
-                            tank1.setCoordX(constants::DEFAULT_PLAYER_COORD_X[0]);
-                            tank1.setSubCoordX(constants::DEFAULT_PLAYER_COORD_X[0]);
-                            tank1.setCoordY(constants::DEFAULT_PLAYER_COORD_Y);
-                            tank1.setSubCoordY(constants::DEFAULT_PLAYER_COORD_Y);
-                            stat.SetStatistics(field1.getPlayerLives(), static_cast<int>(constants::Stat::HP));
+                                if (tank.isVisible())
+                                {
+                                    tank.moveAIToBase(window, field1, event, tankAI);
+                                }
+                            }
                         }
                     }
 
-                    if (timer < 24.0)
-                    {
-                        for (auto& tank : tankAI)
-                        {
-                            if (tank.isVisible())
-                            {
-                                tank.moveAIRandomly(window, field1, event, tankAI);
-                            }
-                        }
-                    }
-                    else if (timer < 48.0)
-                    {
-                        for (auto& tank : tankAI)
-                        {
-                            if (tank.isVisible())
-                            {
-                                tank.moveAIToAlly(window, field1, event, tank1, tankAI);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        for (auto& tank : tankAI)
-                        {
-                            if (tank.isVisible())
-                            {
-                                tank.moveAIToBase(window, field1, event, tankAI);
-                            }
-                        }
-                    }
 
 
                     /*for (int i = 0; i < tankAI.size(); ++i)
@@ -466,10 +470,12 @@ int main()
                     window.clear(sf::Color::Black);
 
                     tank1.control(window, field1, event, tankAI);
-                    tank1.bullets_colision(field1);
+                    if(!isClient)
+                        tank1.bullets_colision(field1);
                     field1.draw(window, texture_block, texture_base);
                     tank1.draw(window, texture_all); // coord in tiles // spawn tank
-                    if(isHost) tank2.draw(window, texture_all);
+
+                    if(isHost || isClient) tank2.draw(window, texture_all);
                     stat.draw(window);
                     for (auto& tank : tankAI)
                         if (tank.isVisible())

@@ -295,15 +295,18 @@ int main()
                         if (isFirst)
                         {
                             isFirst = false;
-                            tank1.setCoordX(constants::DEFAULT_PLAYER_COORD_X[1]);
-                            tank1.setSubCoordX(constants::DEFAULT_PLAYER_COORD_X[1]);
+                            tank2.setCoordX(constants::DEFAULT_PLAYER_COORD_X[1]);
+                            tank2.setSubCoordX(constants::DEFAULT_PLAYER_COORD_X[1]);
                         }
                         cl.exchange(field1, tank1, tank2, tankAI);
                     }
 
                     while (window.pollEvent(event))
                     {
-                        tank1.bullet_shoot(window, event);
+                        if(!isClient)
+                            tank1.bullet_shoot(window, event);
+                        if(isClient)
+                            tank2.bullet_shoot(window, event);
 
                         if (event.type == sf::Event::Closed)
                             window.close();
@@ -311,7 +314,8 @@ int main()
                         //    isGameActive = false;
                     }
                     bool next = false;
-                    for (int i = 0; i < tankAIRespawnTime.size(); ++i)
+                    if(!isClient)
+                        for (int i = 0; i < tankAIRespawnTime.size(); ++i)
                     { 
                         if (timer > tankAIRespawnTime[i] && abs(timer - tankAIRespawnTime[i]) <= 15)
                         {
@@ -350,7 +354,8 @@ int main()
                         }
                     }
 
-                    tank1.animation(fps);
+                    if(!isClient)
+                        tank1.animation(fps);
                     if(isHost) tank2.animation(fps);
                     if (!isClient)
                     {
@@ -468,14 +473,17 @@ int main()
 
 
                     window.clear(sf::Color::Black);
-
-                    tank1.control(window, field1, event, tankAI);
+                    if(!isClient)
+                        tank1.control(window, field1, event, tankAI);
+                    if(isClient)
+                        tank2.control(window, field1, event, tankAI);
                     if(!isClient)
                         tank1.bullets_colision(field1);
                     field1.draw(window, texture_block, texture_base);
                     tank1.draw(window, texture_all); // coord in tiles // spawn tank
 
-                    if(isHost || isClient) tank2.draw(window, texture_all);
+                    if(isHost || isClient) 
+                        tank2.draw(window, texture_all);
                     stat.draw(window);
                     for (auto& tank : tankAI)
                         if (tank.isVisible())

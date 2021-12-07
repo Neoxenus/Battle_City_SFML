@@ -96,7 +96,7 @@ bool sendAll(SOCKET sock, void* buf, int buflen)
 
 int main()
 {
-    srand(time(NULL)); // for random
+    srand(time(NULL));
 
     
 
@@ -179,7 +179,7 @@ int main()
     int fps = 0;
     double delay = constants::delay;
     std::vector<Bullet> tmpBullets;
-    bool isGameActive = false, fl = true;
+    bool isGameActive = false, isFirst = true;
     bool isClient = false , isHost = false;
   //  Server serv;
     Client cl;
@@ -255,7 +255,9 @@ int main()
                 {
                     if (isHost)
                     {
+                        if (isFirst)
                         {
+                            isFirst = false;
                             clientaddrlen = sizeof(clientaddr);
 
                             client = accept(server, (SOCKADDR*)&clientaddr, &clientaddrlen);
@@ -266,28 +268,35 @@ int main()
                                 WSACleanup();
                                 return 1;
                             }
-
-                            for (int i = 0; i < 14; ++i)
-                            {
-                                char buf[sizeof(double)];
-                                recv(client, buf, sizeof(buf), NULL);
-                                tankE.push_back(buf);
-
-                            }
-
-                            for (int i = 14; i < 13 + 3 * convertBackFromCharArrayToDouble(convertFromStringToCharArray(tankE[static_cast<int>(constants::PacketsIndexes::TankBulletsSize)])); ++i)
-                            {
-                                char buf[sizeof(double)];
-                                recv(client, buf, sizeof(buf), NULL);           
-                                tankE.push_back(buf);
-                            }
-
-                            tank2.newTank(tankE);
                         }
-                        continue;
+
+                        for (int i = 0; i < 14; ++i)
+                        {
+                            char buf[sizeof(double)];
+                            recv(client, buf, sizeof(buf), NULL);
+                            tankE.push_back(buf);
+
+                        }
+
+                        for (int i = 14; i < 13 + 3 * convertBackFromCharArrayToDouble(convertFromStringToCharArray(tankE[static_cast<int>(constants::PacketsIndexes::TankBulletsSize)])); ++i)
+                        {
+                            char buf[sizeof(double)];
+                            recv(client, buf, sizeof(buf), NULL);           
+                            tankE.push_back(buf);
+                        }
+
+                        tank2.newTank(tankE);
+
+                        tankE.clear();
                     }
                     else if (isClient)
                     {
+                        if (isFirst)
+                        {
+                            isFirst = false;
+                            tank1.setCoordX(constants::DEFAULT_PLAYER_COORD_X[1]);
+                            tank1.setSubCoordX(constants::DEFAULT_PLAYER_COORD_X[1]);
+                        }
                         cl.exchange(field1, tank1, tank1, tankAI);
                     }
 

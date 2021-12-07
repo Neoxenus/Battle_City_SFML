@@ -10,6 +10,8 @@
 
 #define godMode 1
 
+Tank tank2(true, 0);
+
 void newGame(Tank& tank1, std::vector<Tank>& tankAI, Field& field1, std::vector<double>& tankAIRespawnTime)
 {
     field1.setField(constants::field1);
@@ -43,73 +45,49 @@ bool sendAll(SOCKET sock, void* buf, int buflen)
     return true;
 }
 
-DWORD WINAPI process_thread(LPVOID lpParam) {
+DWORD WINAPI readServ(LPVOID lpParam) 
+{
 
     SOCKET client = (SOCKET)lpParam;
-    char buf[1024], * ptr;
-    int recvd;
+    //char buf [sizeof(double)];
+    //char buff[256];
+    int bufSize;
     
-    std::vector<char*> tankE;
-    std::vector <char*> fieldE;
+    std::vector <std::string> tankE;
+    //std::vector <std::string> fieldE;
 
     do {
 
-        recvd = recv(client, buf, sizeof(buf), 0);
+        /*int recvd = recv(client, buff, sizeof(buf), 0);
         std::cout << recvd << "\n";
-        for (int i = 0; i < 256; ++i)
-            std::cout << buf[0];
-        if (recvd <= 0) {
-            break;
+        for (int i = 0; i < recvd; ++i)
+            std::cout << buff[i];*/
+
+        for (int i = 0; i < 14; ++i)
+        {
+            char buf[sizeof(double)];
+            recv(client, buf, sizeof(buf), NULL);           
+            tankE.push_back(buf);
+            
         }
-        //if (!sendAll(client, buf, recvd)) {
-        //    break;
-        //}
+        
+        tank2.newTank(tankE);
 
-
-       
-        //for (int i = 0; i < 8; i += 2)
-        //{
-        //    //recvd = recv(client, buf, sizeof(buf), NULL);
-        //    //if (recvd <= 0) break;
-        //    //if (!sendAll(client, buf, recvd)) break;
-        //    //char* buf = new char[bufSize + 1];
-        //    //buf[bufSize] = '\0';
-        //    recvd = recv(client, buf, sizeof(buf), NULL);
-        //    if (recvd <= 0) break;
-        //    tankE.push_back(buf);
-        //    std::cout << buf[0] << buf[1] << buf[2];
-        //    //delete[] buf;
-        //}
-        //tankE.resize(4 * convertBackFromCharArrayToInt(tankE[7] + 8));
-        //for (int i = 8; i < 8 + 6 * convertBackFromCharArrayToInt(tankE[7]); i += 2)
-        //{
-        //    //recv(client, (char*)&bufSize, sizeof(int), NULL);
-        //    //char* buf = new char[bufSize + 1];
-        //    //buf[bufSize] = '\0';
-        //    recvd = recv(client, buf, sizeof(buf), NULL);
-        //    if (recvd <= 0) break;
-        //    tankE.push_back(buf);
-        //    std::cout << buf[0] << buf[1] << buf[2];
-        //    //delete[] buf;
-        //}
-        ////tank.newTank(tank, tankE);
-
-        ///*for (int i = 0; i < constants::FIELD_HEIGHT; ++i)
-        //{
-        //    for (int j = 0; j < constants::FIELD_WIDTH; ++j)
-        //        field.setField(j, i, static_cast<constants::Tiles>(convertBackFromCharArrayToInt(fieldE[i * constants::FIELD_WIDTH + j])));
-        //}*/
-
-
-
-        /*recvd = recv(client, buf, sizeof(buf), 0);
-        std::cout << recvd;
-        if (recvd <= 0) {
-            break;
-        }
-        if (!sendAll(client, buf, recvd)) {
-            break;
+        /*for (int i = 7; i < 6 + 3 * convertBackFromCharArrayToDouble(tankE[6]); i += 3)
+        {
+            char buf[sizeof(double)];
+            recv(client, buf, sizeof(buf), NULL);           
+            tankE.push_back(buf);
         }*/
+
+        //tank.newTank(tank, tankE);
+
+       /* for (int i = 0; i < constants::FIELD_HEIGHT; ++i)
+        {
+            for (int j = 0; j < constants::FIELD_WIDTH; ++j)
+                field.setField(j, i, static_cast<constants::Tiles>(convertBackFromCharArrayToInt(fieldE[i * constants::FIELD_WIDTH + j])));
+        }*/
+
     } while (true);
 
     closesocket(client);
@@ -201,15 +179,16 @@ int main()
     double delay = constants::delay;
     std::vector<Bullet> tmpBullets;
     bool isGameActive = false, fl = true;
-    bool isMP = false , isHost = false;
+    bool isClient = false , isHost = false;
   //  Server serv;
     Client cl;
-    {
+
+    /*{
         using namespace std;
         newGame(tank1, tankAI, field1, tankAIRespawnTime);
         cout << endl;
         cout << sizeof(tank1) << " " << sizeof(field1)<<endl;
-    }
+    }*/
 
     while (window.isOpen())
     {
@@ -234,7 +213,7 @@ int main()
                         newGame(tank1, tankAI, field1, tankAIRespawnTime);
                         clock.restart(); mainClock.restart();
                         isGameActive = true;
-                        isMP = false;
+                        isClient = false;
                         timer = 0; mainTimer = 0;
                         fps = 0;
                         delay = constants::delay;
@@ -242,13 +221,13 @@ int main()
                         break;
                     case 1://new host
                         isGameActive = true;
-                        isMP = true;
+                        isClient = false;
                         isHost = true;
                         
                         break;
                     case 2://new client
                         isGameActive = true;
-                        isMP = true;
+                        isClient = true;
                         isHost = false;
                         cl.client();
                         break;
@@ -265,14 +244,37 @@ int main()
         }
         else
         {
-            if (!isMP)
-            {
+            //if (!isMP)
+            //{
                 timer = clock.getElapsedTime().asMilliseconds() / 1000.0;
                 mainTimer = mainClock.getElapsedTime().asSeconds();
                 stat.SetStatistics(static_cast<long>(mainTimer), static_cast<int>(constants::Stat::TIME));
                 sf::Event event;
                 if (timer > delay)
                 {
+                    if (isHost)
+                    {
+                        {
+                            clientaddrlen = sizeof(clientaddr);
+
+                            client = accept(server, (SOCKADDR*)&clientaddr, &clientaddrlen);
+
+                            if (client == INVALID_SOCKET)
+                            {
+                                closesocket(server);
+                                WSACleanup();
+                                return 1;
+                            }
+
+                            readServ((LPVOID)client);
+                        }
+                        continue;
+                    }
+                    else if (isClient)
+                    {
+                        cl.exchange(field1, tank1);
+                    }
+
                     while (window.pollEvent(event))
                     {
                         tank1.bullet_shoot(window, event);
@@ -323,6 +325,8 @@ int main()
                     }
 
                     tank1.animation(fps);
+                    if(isHost) tank2.animation(fps);
+
                     for (int i = 0; i < tankAI.size(); ++i)
                     {
                         if (tankAI[i].isVisible())
@@ -440,6 +444,7 @@ int main()
                     tank1.bullets_colision(field1);
                     field1.draw(window, texture_block, texture_base);
                     tank1.draw(window, texture_all); // coord in tiles // spawn tank
+                    if(isHost) tank2.draw(window, texture_all);
                     stat.draw(window);
                     for (auto& tank : tankAI)
                         if (tank.isVisible())
@@ -465,35 +470,12 @@ int main()
                     timer = 0;
                     clock.restart();
                 }
-            }
+            //}
 
-            if (isMP)
-            {
-                if (isHost)
-                {
-                    {
-                        clientaddrlen = sizeof(clientaddr);
-
-                        client = accept(server, (SOCKADDR*)&clientaddr, &clientaddrlen);
-                        if (client == INVALID_SOCKET) {
-                            closesocket(server);
-                            WSACleanup();
-                            return 1;
-                        }
-
-                        hThread = CreateThread(NULL, 0, process_thread, (LPVOID)client, 0, &threadID);
-                        if (hThread)
-                            CloseHandle(hThread);
-                        else
-                            closesocket(client);
-                    }
-                    continue;
-                }
-                else
-                {
-                    cl.exchange(field1,tank1, tank1, tankAI);
-                }
-            }
+            //if (isMP)
+            //{
+                
+            //}
            
         }
     }

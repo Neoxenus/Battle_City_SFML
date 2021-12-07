@@ -23,9 +23,9 @@ char* convertToCharArray(double number)
 
 int convertBackFromCharArrayToInt(char* cstr)
 {
-    int number;
+    float number;
     sscanf_s(cstr, "%f", &number);
-    return number;
+    return static_cast<int>(number);
 }
 
 double convertBackFromCharArrayToDouble(char* cstr)

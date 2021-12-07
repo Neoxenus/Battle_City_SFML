@@ -35,7 +35,7 @@ void Client::client()
 	//}
 }
 
-void Client::exchange(Field& field, Tank& tank, Tank& tank2, std::vector<Tank>& tankAI)
+void Client::exchange(Field& field, Tank& tank1, Tank& tank2, std::vector<Tank>& tankAI)
 {
 	/*char tmp[256] = "s a ";
 	send(Connection, tmp, sizeof(256), NULL);*/
@@ -43,7 +43,7 @@ void Client::exchange(Field& field, Tank& tank, Tank& tank2, std::vector<Tank>& 
 	//int bufSize;
 	//char* buf;
 
-	std::vector<char*> tankE = tank.sendToServer();
+	std::vector<char*> tankE = tank2.sendToServer();
 	//std::vector<char*> fieldE = field.sendToServer();
 	
 
@@ -72,7 +72,8 @@ void Client::exchange(Field& field, Tank& tank, Tank& tank2, std::vector<Tank>& 
 		tankS1.push_back(buf);
 	}
 
-	tank2.newTank(tankS1);
+	tank1.newTank(tankS1);
+	tankS1.clear();
 
 	//tank2
 	std::vector<std::string> tankS2;
@@ -92,7 +93,7 @@ void Client::exchange(Field& field, Tank& tank, Tank& tank2, std::vector<Tank>& 
 	}
 
 	tank2.newTank(tankS2);
-
+	tankS2.clear();
 	//field
 	//std::vector<std::string> fieldE;
 	for (int i = 0; i < constants::FIELD_HEIGHT; ++i)
@@ -126,12 +127,12 @@ void Client::exchange(Field& field, Tank& tank, Tank& tank2, std::vector<Tank>& 
 	//tankAI
 	for (int j = 0; j < tankAI.size(); ++j)
 	{
-		std::vector<std::string> tankS1;
+		std::vector<std::string> tankS3;
 		for (int i = 0; i < 14; ++i)
 		{
 			char buf[sizeof(double)];
 			recv(Connection, buf, sizeof(buf), NULL);
-			tankS1.push_back(buf);
+			tankS3.push_back(buf);
 
 		}
 
@@ -139,9 +140,10 @@ void Client::exchange(Field& field, Tank& tank, Tank& tank2, std::vector<Tank>& 
 		{
 			char buf[sizeof(double)];
 			recv(Connection, buf, sizeof(buf), NULL);
-			tankS1.push_back(buf);
+			tankS3.push_back(buf);
 		}
 
-		tankAI[j].newTank(tankS1);
+		tankAI[j].newTank(tankS3);
+		tankS3.clear();
 	}
 }

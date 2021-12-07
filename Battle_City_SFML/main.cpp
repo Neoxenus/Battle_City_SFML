@@ -48,16 +48,68 @@ DWORD WINAPI process_thread(LPVOID lpParam) {
     SOCKET client = (SOCKET)lpParam;
     char buf[1024], * ptr;
     int recvd;
+    
+    std::vector<char*> tankE;
+    std::vector <char*> fieldE;
 
     do {
+
         recvd = recv(client, buf, sizeof(buf), 0);
+        std::cout << recvd << "\n";
+        for (int i = 0; i < 256; ++i)
+            std::cout << buf[0];
+        if (recvd <= 0) {
+            break;
+        }
+        //if (!sendAll(client, buf, recvd)) {
+        //    break;
+        //}
+
+
+       
+        //for (int i = 0; i < 8; i += 2)
+        //{
+        //    //recvd = recv(client, buf, sizeof(buf), NULL);
+        //    //if (recvd <= 0) break;
+        //    //if (!sendAll(client, buf, recvd)) break;
+        //    //char* buf = new char[bufSize + 1];
+        //    //buf[bufSize] = '\0';
+        //    recvd = recv(client, buf, sizeof(buf), NULL);
+        //    if (recvd <= 0) break;
+        //    tankE.push_back(buf);
+        //    std::cout << buf[0] << buf[1] << buf[2];
+        //    //delete[] buf;
+        //}
+        //tankE.resize(4 * convertBackFromCharArrayToInt(tankE[7] + 8));
+        //for (int i = 8; i < 8 + 6 * convertBackFromCharArrayToInt(tankE[7]); i += 2)
+        //{
+        //    //recv(client, (char*)&bufSize, sizeof(int), NULL);
+        //    //char* buf = new char[bufSize + 1];
+        //    //buf[bufSize] = '\0';
+        //    recvd = recv(client, buf, sizeof(buf), NULL);
+        //    if (recvd <= 0) break;
+        //    tankE.push_back(buf);
+        //    std::cout << buf[0] << buf[1] << buf[2];
+        //    //delete[] buf;
+        //}
+        ////tank.newTank(tank, tankE);
+
+        ///*for (int i = 0; i < constants::FIELD_HEIGHT; ++i)
+        //{
+        //    for (int j = 0; j < constants::FIELD_WIDTH; ++j)
+        //        field.setField(j, i, static_cast<constants::Tiles>(convertBackFromCharArrayToInt(fieldE[i * constants::FIELD_WIDTH + j])));
+        //}*/
+
+
+
+        /*recvd = recv(client, buf, sizeof(buf), 0);
         std::cout << recvd;
         if (recvd <= 0) {
             break;
         }
         if (!sendAll(client, buf, recvd)) {
             break;
-        }
+        }*/
     } while (true);
 
     closesocket(client);
@@ -70,45 +122,45 @@ int main()
 
     
 
-        WSADATA wsaData;
-        SOCKET server, client;
-        SOCKADDR_IN serveraddr;
-        SOCKADDR_IN clientaddr;
-        int res, clientaddrlen;
-        HANDLE hThread;
-        DWORD threadID;
+    WSADATA wsaData;
+    SOCKET server, client;
+    SOCKADDR_IN serveraddr;
+    SOCKADDR_IN clientaddr;
+    int res, clientaddrlen;
+    HANDLE hThread;
+    DWORD threadID;
 
-        res = WSAStartup(MAKEWORD(2, 1), &wsaData);
-        if (res != 0) {
-            return 1;
-        }
+    res = WSAStartup(MAKEWORD(2, 1), &wsaData);
+    if (res != 0) {
+        return 1;
+    }
 
-        ZeroMemory(&serveraddr, sizeof(serveraddr));
-        serveraddr.sin_family = AF_INET;
-        serveraddr.sin_addr.s_addr = INADDR_ANY;
-        serveraddr.sin_port = htons(3490);
+    ZeroMemory(&serveraddr, sizeof(serveraddr));
+    serveraddr.sin_family = AF_INET;
+    serveraddr.sin_addr.s_addr = INADDR_ANY;
+    serveraddr.sin_port = htons(3490);
 
-        server = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-        if (server == INVALID_SOCKET) {
-            WSACleanup();
-            return 1;
-        }
+    server = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (server == INVALID_SOCKET) {
+        WSACleanup();
+        return 1;
+    }
 
-        res = bind(server, (SOCKADDR*)&serveraddr, sizeof(serveraddr));
-        if (res == SOCKET_ERROR) {
-            closesocket(server);
-            WSACleanup();
-            return 1;
-        }
+    res = bind(server, (SOCKADDR*)&serveraddr, sizeof(serveraddr));
+    if (res == SOCKET_ERROR) {
+        closesocket(server);
+        WSACleanup();
+        return 1;
+    }
 
-        res = listen(server, 5);
-        if (res == SOCKET_ERROR) {
-            closesocket(server);
-            WSACleanup();
-            return 1;
-        }
+    res = listen(server, 5);
+    if (res == SOCKET_ERROR) {
+        closesocket(server);
+        WSACleanup();
+        return 1;
+    }
 
-        //do while (true);
+    //do while (true);
 
         
 
@@ -148,7 +200,7 @@ int main()
     int fps = 0;
     double delay = constants::delay;
     std::vector<Bullet> tmpBullets;
-    bool isGameActive = false;
+    bool isGameActive = false, fl = true;
     bool isMP = false , isHost = false;
   //  Server serv;
     Client cl;

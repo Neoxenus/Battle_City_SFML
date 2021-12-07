@@ -69,7 +69,7 @@ void Tank::newTank(std::vector<std::string> data)
     this->prY = convertBackFromCharArrayToDouble(convertFromStringToCharArray(data[static_cast<int>(constants::PacketsIndexes::prY)]));
  
 
-    for (int i = static_cast<int>(constants::PacketsIndexes::prY) + 1; i < static_cast<int>(constants::PacketsIndexes::prY) + 3 * numOfBullets; i += 3)
+    for (int i = static_cast<int>(constants::PacketsIndexes::prY) + 1; i < static_cast<int>(constants::PacketsIndexes::prY) + 1 + 3 * numOfBullets; i += 3)
     {
         // constants::Directions dir = static_cast<constants::Directions> (convertBackFromCharArrayToInt(data[i + 2]));
         Bullet tmp(

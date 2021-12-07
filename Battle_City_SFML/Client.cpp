@@ -54,22 +54,94 @@ void Client::exchange(Field& field, Tank& tank, Tank& tank2, std::vector<Tank>& 
 		send(Connection, tankE[i], sizeof(double), NULL);
 	}
 
-	//int bufSize;
-	//char* buf;
-	//for (int i = 0; i < 8; i+=2)
-	//{
-	//	recv(Connection, (char*)&tankE[i], sizeof(int), NULL);
-	//	recv(Connection, tankE[i+1], convertBackFromCharArrayToInt(tankE[i]), NULL);
-	//}
-	//tankE.resize(4 * convertBackFromCharArrayToInt(tankE[7] +8));
-	//for (int i = 8; i < 8 + 6 * convertBackFromCharArrayToInt(tankE[7]); i+=2)
-	//{
-	//	recv(Connection, tankE[i], sizeof(int), NULL);
-	//	recv(Connection, tankE[i + 1], convertBackFromCharArrayToInt(tankE[i]), NULL);
-	//}
-	//tank.newTank(tankE);
 
-	//for (int i = 0; i < constants::FIELD_HEIGHT; ++i)
-	//	for (int j = 0; j < constants::FIELD_WIDTH; ++j)
-	//		field.setField(j,i, static_cast<constants::Tiles>(convertBackFromCharArrayToInt(fieldE[i * constants::FIELD_WIDTH + j])));
+	//tank1
+	std::vector<std::string> tankS1;
+	for (int i = 0; i < 14; ++i)
+	{
+		char buf[sizeof(double)];
+		recv(Connection, buf, sizeof(buf), NULL);
+		tankS1.push_back(buf);
+
+	}
+	
+	for (int i = 14; i < 13 + 3 * convertBackFromCharArrayToDouble(convertFromStringToCharArray(tankE[static_cast<int>(constants::PacketsIndexes::TankBulletsSize)])); ++i)
+	{
+		char buf[sizeof(double)];
+		recv(Connection, buf, sizeof(buf), NULL);
+		tankS1.push_back(buf);
+	}
+
+	tank2.newTank(tankS1);
+
+	//tank2
+	std::vector<std::string> tankS2;
+	for (int i = 0; i < 14; ++i)
+	{
+		char buf[sizeof(double)];
+		recv(Connection, buf, sizeof(buf), NULL);
+		tankS2.push_back(buf);
+
+	}
+
+	for (int i = 14; i < 13 + 3 * convertBackFromCharArrayToDouble(convertFromStringToCharArray(tankE[static_cast<int>(constants::PacketsIndexes::TankBulletsSize)])); ++i)
+	{
+		char buf[sizeof(double)];
+		recv(Connection, buf, sizeof(buf), NULL);
+		tankS2.push_back(buf);
+	}
+
+	tank2.newTank(tankS2);
+
+	//field
+	//std::vector<std::string> fieldE;
+	for (int i = 0; i < constants::FIELD_HEIGHT; ++i)
+		for (int j = 0; j < constants::FIELD_WIDTH; ++j)
+		{
+			char buf[sizeof(int)];
+			recv(Connection, buf, sizeof(buf), NULL);
+			field.setField(j, i, static_cast<constants::Tiles>(convertBackFromCharArrayToInt(
+				convertFromStringToCharArray(buf))));
+		}
+
+	{
+		char buf[sizeof(int)];
+		recv(Connection, buf, sizeof(buf), NULL);
+		field.setEnemyCount(convertBackFromCharArrayToInt(
+			convertFromStringToCharArray(buf)));
+	}
+	{
+		char buf[sizeof(int)];
+		recv(Connection, buf, sizeof(buf), NULL);
+		field.setPlayerLives(convertBackFromCharArrayToInt(
+			convertFromStringToCharArray(buf)));
+	}
+	{
+		char buf[sizeof(int)];
+		recv(Connection, buf, sizeof(buf), NULL);
+		field.setEnemyToSpawn(convertBackFromCharArrayToInt(
+			convertFromStringToCharArray(buf)));
+	}
+
+	//tankAI
+	for (int j = 0; j < tankAI.size(); ++j)
+	{
+		std::vector<std::string> tankS1;
+		for (int i = 0; i < 14; ++i)
+		{
+			char buf[sizeof(double)];
+			recv(Connection, buf, sizeof(buf), NULL);
+			tankS1.push_back(buf);
+
+		}
+
+		for (int i = 14; i < 13 + 3 * convertBackFromCharArrayToDouble(convertFromStringToCharArray(tankE[static_cast<int>(constants::PacketsIndexes::TankBulletsSize)])); ++i)
+		{
+			char buf[sizeof(double)];
+			recv(Connection, buf, sizeof(buf), NULL);
+			tankS1.push_back(buf);
+		}
+
+		tankAI[j].newTank(tankS1);
+	}
 }

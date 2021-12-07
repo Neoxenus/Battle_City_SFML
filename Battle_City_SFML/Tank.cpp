@@ -3,11 +3,12 @@
 
 char* convertFromStringToCharArray(std::string data)
 {
-    char* ans = new char[data.size()];
+    char* ans = new char[data.size() +1];
     for (int i = 0; i < data.size(); ++i)
     {
         ans[i] = data[i];
     }
+    ans[data.size()] = '\0';
     return ans;
 }
 

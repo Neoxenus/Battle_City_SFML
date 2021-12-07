@@ -2,6 +2,8 @@
 #include "Field.h"
 #include "Bullet.h"
 
+char* convertFromStringToCharArray(std::string);
+
 class Tank
 {
     //3,3,3,3,2,4,2,2 ;tank speed //pixel per 4 frames
@@ -18,10 +20,12 @@ private:
     double prX, prY;
     double subCoordX, subCoordY;//absolute coords for drawing
     std::vector <Bullet> bullets;
+    
+
 public:
     Tank();
     Tank(bool isPlayer, int tankType);
-    void newTank(Tank& tank, std::vector<char*>);
+    void newTank(std::vector<std::string> data);
     constants::Directions getDirection();
     int getMaxShots();
     double getCoordX();

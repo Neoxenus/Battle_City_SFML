@@ -9,6 +9,7 @@ char* convertFromStringToCharArray(std::string data)
     {
         ans[i] = data[i];
     }
+    ans[data.size()] = '\0';
     return ans;
 }
 

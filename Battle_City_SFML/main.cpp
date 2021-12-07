@@ -270,7 +270,7 @@ int main()
                     }
                     else if (isClient)
                     {
-                        cl.exchange(field1, tank1);
+                        cl.exchange(field1, tank1, tank1, tankAI);
                     }
 
                     while (window.pollEvent(event))

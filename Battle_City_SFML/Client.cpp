@@ -67,7 +67,7 @@ void Client::exchange(Field& field, Tank& tank, Tank& tank2, std::vector<Tank>& 
 	//	recv(Connection, tankE[i], sizeof(int), NULL);
 	//	recv(Connection, tankE[i + 1], convertBackFromCharArrayToInt(tankE[i]), NULL);
 	//}
-	//tank.newTank(tank, tankE);
+	//tank.newTank(tankE);
 
 	//for (int i = 0; i < constants::FIELD_HEIGHT; ++i)
 	//	for (int j = 0; j < constants::FIELD_WIDTH; ++j)

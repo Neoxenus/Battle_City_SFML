@@ -35,7 +35,7 @@ void Client::client()
 	//}
 }
 
-void Client::exchange(Field& field, Tank& tank, Tank& tank2, std::vector<Tank>& tankAI)
+void Client::exchange(Field& field, Tank& tank1, Tank& tank2, std::vector<Tank>& tankAI)
 {
 	/*char tmp[256] = "s a ";
 	send(Connection, tmp, sizeof(256), NULL);*/
@@ -43,7 +43,7 @@ void Client::exchange(Field& field, Tank& tank, Tank& tank2, std::vector<Tank>& 
 	//int bufSize;
 	//char* buf;
 
-	std::vector<char*> tankE = tank.sendToServer();
+	std::vector<char*> tankE = tank2.sendToServer();
 	//std::vector<char*> fieldE = field.sendToServer();
 	
 
@@ -72,7 +72,7 @@ void Client::exchange(Field& field, Tank& tank, Tank& tank2, std::vector<Tank>& 
 		tankS1.push_back(buf);
 	}
 
-	tank.newTank(tankS1);
+	tank1.newTank(tankS1);
 	tankS1.clear();
 
 	//tank2

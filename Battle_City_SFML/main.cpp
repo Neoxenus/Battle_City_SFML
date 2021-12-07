@@ -1,5 +1,5 @@
 #include "SFML/Graphics.hpp"
-//#include "Server.h"
+#include "Server.h"
 #include "Client.h"
 #include "Tank.h"
 #include <ctime>
@@ -8,7 +8,7 @@
 #include "Menu.h"
 #include "StatisticBox.h"
 
-#define godMode 1
+#define godMode 0
 
 Tank tank2(true, 0);
 
@@ -23,10 +23,10 @@ void newGame(Tank& tank1, std::vector<Tank>& tankAI, Field& field1, std::vector<
     tankAIRespawnTime = bufTankAIRespawnTime;
 }
 
-int min(int a, int b)
-{
-    return (a > b) ? b : a;
-}
+//int min(int a, int b)
+//{
+//    return (a > b) ? b : a;
+//}
 
 bool sendAll(SOCKET sock, void* buf, int buflen)
 {

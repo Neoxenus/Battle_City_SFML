@@ -10,6 +10,8 @@
 
 #define godMode 1
 
+Tank tank2(true, 0);
+
 void newGame(Tank& tank1, std::vector<Tank>& tankAI, Field& field1, std::vector<double>& tankAIRespawnTime)
 {
     field1.setField(constants::field1);
@@ -43,7 +45,8 @@ bool sendAll(SOCKET sock, void* buf, int buflen)
     return true;
 }
 
-DWORD WINAPI process_thread(LPVOID lpParam, Field& field, Tank& tank) {
+DWORD WINAPI readServ(LPVOID lpParam) 
+{
 
     SOCKET client = (SOCKET)lpParam;
     //char buf [sizeof(double)];
@@ -174,15 +177,16 @@ int main()
     double delay = constants::delay;
     std::vector<Bullet> tmpBullets;
     bool isGameActive = false, fl = true;
-    bool isMP = false , isHost = false;
+    bool isClient = false , isHost = false;
   //  Server serv;
     Client cl;
-    {
+
+    /*{
         using namespace std;
         newGame(tank1, tankAI, field1, tankAIRespawnTime);
         cout << endl;
         cout << sizeof(tank1) << " " << sizeof(field1)<<endl;
-    }
+    }*/
 
     while (window.isOpen())
     {
@@ -207,7 +211,7 @@ int main()
                         newGame(tank1, tankAI, field1, tankAIRespawnTime);
                         clock.restart(); mainClock.restart();
                         isGameActive = true;
-                        isMP = false;
+                        isClient = false;
                         timer = 0; mainTimer = 0;
                         fps = 0;
                         delay = constants::delay;
@@ -215,13 +219,13 @@ int main()
                         break;
                     case 1://new host
                         isGameActive = true;
-                        isMP = true;
+                        isClient = false;
                         isHost = true;
                         
                         break;
                     case 2://new client
                         isGameActive = true;
-                        isMP = true;
+                        isClient = true;
                         isHost = false;
                         cl.client();
                         break;
@@ -238,14 +242,37 @@ int main()
         }
         else
         {
-            if (!isMP)
-            {
+            //if (!isMP)
+            //{
                 timer = clock.getElapsedTime().asMilliseconds() / 1000.0;
                 mainTimer = mainClock.getElapsedTime().asSeconds();
                 stat.SetStatistics(static_cast<long>(mainTimer), static_cast<int>(constants::Stat::TIME));
                 sf::Event event;
                 if (timer > delay)
                 {
+                    if (isHost)
+                    {
+                        {
+                            clientaddrlen = sizeof(clientaddr);
+
+                            client = accept(server, (SOCKADDR*)&clientaddr, &clientaddrlen);
+
+                            if (client == INVALID_SOCKET)
+                            {
+                                closesocket(server);
+                                WSACleanup();
+                                return 1;
+                            }
+
+                            readServ((LPVOID)client);
+                        }
+                        continue;
+                    }
+                    else if (isClient)
+                    {
+                        cl.exchange(field1, tank1);
+                    }
+
                     while (window.pollEvent(event))
                     {
                         tank1.bullet_shoot(window, event);
@@ -438,31 +465,12 @@ int main()
                     timer = 0;
                     clock.restart();
                 }
-            }
+            //}
 
-            if (isMP)
-            {
-                if (isHost)
-                {
-                    {
-                        clientaddrlen = sizeof(clientaddr);
-
-                        client = accept(server, (SOCKADDR*)&clientaddr, &clientaddrlen);
-                        if (client == INVALID_SOCKET) {
-                            closesocket(server);
-                            WSACleanup();
-                            return 1;
-                        }
-
-                        process_thread((LPVOID)client, field1, tank1);
-                    }
-                    continue;
-                }
-                else
-                {
-                    cl.exchange(field1,tank1);
-                }
-            }
+            //if (isMP)
+            //{
+                
+            //}
            
         }
     }

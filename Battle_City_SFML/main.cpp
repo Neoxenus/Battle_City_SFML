@@ -43,73 +43,46 @@ bool sendAll(SOCKET sock, void* buf, int buflen)
     return true;
 }
 
-DWORD WINAPI process_thread(LPVOID lpParam) {
+DWORD WINAPI process_thread(LPVOID lpParam, Field& field, Tank& tank) {
 
     SOCKET client = (SOCKET)lpParam;
-    char buf[1024], * ptr;
-    int recvd;
+    //char buf [sizeof(double)];
+    //char buff[256];
+    int bufSize;
     
-    std::vector<char*> tankE;
-    std::vector <char*> fieldE;
+    std::vector <std::string> tankE;
+    //std::vector <std::string> fieldE;
 
     do {
 
-        recvd = recv(client, buf, sizeof(buf), 0);
+        /*int recvd = recv(client, buff, sizeof(buf), 0);
         std::cout << recvd << "\n";
-        for (int i = 0; i < 256; ++i)
-            std::cout << buf[0];
-        if (recvd <= 0) {
-            break;
+        for (int i = 0; i < recvd; ++i)
+            std::cout << buff[i];*/
+
+        for (int i = 0; i < 7; ++i)
+        {
+            char buf[sizeof(double)];
+            recv(client, buf, sizeof(buf), NULL);           
+            tankE.push_back(buf);
+            
         }
-        //if (!sendAll(client, buf, recvd)) {
-        //    break;
-        //}
-
-
-       
-        //for (int i = 0; i < 8; i += 2)
-        //{
-        //    //recvd = recv(client, buf, sizeof(buf), NULL);
-        //    //if (recvd <= 0) break;
-        //    //if (!sendAll(client, buf, recvd)) break;
-        //    //char* buf = new char[bufSize + 1];
-        //    //buf[bufSize] = '\0';
-        //    recvd = recv(client, buf, sizeof(buf), NULL);
-        //    if (recvd <= 0) break;
-        //    tankE.push_back(buf);
-        //    std::cout << buf[0] << buf[1] << buf[2];
-        //    //delete[] buf;
-        //}
-        //tankE.resize(4 * convertBackFromCharArrayToInt(tankE[7] + 8));
-        //for (int i = 8; i < 8 + 6 * convertBackFromCharArrayToInt(tankE[7]); i += 2)
-        //{
-        //    //recv(client, (char*)&bufSize, sizeof(int), NULL);
-        //    //char* buf = new char[bufSize + 1];
-        //    //buf[bufSize] = '\0';
-        //    recvd = recv(client, buf, sizeof(buf), NULL);
-        //    if (recvd <= 0) break;
-        //    tankE.push_back(buf);
-        //    std::cout << buf[0] << buf[1] << buf[2];
-        //    //delete[] buf;
-        //}
-        ////tank.newTank(tank, tankE);
-
-        ///*for (int i = 0; i < constants::FIELD_HEIGHT; ++i)
-        //{
-        //    for (int j = 0; j < constants::FIELD_WIDTH; ++j)
-        //        field.setField(j, i, static_cast<constants::Tiles>(convertBackFromCharArrayToInt(fieldE[i * constants::FIELD_WIDTH + j])));
-        //}*/
-
-
-
-        /*recvd = recv(client, buf, sizeof(buf), 0);
-        std::cout << recvd;
-        if (recvd <= 0) {
-            break;
-        }
-        if (!sendAll(client, buf, recvd)) {
-            break;
+        
+        /*for (int i = 7; i < 6 + 3 * convertBackFromCharArrayToDouble(tankE[6]); i += 3)
+        {
+            char buf[sizeof(double)];
+            recv(client, buf, sizeof(buf), NULL);           
+            tankE.push_back(buf);
         }*/
+
+        //tank.newTank(tank, tankE);
+
+       /* for (int i = 0; i < constants::FIELD_HEIGHT; ++i)
+        {
+            for (int j = 0; j < constants::FIELD_WIDTH; ++j)
+                field.setField(j, i, static_cast<constants::Tiles>(convertBackFromCharArrayToInt(fieldE[i * constants::FIELD_WIDTH + j])));
+        }*/
+
     } while (true);
 
     closesocket(client);
@@ -204,6 +177,12 @@ int main()
     bool isMP = false , isHost = false;
   //  Server serv;
     Client cl;
+    {
+        using namespace std;
+        newGame(tank1, tankAI, field1, tankAIRespawnTime);
+        cout << endl;
+        cout << sizeof(tank1) << " " << sizeof(field1)<<endl;
+    }
 
     while (window.isOpen())
     {
@@ -475,11 +454,7 @@ int main()
                             return 1;
                         }
 
-                        hThread = CreateThread(NULL, 0, process_thread, (LPVOID)client, 0, &threadID);
-                        if (hThread)
-                            CloseHandle(hThread);
-                        else
-                            closesocket(client);
+                        process_thread((LPVOID)client, field1, tank1);
                     }
                     continue;
                 }

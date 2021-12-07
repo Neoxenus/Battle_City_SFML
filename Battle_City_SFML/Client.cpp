@@ -3,20 +3,18 @@
 void Client::client()
 {
 	//WSAStartup
-	WSAData wsaData;
-	WORD DLLVersion = MAKEWORD(2, 1);
+	DLLVersion = MAKEWORD(2, 1);
 	if (WSAStartup(DLLVersion, &wsaData) != 0) 
 	{
 		std::cout << "Error" << std::endl;
 		exit(1);
 	}
-	SOCKADDR_IN addr;
 	int sizeofaddr = sizeof(addr);
 	addr.sin_addr.s_addr = inet_addr("26.248.220.2");
 	addr.sin_port = htons(3490);
 	addr.sin_family = AF_INET;
 
-	SOCKET Connection = socket(AF_INET, SOCK_STREAM, NULL);
+	Connection = socket(AF_INET, SOCK_STREAM, NULL);
 	if (connect(Connection, (SOCKADDR*)&addr, sizeof(addr)) != 0) 
 	{
 		std::cout << "Error: failed connect to server.\n";
@@ -29,40 +27,36 @@ void Client::client()
 
 
 
-	char msg1[256];
-	while (true) {
-		std::cin.getline(msg1, sizeof(msg1));
-		send(Connection, msg1, sizeof(msg1), NULL);
-		Sleep(10);
-	}
+	//char msg1[256];
+	//while (true) {
+	//	std::cin.getline(msg1, sizeof(msg1));
+	//	send(Connection, msg1, sizeof(msg1), NULL);
+	//	Sleep(10);
+	//}
 }
 
 void Client::exchange(Field& field, Tank& tank)
 {
-	std::string tmp = "sdasdfsasf";
-	int tmpSize = tmp.size();
+	std::vector<char*> tankE = tank.sendToServer();
+	std::vector<char*> fieldE = field.sendToServer();
 
-	send(Connection, (char*)&tmpSize, sizeof(int), NULL);
-	send(Connection, tmp.c_str(), tmpSize, NULL);
-	//std::vector<char*> tankE = tank.sendToServer();
-	//std::vector<char*> fieldE = field.sendToServer();
-	//char bufSize = sizeof(tankE[0]);
-	//send(Connection, (char*)&bufSize, sizeof(char), NULL);
-	//send(Connection, tankE[0], bufSize, NULL);
+	/*char bufSize = sizeof(tankE[0]);
+	send(Connection, (char*)&bufSize, sizeof(char), NULL);
+	send(Connection, tankE[0], bufSize, NULL);*/
 
-	//for (int i = 0; i < tankE.size(); ++i)
-	//{
-	//	int bufSize = sizeof(tankE[i]);
-	//	send(Connection, (char*)&bufSize, sizeof(int), NULL);
-	//	send(Connection, tankE[i], bufSize, NULL);
-	//}
-	//	
-	//for (int i = 0; i < fieldE.size(); ++i)
-	//{
-	//	int bufSize = sizeof(fieldE[i]);
-	//	send(Connection, (char*)&bufSize, sizeof(int), NULL);
-	//	send(Connection, fieldE[i], bufSize, NULL);
-	//}
+	for (int i = 0; i < tankE.size(); ++i)
+	{
+		int bufSize = sizeof(tankE[i]);
+		send(Connection, (char*)&bufSize, sizeof(int), NULL);
+		send(Connection, tankE[i], bufSize, NULL);
+	}
+		
+	for (int i = 0; i < fieldE.size(); ++i)
+	{
+		int bufSize = sizeof(fieldE[i]);
+		send(Connection, (char*)&bufSize, sizeof(int), NULL);
+		send(Connection, fieldE[i], bufSize, NULL);
+	}
 		
 
 	//

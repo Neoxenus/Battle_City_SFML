@@ -29,34 +29,33 @@ void Client::client()
 
 
 
-	char msg1[256];
-	while (true) {
-		std::cin.getline(msg1, sizeof(msg1));
-		send(Connection, msg1, sizeof(msg1), NULL);
-		Sleep(10);
-	}
+	//char msg1[256];
+	//while (true) {
+	//	std::cin.getline(msg1, sizeof(msg1));
+	//	send(Connection, msg1, sizeof(msg1), NULL);
+	//	Sleep(10);
+	//}
 }
 
 void Client::exchange(Field& field, Tank& tank)
 {
-	std::string tmp = "sdasdfsasf";
-	int tmpSize = tmp.size();
+	char tmp[1024] = "sdasdfsasf";
 
-	send(Connection, (char*)&tmpSize, sizeof(int), NULL);
-	send(Connection, tmp.c_str(), tmpSize, NULL);
+	//send(Connection, (char*)&tmpSize, sizeof(int), NULL);
+	send(Connection, tmp, sizeof(1024), NULL);
 	//std::vector<char*> tankE = tank.sendToServer();
 	//std::vector<char*> fieldE = field.sendToServer();
 	//char bufSize = sizeof(tankE[0]);
-	//send(Connection, (char*)&bufSize, sizeof(char), NULL);
+	////send(Connection, (char*)&bufSize, sizeof(char), NULL);
 	//send(Connection, tankE[0], bufSize, NULL);
 
 	//for (int i = 0; i < tankE.size(); ++i)
 	//{
 	//	int bufSize = sizeof(tankE[i]);
-	//	send(Connection, (char*)&bufSize, sizeof(int), NULL);
+	//	//send(Connection, (char*)&bufSize, sizeof(int), NULL);
 	//	send(Connection, tankE[i], bufSize, NULL);
 	//}
-	//	
+		
 	//for (int i = 0; i < fieldE.size(); ++i)
 	//{
 	//	int bufSize = sizeof(fieldE[i]);

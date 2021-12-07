@@ -323,6 +323,8 @@ int main()
                     }
 
                     tank1.animation(fps);
+                    if(isHost) tank2.animation(fps);
+
                     for (int i = 0; i < tankAI.size(); ++i)
                     {
                         if (tankAI[i].isVisible())
@@ -440,6 +442,7 @@ int main()
                     tank1.bullets_colision(field1);
                     field1.draw(window, texture_block, texture_base);
                     tank1.draw(window, texture_all); // coord in tiles // spawn tank
+                    if(isHost) tank2.draw(window, texture_all);
                     stat.draw(window);
                     for (auto& tank : tankAI)
                         if (tank.isVisible())

@@ -74,6 +74,7 @@ void Client::exchange(Field& field, Tank& tank, Tank& tank2, std::vector<Tank>& 
 
 	tank.newTank(tankS1);
 	tankS1.clear();
+
 	//tank2
 	std::vector<std::string> tankS2;
 	for (int i = 0; i < 14; ++i)

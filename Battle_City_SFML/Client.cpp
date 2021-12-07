@@ -72,7 +72,7 @@ void Client::exchange(Field& field, Tank& tank, Tank& tank2, std::vector<Tank>& 
 		tankS1.push_back(buf);
 	}
 
-	tank2.newTank(tankS1);
+	tank.newTank(tankS1);
 
 	//tank2
 	std::vector<std::string> tankS2;

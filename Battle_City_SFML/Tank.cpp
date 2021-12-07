@@ -53,7 +53,7 @@ void Tank::newTank(std::vector<std::string> data)
     this->coordX = convertBackFromCharArrayToDouble(convertFromStringToCharArray(data[static_cast<int>(constants::PacketsIndexes::TankCoordX)]));
     this->coordY = convertBackFromCharArrayToDouble(convertFromStringToCharArray(data[static_cast<int>(constants::PacketsIndexes::TankCoordY)]));
     this->subCoordX = convertBackFromCharArrayToDouble(convertFromStringToCharArray(data[static_cast<int>(constants::PacketsIndexes::TankSubCoordX)]));
-    this->subCoordY = convertBackFromCharArrayToDouble(convertFromStringToCharArray(data[static_cast<int>(constants::PacketsIndexes::TankSubCoordXY)]));
+    this->subCoordY = convertBackFromCharArrayToDouble(convertFromStringToCharArray(data[static_cast<int>(constants::PacketsIndexes::TankSubCoordY)]));
     this->tankType = static_cast<int>(convertBackFromCharArrayToDouble(convertFromStringToCharArray(data[static_cast<int>(constants::PacketsIndexes::TankType)])));
     this->direction = static_cast<constants::Directions>(static_cast<int>(
         convertBackFromCharArrayToDouble(convertFromStringToCharArray(data[static_cast<int>(constants::PacketsIndexes::TankDirecton)]))));

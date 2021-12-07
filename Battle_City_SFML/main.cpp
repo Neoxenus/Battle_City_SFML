@@ -276,7 +276,6 @@ int main()
                             char buf[sizeof(double)];
                             recv(client, buf, sizeof(buf), NULL);
                             tankE.push_back(buf);
-
                         }
 
                         for (int i = 14; i < 13 + 3 * convertBackFromCharArrayToDouble(convertFromStringToCharArray(tankE[static_cast<int>(constants::PacketsIndexes::TankBulletsSize)])); ++i)
@@ -493,6 +492,40 @@ int main()
                         Sleep(1000);
                         isGameActive = false;
                         continue;
+                    }
+
+                    if (isHost)
+                    {
+                        std::vector<char*> tmp = tank1.sendToServer();
+                        for (int i = 0; i < tmp.size(); ++i)
+                        {                           
+                            send(client, tmp[i], sizeof(double), NULL);
+                        }
+
+                        tmp = tank2.sendToServer();
+                        for (int i = 0; i < tmp.size(); ++i)
+                        {
+                            send(client, tmp[i], sizeof(double), NULL);
+                        }
+
+                        tmp = field1.sendToServer();
+                        for (int i = 0; i < tmp.size(); ++i)
+                        {                            
+                            send(client, tmp[i], sizeof(int), NULL);
+                        }
+
+                        send(client, convertToCharArray(field1.getEnemyCount()), sizeof(int), NULL);
+                        send(client, convertToCharArray(field1.getPlayerLives()), sizeof(int), NULL);
+                        send(client, convertToCharArray(field1.getEnemyToSpawn()), sizeof(int), NULL);
+
+                        for (int j = 0; j < tankAI.size(); ++j)
+                        {
+                            tmp = tankAI[j].sendToServer();
+                            for (int i = 0; i < tmp.size(); ++i)
+                            {
+                                send(client, tmp[i], sizeof(double), NULL);
+                            }
+                        }
                     }
                 }
                 if (timer > constants::delay * 128 * 256)

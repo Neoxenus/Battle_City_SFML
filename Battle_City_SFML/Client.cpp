@@ -73,6 +73,7 @@ void Client::exchange(Field& field, Tank& tank, Tank& tank2, std::vector<Tank>& 
 	}
 
 	tank.newTank(tankS1);
+	tankS1.clear();
 
 	//tank2
 	std::vector<std::string> tankS2;
@@ -92,7 +93,7 @@ void Client::exchange(Field& field, Tank& tank, Tank& tank2, std::vector<Tank>& 
 	}
 
 	tank2.newTank(tankS2);
-
+	tankS2.clear();
 	//field
 	//std::vector<std::string> fieldE;
 	for (int i = 0; i < constants::FIELD_HEIGHT; ++i)
@@ -143,5 +144,6 @@ void Client::exchange(Field& field, Tank& tank, Tank& tank2, std::vector<Tank>& 
 		}
 
 		tankAI[j].newTank(tankS1);
+		tankS1.clear();
 	}
 }

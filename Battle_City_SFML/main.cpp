@@ -10,7 +10,7 @@
 
 #define godMode 1
 
-Tank tank2(true, 0);
+//Tank tank2(true, 0);
 
 void newGame(Tank& tank1, std::vector<Tank>& tankAI, Field& field1, std::vector<double>& tankAIRespawnTime)
 {
@@ -45,54 +45,54 @@ bool sendAll(SOCKET sock, void* buf, int buflen)
     return true;
 }
 
-DWORD WINAPI readServ(LPVOID lpParam) 
-{
-
-    SOCKET client = (SOCKET)lpParam;
-    //char buf [sizeof(double)];
-    //char buff[256];
-    int bufSize;
-    
-    std::vector <std::string> tankE;
-    //std::vector <std::string> fieldE;
-
-    do {
-
-        /*int recvd = recv(client, buff, sizeof(buf), 0);
-        std::cout << recvd << "\n";
-        for (int i = 0; i < recvd; ++i)
-            std::cout << buff[i];*/
-
-        for (int i = 0; i < 14; ++i)
-        {
-            char buf[sizeof(double)];
-            recv(client, buf, sizeof(buf), NULL);           
-            tankE.push_back(buf);
-            
-        }
-        
-        tank2.newTank(tankE);
-
-        /*for (int i = 7; i < 6 + 3 * convertBackFromCharArrayToDouble(tankE[6]); i += 3)
-        {
-            char buf[sizeof(double)];
-            recv(client, buf, sizeof(buf), NULL);           
-            tankE.push_back(buf);
-        }*/
-
-        //tank.newTank(tank, tankE);
-
-       /* for (int i = 0; i < constants::FIELD_HEIGHT; ++i)
-        {
-            for (int j = 0; j < constants::FIELD_WIDTH; ++j)
-                field.setField(j, i, static_cast<constants::Tiles>(convertBackFromCharArrayToInt(fieldE[i * constants::FIELD_WIDTH + j])));
-        }*/
-
-    } while (true);
-
-    closesocket(client);
-    return 0;
-}
+//DWORD WINAPI readServ(LPVOID lpParam) 
+//{
+//
+//    SOCKET client = (SOCKET)lpParam;
+//    //char buf [sizeof(double)];
+//    //char buff[256];
+//    int bufSize;
+//    
+//    std::vector <std::string> tankE;
+//    //std::vector <std::string> fieldE;
+//
+//    do {
+//
+//        /*int recvd = recv(client, buff, sizeof(buf), 0);
+//        std::cout << recvd << "\n";
+//        for (int i = 0; i < recvd; ++i)
+//            std::cout << buff[i];*/
+//
+//        for (int i = 0; i < 14; ++i)
+//        {
+//            char buf[sizeof(double)];
+//            recv(client, buf, sizeof(buf), NULL);           
+//            tankE.push_back(buf);
+//            
+//        }
+//        
+//        tank2.newTank(tankE);
+//
+//        /*for (int i = 7; i < 6 + 3 * convertBackFromCharArrayToDouble(tankE[6]); i += 3)
+//        {
+//            char buf[sizeof(double)];
+//            recv(client, buf, sizeof(buf), NULL);           
+//            tankE.push_back(buf);
+//        }*/
+//
+//        //tank.newTank(tank, tankE);
+//
+//       /* for (int i = 0; i < constants::FIELD_HEIGHT; ++i)
+//        {
+//            for (int j = 0; j < constants::FIELD_WIDTH; ++j)
+//                field.setField(j, i, static_cast<constants::Tiles>(convertBackFromCharArrayToInt(fieldE[i * constants::FIELD_WIDTH + j])));
+//        }*/
+//
+//    } while (true);
+//
+//    closesocket(client);
+//    return 0;
+//}
 
 int main()
 {
@@ -159,9 +159,10 @@ int main()
 
     Field field1;
     field1.setField(constants::field1);
-    Tank tank1(true , 0);
+    Tank tank1(true , 0), tank2(true, 0);
     std::vector<Tank> tankAI{ {false, 0}, {false, 0}, {false, 0}, {false, 0} };
     std::vector<double> tankAIRespawnTime{ 0.0, 3.0, 6.0, 9.0};
+    std::vector <std::string> tankE;
 
     sf::RenderWindow window(sf::VideoMode(constants::windowWidth, constants::windowHeight), "", sf::Style::Titlebar | sf::Style::Close);
     window.setFramerateLimit(240);
@@ -266,13 +267,28 @@ int main()
                                 return 1;
                             }
 
-                            readServ((LPVOID)client);
+                            for (int i = 0; i < 14; ++i)
+                            {
+                                char buf[sizeof(double)];
+                                recv(client, buf, sizeof(buf), NULL);
+                                tankE.push_back(buf);
+
+                            }
+
+                            for (int i = 14; i < 13 + 3 * convertBackFromCharArrayToDouble(convertFromStringToCharArray(tankE[static_cast<int>(constants::PacketsIndexes::TankBulletsSize)])); ++i)
+                            {
+                                char buf[sizeof(double)];
+                                recv(client, buf, sizeof(buf), NULL);           
+                                tankE.push_back(buf);
+                            }
+
+                            tank2.newTank(tankE);
                         }
                         continue;
                     }
                     else if (isClient)
                     {
-                        cl.exchange(field1, tank1);
+                        cl.exchange(field1, tank1, tank1, tankAI);
                     }
 
                     while (window.pollEvent(event))

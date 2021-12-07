@@ -60,7 +60,7 @@ DWORD WINAPI process_thread(LPVOID lpParam, Field& field, Tank& tank) {
         for (int i = 0; i < recvd; ++i)
             std::cout << buff[i];*/
 
-        for (int i = 0; i < 7; ++i)
+        for (int i = 0; i < 14; ++i)
         {
             char buf[sizeof(double)];
             recv(client, buf, sizeof(buf), NULL);           

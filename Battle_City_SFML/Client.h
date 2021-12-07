@@ -16,7 +16,7 @@ class Client
 	SOCKET Connection;
 public:
 	void client();
-	void exchange(Field& field, Tank& tank);
+	void exchange(Field& field, Tank& tank, Tank& tank2, std::vector<Tank>& tankAI);
 	
 
 };

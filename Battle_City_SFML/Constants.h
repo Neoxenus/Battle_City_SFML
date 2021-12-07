@@ -217,6 +217,12 @@ namespace constants
 		TankSubCoordY,
 		TankDirecton,
 		TankBulletsSize,
+		Visibility,
+		isPlayer,
+		isMoving,
+		anim,
+		prX,
+		prY,
 
 		BulletDirection =0,
 		BulletCoordX,
@@ -225,3 +231,4 @@ namespace constants
 
 	};
 }
+

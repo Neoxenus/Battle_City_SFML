@@ -225,14 +225,14 @@ int main()
                         isGameActive = true;
                         isClient = false;
                         isHost = true;
-                        
+                        std::cout << "Wait for client...\n";
                         break;
                     case 2://new client
                         isGameActive = true;
                         isClient = true;
                         isHost = false;
                         std::cout << "Wait for host...\n";
-                        cl.client();
+                        cl.client();                       
                         break;
                     default:
                         //std::cout << "Something wrong with mouse coordinate\n";

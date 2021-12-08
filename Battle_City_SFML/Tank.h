@@ -47,7 +47,7 @@ public:
     void setBullets(std::vector<Bullet> tmpbullets);
     std::vector <Bullet> getBullets();
     bool getIsMoving();//pixel per 1 second
-    void draw(sf::RenderWindow& window, sf::Texture& texture_all);
+    void draw(sf::RenderWindow& window, sf::Texture& texture_all, bool isClient = false);
     bool collisionWithField(Field& field, double prevX, double prevY);
     int tankWithTankCollision(std::vector<Tank>& tanks);
     bool tankDeath(Tank& tank);

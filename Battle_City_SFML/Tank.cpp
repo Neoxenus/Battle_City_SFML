@@ -179,7 +179,7 @@ void Tank::setSubCoordY(double x)
     subCoordY = x;
 }
 
-void Tank::draw(sf::RenderWindow& window, sf::Texture& texture_all)
+void Tank::draw(sf::RenderWindow& window, sf::Texture& texture_all, bool isClient)
 {
 	sf::Sprite sprite_all(texture_all);
 
@@ -192,7 +192,7 @@ void Tank::draw(sf::RenderWindow& window, sf::Texture& texture_all)
 	window.draw(sprite_all);
     for (int i = 0; i < bullets.size(); ++i)
     {
-        bullets[i].draw(window, texture_all);
+        bullets[i].draw(window, texture_all, isClient);
     }
 }
 

@@ -271,7 +271,7 @@ int main()
                 sf::Event event;
                 if (timer > delay)
                 {
-                    if (isHost && fps % 4 == 0)
+                    if (isHost)
                     {
                         if (isFirst)
                         {
@@ -315,7 +315,7 @@ int main()
 
                         tankE.clear();
                     }
-                    else if (isClient && fps % 4 == 0)
+                    else if (isClient)
                     {
                         if (isFirst)
                         {
@@ -324,6 +324,7 @@ int main()
                             tank2.setSubCoordX(constants::DEFAULT_PLAYER_COORD_X[1]);   
                         }
                         cl.exchange(field1, tank1, tank2, tankAI);
+                       // Sleep(10);
                     }
 
                     while (window.pollEvent(event))
@@ -552,11 +553,11 @@ int main()
                     tank1.draw(window, texture_all); // coord in tiles // spawn tank
 
                     if(isHost || isClient) 
-                        tank2.draw(window, texture_all);
+                        tank2.draw(window, texture_all, isClient);
                     stat.draw(window);
                     for (auto& tank : tankAI)
                         if (tank.isVisible())
-                            tank.draw(window, texture_all);
+                            tank.draw(window, texture_all, isClient);
 
                     timer = 0;
                     window.display();
@@ -572,7 +573,7 @@ int main()
                         continue;
                     }
 
-                    if (isHost && fps % 4 == 0)
+                    if (isHost)
                     {
                         std::vector<char*> tmpvec = tank1.sendToServer();
                         char* tmpchar = convertVectorToCharArray(tmpvec);

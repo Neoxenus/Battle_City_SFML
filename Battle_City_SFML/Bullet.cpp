@@ -10,7 +10,7 @@ Bullet::Bullet(constants::Directions direction, double coordX, double coordY, in
 	this->speed = constants::bulletSpeed[tankType + 4 * (isPlayer == false)];
 }
 
-void Bullet::draw(sf::RenderWindow& window, sf::Texture& texture_all)
+void Bullet::draw(sf::RenderWindow& window, sf::Texture& texture_all, bool isClient )
 {
 	sf::Sprite sprite_all(texture_all);
 	if (direction == constants::Directions::UP || direction == constants::Directions::DOWN)
@@ -19,12 +19,14 @@ void Bullet::draw(sf::RenderWindow& window, sf::Texture& texture_all)
 			6 * constants::BLOCK_LENGHT + 5, 5, 6));
 		if (direction == constants::Directions::UP)
 		{
-			this->coordY -= 0.1;
+            if(!isClient)
+			    this->coordY -= 0.1;
 			sprite_all.setPosition(this->coordX * constants::TILES_LENGHT + constants::bulletOffset,
                 this->coordY * constants::TILES_LENGHT );
 		}
 		else
 		{
+            if(!isClient)
 			this->coordY += 0.1;
 			sprite_all.setPosition(this->coordX * constants::TILES_LENGHT + constants::bulletOffset,
                 this->coordY * constants::TILES_LENGHT);
@@ -36,12 +38,14 @@ void Bullet::draw(sf::RenderWindow& window, sf::Texture& texture_all)
 			6 * constants::BLOCK_LENGHT + 5, 6, 5));
 		if (direction == constants::Directions::LEFT)
 		{
+            if (!isClient)
 			this->coordX -= 0.1;
 			sprite_all.setPosition(this->coordX * constants::TILES_LENGHT,
 				this->coordY * constants::TILES_LENGHT + constants::bulletOffset);
 		}
 		else
 		{
+            if (!isClient)
 			this->coordX += 0.1;
 			sprite_all.setPosition(this->coordX * constants::TILES_LENGHT,
                 this->coordY * constants::TILES_LENGHT + constants::bulletOffset);

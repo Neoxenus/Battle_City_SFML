@@ -56,7 +56,7 @@ void Client::exchange(Field& field, Tank& tank1, Tank& tank2, std::vector<Tank>&
 	double bufSize = tankE.size() * sizeof(double) + 1;
 	send(Connection, convertToCharArray(bufSize), sizeof(double), NULL);
 	send(Connection, tankE1, (int)bufSize, NULL);
-
+	Sleep(5);
 	//tank1
 	std::vector<std::string> tankA;
 	char tmpBufSize3[sizeof(double)];

@@ -45,7 +45,7 @@ namespace constants
 		0, defaultEnemyCount, defultPlayerLives, 1
 	};
 
-	const double delay = 1.0 / 64;
+	const double delay = 1.0 / 128;
 	const double bulletOffset = 5.5;//offset for drawing
 	const double bulletSpawnOffset1 = -6.0 / 8;//offset for correct spawning of bullet
 	const double bulletSpawnOffset2 = 2;//offset for correct spawning of bullet

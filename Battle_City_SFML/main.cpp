@@ -289,6 +289,7 @@ int main()
                             else
                             {
                                 std::cout << "Client conected";
+                                timer = 0;
                             }
                         }
 
@@ -321,7 +322,7 @@ int main()
                         {
                             isFirst = false;
                             tank2.setCoordX(constants::DEFAULT_PLAYER_COORD_X[1]);
-                            tank2.setSubCoordX(constants::DEFAULT_PLAYER_COORD_X[1]);   
+                            tank2.setSubCoordX(constants::DEFAULT_PLAYER_COORD_X[1]);  
                         }
                         cl.exchange(field1, tank1, tank2, tankAI);
                        // Sleep(10);
@@ -560,7 +561,7 @@ int main()
                         if (tank.isVisible())
                             tank.draw(window, texture_all, isClient);
 
-                    timer = 0;
+                    //timer = 0;
                     window.display();
 
                     //clock.restart();
@@ -632,6 +633,7 @@ int main()
                             send(client, tmpchar, (int)bufSize, NULL);
                         }
                     }
+
                 }
                 if (timer > constants::delay * 128 * 256)
                 {

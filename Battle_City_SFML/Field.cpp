@@ -162,3 +162,12 @@ std::vector<char*> Field::sendToServer()
 			fieldCh.push_back(convertToCharArray(field[i][j]));
 	return fieldCh;
 }
+
+void Field::newField(std::vector<std::string> data)
+{
+	for(int j =0;j<constants::FIELD_HEIGHT;++j)
+		for (int i = 0; i < constants::FIELD_WIDTH; ++i)
+		{
+			this->setField(i, j, static_cast<constants::Tiles>(static_cast<int>(convertBackFromCharArrayToDouble(convertFromStringToCharArray(data[i+j* constants::FIELD_WIDTH])))));
+		}
+}

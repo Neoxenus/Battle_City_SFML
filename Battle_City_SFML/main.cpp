@@ -271,7 +271,7 @@ int main()
                 sf::Event event;
                 if (timer > delay)
                 {
-                    if (isHost && fps % 4 == 0)
+                    if (isHost && fps % 16 == 0)
                     {
                         if (isFirst)
                         {
@@ -315,7 +315,7 @@ int main()
 
                         tankE.clear();
                     }
-                    else if (isClient && fps % 4 == 0)
+                    else if (isClient && fps % 16 == 0)
                     {
                         if (isFirst)
                         {
@@ -558,7 +558,7 @@ int main()
                     window.display();
 
                     //clock.restart();
-                    if (!field1.isBaseAlive() || field1.getPlayerLives()<=0)
+                    if (!field1.isBaseAlive() /* || field1.getPlayerLives() <= 0*/)
                     {
 
                         
@@ -568,7 +568,7 @@ int main()
                         continue;
                     }
 
-                    if (isHost && fps % 4 == 0)
+                    if (isHost && fps % 16 == 0)
                     {
                         std::vector<char*> tmpvec = tank1.sendToServer();
                         char* tmpchar = convertVectorToCharArray(tmpvec);

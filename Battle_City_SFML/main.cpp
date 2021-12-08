@@ -248,6 +248,8 @@ int main()
                         isGameActive = true;
                         isClient = true;
                         isHost = false;
+                        timer = 0;
+                        mainTimer = 0;
                         std::cout << "Wait for host...\n";
                                              
                         break;

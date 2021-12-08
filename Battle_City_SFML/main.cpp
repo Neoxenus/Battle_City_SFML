@@ -478,8 +478,8 @@ int main()
                             {
                                 field1.setPlayerLives(field1.getPlayerLives() - 1);
                                 tank2.setDirection(constants::Directions::UP);
-                                tank2.setCoordX(constants::DEFAULT_PLAYER_COORD_X[0]);
-                                tank2.setSubCoordX(constants::DEFAULT_PLAYER_COORD_X[0]);
+                                tank2.setCoordX(constants::DEFAULT_PLAYER_COORD_X[1]);
+                                tank2.setSubCoordX(constants::DEFAULT_PLAYER_COORD_X[1]);
                                 tank2.setCoordY(constants::DEFAULT_PLAYER_COORD_Y);
                                 tank2.setSubCoordY(constants::DEFAULT_PLAYER_COORD_Y);
                                 stat.SetStatistics(field1.getPlayerLives(), static_cast<int>(constants::Stat::HP));

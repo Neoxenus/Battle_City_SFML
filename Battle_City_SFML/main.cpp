@@ -390,6 +390,8 @@ int main()
                             {
                                 for (int j = 0; j < tankAI[i].getBullets().size(); ++j)
                                 {
+                                    std::vector<Tank> vecTmp;
+                                    vecTmp.push_back(tank2);
                                     if (tank1.getBullets().size() > 0 && tankAI[i].getBullets()[j].bulletWithBulletCollision(tank1.getBullets()[0]))
                                     {
                                         tmpBullets = tank1.getBullets();
@@ -544,6 +546,8 @@ int main()
                         tank2.control(window, field1, event, tankAI);
                     if(!isClient)
                         tank1.bullets_colision(field1);
+                    if(isHost)
+                        tank2.bullets_colision(field1);
                     field1.draw(window, texture_block, texture_base);
                     tank1.draw(window, texture_all); // coord in tiles // spawn tank
 

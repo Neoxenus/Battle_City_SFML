@@ -248,6 +248,8 @@ int main()
                         isGameActive = true;
                         isClient = true;
                         isHost = false;
+                        timer = 0;
+                        mainTimer = 0;
                         std::cout << "Wait for host...\n";
                                              
                         break;
@@ -567,7 +569,7 @@ int main()
                     window.display();
 
                     //clock.restart();
-                    if (!field1.isBaseAlive() /* || field1.getPlayerLives() <= 0*/)
+                    if (!field1.isBaseAlive()  || field1.getPlayerLives() <= 0)
                     {
 
                         

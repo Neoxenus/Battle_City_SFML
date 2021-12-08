@@ -270,6 +270,10 @@ int main()
                                 WSACleanup();
                                 return 1;
                             }
+                            else
+                            {
+                                std::cout << "Client conected";
+                            }
                         }
 
                         for (int i = 0; i < 14; ++i)

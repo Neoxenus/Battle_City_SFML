@@ -59,7 +59,7 @@ void Tank::newTank(std::vector<std::string> data)
     this->direction = static_cast<constants::Directions>(static_cast<int>(
         convertBackFromCharArrayToDouble(convertFromStringToCharArray(data[static_cast<int>(constants::PacketsIndexes::TankDirecton)]))));
     int numOfBullets = static_cast<int>(convertBackFromCharArrayToDouble(convertFromStringToCharArray(data[static_cast<int>(constants::PacketsIndexes::TankBulletsSize)])));
-    this->bullets = std::vector<Bullet>();
+    this->bullets = std::vector<Bullet>();//как можно работать с вектором пуль если ты обробатуешь пули в конце?
 
     this->visibility = static_cast<bool>(convertBackFromCharArrayToDouble(convertFromStringToCharArray(data[static_cast<int>(constants::PacketsIndexes::Visibility)])));
     this->isPlayer = static_cast<bool>(convertBackFromCharArrayToDouble(convertFromStringToCharArray(data[static_cast<int>(constants::PacketsIndexes::isPlayer)])));

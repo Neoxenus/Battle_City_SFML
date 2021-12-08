@@ -225,14 +225,14 @@ int main()
                         isGameActive = true;
                         isClient = false;
                         isHost = true;
-                        
+                        std::cout << "Wait for client...\n";
                         break;
                     case 2://new client
                         isGameActive = true;
                         isClient = true;
                         isHost = false;
                         std::cout << "Wait for host...\n";
-                        cl.client();
+                        cl.client();                       
                         break;
                     default:
                         //std::cout << "Something wrong with mouse coordinate\n";
@@ -279,7 +279,7 @@ int main()
                             tankE.push_back(buf);
                         }
 
-                        for (int i = 14; i < 13 + 3 * convertBackFromCharArrayToDouble(convertFromStringToCharArray(tankE[static_cast<int>(constants::PacketsIndexes::TankBulletsSize)])); ++i)
+                        for (int i = 14; i < 14 + 3 * convertBackFromCharArrayToDouble(convertFromStringToCharArray(tankE[static_cast<int>(constants::PacketsIndexes::TankBulletsSize)])); ++i)
                         {
                             char buf[sizeof(double)];
                             recv(client, buf, sizeof(buf), NULL);           

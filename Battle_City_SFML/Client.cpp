@@ -65,7 +65,7 @@ void Client::exchange(Field& field, Tank& tank1, Tank& tank2, std::vector<Tank>&
 
 	}
 	
-	for (int i = 14; i < 13 + 3 * convertBackFromCharArrayToDouble(convertFromStringToCharArray(tankE[static_cast<int>(constants::PacketsIndexes::TankBulletsSize)])); ++i)
+	for (int i = 14; i < 14 + 3 * convertBackFromCharArrayToDouble(convertFromStringToCharArray(tankE[static_cast<int>(constants::PacketsIndexes::TankBulletsSize)])); ++i)
 	{
 		char buf[sizeof(double)];
 		recv(Connection, buf, sizeof(buf), NULL);
@@ -85,7 +85,7 @@ void Client::exchange(Field& field, Tank& tank1, Tank& tank2, std::vector<Tank>&
 
 	}
 
-	for (int i = 14; i < 13 + 3 * convertBackFromCharArrayToDouble(convertFromStringToCharArray(tankE[static_cast<int>(constants::PacketsIndexes::TankBulletsSize)])); ++i)
+	for (int i = 14; i < 14 + 3 * convertBackFromCharArrayToDouble(convertFromStringToCharArray(tankE[static_cast<int>(constants::PacketsIndexes::TankBulletsSize)])); ++i)
 	{
 		char buf[sizeof(double)];
 		recv(Connection, buf, sizeof(buf), NULL);

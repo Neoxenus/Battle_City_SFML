@@ -59,7 +59,7 @@ void Tank::newTank(std::vector<std::string> data)
     this->direction = static_cast<constants::Directions>(static_cast<int>(
         convertBackFromCharArrayToDouble(convertFromStringToCharArray(data[static_cast<int>(constants::PacketsIndexes::TankDirecton)]))));
     int numOfBullets = static_cast<int>(convertBackFromCharArrayToDouble(convertFromStringToCharArray(data[static_cast<int>(constants::PacketsIndexes::TankBulletsSize)])));
-    this->bullets = std::vector<Bullet>();
+    this->bullets = std::vector<Bullet>();//как можно работать с вектором пуль если ты обробатуешь пули в конце?
 
     this->visibility = static_cast<bool>(convertBackFromCharArrayToDouble(convertFromStringToCharArray(data[static_cast<int>(constants::PacketsIndexes::Visibility)])));
     this->isPlayer = static_cast<bool>(convertBackFromCharArrayToDouble(convertFromStringToCharArray(data[static_cast<int>(constants::PacketsIndexes::isPlayer)])));
@@ -69,7 +69,7 @@ void Tank::newTank(std::vector<std::string> data)
     this->prY = convertBackFromCharArrayToDouble(convertFromStringToCharArray(data[static_cast<int>(constants::PacketsIndexes::prY)]));
  
 
-    for (int i = static_cast<int>(constants::PacketsIndexes::prY) + 1; i < static_cast<int>(constants::PacketsIndexes::prY) + 3 * numOfBullets + 1 ; i += 3)
+    for (int i = static_cast<int>(constants::PacketsIndexes::prY) + 1; i < static_cast<int>(constants::PacketsIndexes::prY) + 1 + 3 * numOfBullets; i += 3)
     {
         // constants::Directions dir = static_cast<constants::Directions> (convertBackFromCharArrayToInt(data[i + 2]));
         Bullet tmp(

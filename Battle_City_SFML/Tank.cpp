@@ -1,17 +1,7 @@
 #include "Tank.h"
 #include <iostream>
 
-char* convertFromStringToCharArray(std::string data)
-{
-    char* ans = new char[data.size() + 1];
-    ans[data.size()] = '\0';
-    for (int i = 0; i < data.size(); ++i)
-    {
-        ans[i] = data[i];
-    }
-    ans[data.size()] = '\0';
-    return ans;
-}
+
 
 Tank::Tank()
 {

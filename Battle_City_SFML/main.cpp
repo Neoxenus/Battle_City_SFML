@@ -191,6 +191,22 @@ int main()
         cout << sizeof(tank1) << " " << sizeof(field1)<<endl;
     }*/
 
+
+   // std::vector<char*> tankA = tank2.sendToServer();
+    //std::vector<char*> fieldE = field.sendToServer();
+  //  char* tankE1 = convertVectorToCharArray(tankA);
+    //std::cout << tankE1.strlen() << '\n';
+   // int bufSize = tankA.size() * sizeof(double) + 1;
+    //convertToCharArray(bufSize);
+    //std::cout << sizeof(convertToCharArray((double)bufSize));
+    //for (int i = 0; i < 14 * 8 + 1; ++i)
+    //{
+    //    if (tankE1[i] == '\0')
+    //        std::cout << '\\';
+    //     if(i%70 == 0)  std::cout<<std::endl;
+    //    std::cout << tankE1[i];
+    //}
+
     while (window.isOpen())
     {
         sf::Event event;
@@ -290,16 +306,15 @@ int main()
 
                         tankE.clear();
                     }
-                    else if (isClient)
+                    else if (isClient && fps%4==0)
                     {
                         if (isFirst)
                         {
                             isFirst = false;
                             tank2.setCoordX(constants::DEFAULT_PLAYER_COORD_X[1]);
-                            tank2.setSubCoordX(constants::DEFAULT_PLAYER_COORD_X[1]);
-                            cl.exchange(field1, tank1, tank2, tankAI);
+                            tank2.setSubCoordX(constants::DEFAULT_PLAYER_COORD_X[1]);   
                         }
-                        
+                        cl.exchange(field1, tank1, tank2, tankAI);
                     }
 
                     while (window.pollEvent(event))

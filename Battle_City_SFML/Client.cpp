@@ -45,15 +45,17 @@ void Client::exchange(Field& field, Tank& tank1, Tank& tank2, std::vector<Tank>&
 
 	std::vector<char*> tankE = tank2.sendToServer();
 	//std::vector<char*> fieldE = field.sendToServer();
-	
-
-	for (int i = 0; i < tankE.size(); ++i)
-	{
-		//int bufSize = sizeof(tankE[i]);
-		//send(Connection, (char*)&bufSize, sizeof(int), NULL);
-		send(Connection, tankE[i], sizeof(double), NULL);
-	}
-
+	char* tankE1 = convertVectorToCharArray(tankE);
+	//std::cout << sizeof(tankE1)<<" " << tankE1;
+	//for (int i = 0; i < tankE.size(); ++i)
+	//{
+	//	double bufSize = tankE.size()*sizeof(double)+1;
+	//	send(Connection, convertToCharArray(bufSize), sizeof(double), NULL);
+	//	send(Connection, tankE1, sizeof(double), NULL);
+	//}
+	double bufSize = tankE.size() * sizeof(double) + 1;
+	send(Connection, convertToCharArray(bufSize), sizeof(double), NULL);
+	send(Connection, tankE1, (int)bufSize, NULL);
 
 	//tank1
 	std::vector<std::string> tankS1;

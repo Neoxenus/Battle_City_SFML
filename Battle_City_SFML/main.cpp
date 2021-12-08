@@ -276,12 +276,17 @@ int main()
                             }
                         }
 
-                        for (int i = 0; i < 14; ++i)
-                        {
-                            char buf[sizeof(double)];
+                        //for (int i = 0; i < 14; ++i)
+                        //{
+                            char tmpBufSize[sizeof(int)];
+                            recv(client, tmpBufSize, sizeof(int), NULL);
+                            int bufSize = convertBackFromCharArrayToInt(tmpBufSize);
+                            char* buf = new char [bufSize + 1];
+                            buf[bufSize] = '\0';
                             recv(client, buf, sizeof(buf), NULL);
-                            tankE.push_back(buf);
-                        }
+                            //tankE.push_back(buf);
+                            tankE = ConvertFromCharArrayToStringVector(buf);
+                        //}
 
                         for (int i = 14; i < 14 + 3 * convertBackFromCharArrayToDouble(convertFromStringToCharArray(tankE[static_cast<int>(constants::PacketsIndexes::TankBulletsSize)])); ++i)
                         {
@@ -320,7 +325,7 @@ int main()
                     }
                     bool next = false;
                     if(!isClient)
-                        for (int i = 0; i < tankAIRespawnTime.size(); ++i)
+                    for (int i = 0; i < tankAIRespawnTime.size(); ++i)
                     { 
                         if (timer > tankAIRespawnTime[i] && abs(timer - tankAIRespawnTime[i]) <= 15)
                         {
@@ -380,6 +385,7 @@ int main()
                                         tmpBullets.erase(tmpBullets.begin() + j);
                                         tankAI[i].setBullets(tmpBullets);
                                         tankAI[i].setAlreadyShot(tankAI[i].getAlreadyShot() - 1);
+
                                     }
                                 }
                             }

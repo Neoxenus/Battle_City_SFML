@@ -9,3 +9,5 @@ char* convertToCharArray(double number);
 int convertBackFromCharArrayToInt(char* cstr);
 
 double convertBackFromCharArrayToDouble(char* cstr);
+
+std::vector <std::string> ConvertFromCharArrayToStringVector(char* buf);

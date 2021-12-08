@@ -255,7 +255,7 @@ int main()
                 sf::Event event;
                 if (timer > delay)
                 {
-                    if (isHost)
+                    if (isHost && fps % 4 == 0)
                     {
                         if (isFirst)
                         {
@@ -290,7 +290,7 @@ int main()
 
                         tankE.clear();
                     }
-                    else if (isClient)
+                    else if (isClient && fps % 4 == 0)
                     {
                         if (isFirst)
                         {
@@ -503,7 +503,7 @@ int main()
                         continue;
                     }
 
-                    if (isHost)
+                    if (isHost && fps % 4 == 0)
                     {
                         std::vector<char*> tmp = tank1.sendToServer();
                         for (int i = 0; i < tmp.size(); ++i)

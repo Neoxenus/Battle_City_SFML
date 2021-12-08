@@ -278,22 +278,22 @@ int main()
 
                         //for (int i = 0; i < 14; ++i)
                         //{
-                            char tmpBufSize[sizeof(int)];
-                            recv(client, tmpBufSize, sizeof(int), NULL);
-                            int bufSize = convertBackFromCharArrayToInt(tmpBufSize);
-                            char* buf = new char [bufSize + 1];
-                            buf[bufSize] = '\0';
-                            recv(client, buf, sizeof(buf), NULL);
+                            char tmpBufSize[sizeof(double)];
+                            recv(client, tmpBufSize, sizeof(double), NULL);
+                            int bufSize = static_cast<int>(convertBackFromCharArrayToDouble(tmpBufSize));
+                            char* buf = new char [bufSize];
+                            //buf[bufSize] = '\0';
+                            recv(client, buf, bufSize, NULL);
                             //tankE.push_back(buf);
-                            tankE = ConvertFromCharArrayToStringVector(buf);
+                            tankE = ConvertFromCharArrayToStringVector(buf, bufSize);
                         //}
 
-                        for (int i = 14; i < 14 + 3 * convertBackFromCharArrayToDouble(convertFromStringToCharArray(tankE[static_cast<int>(constants::PacketsIndexes::TankBulletsSize)])); ++i)
+                        /*for (int i = 14; i < 14 + 3 * convertBackFromCharArrayToDouble(convertFromStringToCharArray(tankE[static_cast<int>(constants::PacketsIndexes::TankBulletsSize)])); ++i)
                         {
                             char buf[sizeof(double)];
                             recv(client, buf, sizeof(buf), NULL);           
                             tankE.push_back(buf);
-                        }
+                        }*/
 
                         tank2.newTank(tankE);
 
@@ -387,6 +387,17 @@ int main()
                                         tankAI[i].setAlreadyShot(tankAI[i].getAlreadyShot() - 1);
 
                                     }
+                                    if (isHost && tank2.getBullets().size() > 0 && tankAI[i].getBullets()[j].bulletWithBulletCollision(tank2.getBullets()[0]))
+                                    {
+                                        tmpBullets = tank2.getBullets();
+                                        tmpBullets.erase(tmpBullets.begin());
+                                        tank2.setBullets(tmpBullets);
+                                        tank2.setAlreadyShot(tank2.getAlreadyShot() - 1);
+                                        tmpBullets = tankAI[i].getBullets();
+                                        tmpBullets.erase(tmpBullets.begin() + j);
+                                        tankAI[i].setBullets(tmpBullets);
+                                        tankAI[i].setAlreadyShot(tankAI[i].getAlreadyShot() - 1);
+                                    }
                                 }
                             }
                             if (tankAI[i].isVisible())
@@ -418,6 +429,23 @@ int main()
                                     continue;
                                 }
                             }
+                            if (isHost && tankAI[i].isVisible() && tankAI[i].tankDeath(tank2))
+                            {
+                                field1.setEnemyCount(field1.getEnemyCount() - 1);
+                                stat.SetStatistics(field1.getEnemyCount(), static_cast<int>(constants::Stat::ENEMIES));
+                                tankAI[i].setVisibility(false);
+                                tankAI[i].setCoordX(-10);
+                                tankAI[i].setCoordY(-10);
+                                tankAIRespawnTime[i] = (static_cast<int>(timer) + 3) % 256;
+                                if (field1.getEnemyCount() == 0)
+                                {
+                                    std::cout << "You win!\0";
+                                    Sleep(1000);
+                                    isGameActive = false;
+                                    continue;
+                                }
+                            }
+
                             if (tankAI[i].isVisible() && tank1.tankDeath(tankAI[i]) && !godMode)
                             {
                                 field1.setPlayerLives(field1.getPlayerLives() - 1);
@@ -428,6 +456,17 @@ int main()
                                 tank1.setSubCoordY(constants::DEFAULT_PLAYER_COORD_Y);
                                 stat.SetStatistics(field1.getPlayerLives(), static_cast<int>(constants::Stat::HP));
                             }
+                            if (isHost && tankAI[i].isVisible() && tank2.tankDeath(tankAI[i]) && !godMode)
+                            {
+                                field1.setPlayerLives(field1.getPlayerLives() - 1);
+                                tank2.setDirection(constants::Directions::UP);
+                                tank2.setCoordX(constants::DEFAULT_PLAYER_COORD_X[0]);
+                                tank2.setSubCoordX(constants::DEFAULT_PLAYER_COORD_X[0]);
+                                tank2.setCoordY(constants::DEFAULT_PLAYER_COORD_Y);
+                                tank2.setSubCoordY(constants::DEFAULT_PLAYER_COORD_Y);
+                                stat.SetStatistics(field1.getPlayerLives(), static_cast<int>(constants::Stat::HP));
+                            }
+
                         }
 
                         if (timer < 24.0)

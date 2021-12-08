@@ -10,4 +10,4 @@ int convertBackFromCharArrayToInt(char* cstr);
 
 double convertBackFromCharArrayToDouble(char* cstr);
 
-std::vector <std::string> ConvertFromCharArrayToStringVector(char* buf);
+std::vector <std::string> ConvertFromCharArrayToStringVector(char* buf, int bufSize);

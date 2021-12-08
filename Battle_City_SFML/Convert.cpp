@@ -35,11 +35,11 @@ double convertBackFromCharArrayToDouble(char* cstr)
     return static_cast<double>(number);
 }
 
-std::vector <std::string> ConvertFromCharArrayToStringVector(char* buf)
+std::vector <std::string> ConvertFromCharArrayToStringVector(char* buf, int bufSize)
 {
     std::vector <std::string> ans;
     std::string tmp;
-    for (int i = 0; i < sizeof(buf); i+=8)
+    for (int i = 0; i < bufSize; i+=8)
     {
         tmp = "";
         for (int j = i; j < i + 8 && buf[j] != '\0'; ++j)

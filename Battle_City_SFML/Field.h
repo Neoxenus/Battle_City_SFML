@@ -26,5 +26,7 @@ public:
 	void setField(const std::vector<std::vector<int>>& level);
 	void draw(sf::RenderWindow& window, sf::Texture& texture_block, sf::Texture& texture_base);
 	std::vector<char*> sendToServer();
+
+	void newField(std::vector<std::string>);
 };
 

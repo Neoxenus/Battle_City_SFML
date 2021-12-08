@@ -271,7 +271,7 @@ int main()
                 sf::Event event;
                 if (timer > delay)
                 {
-                    if (isHost && fps % 4 == 0)
+                    if (isHost && fps % 16 == 0)
                     {
                         if (isFirst)
                         {
@@ -315,7 +315,7 @@ int main()
 
                         tankE.clear();
                     }
-                    else if (isClient && fps % 4 == 0)
+                    else if (isClient && fps % 16 == 0)
                     {
                         if (isFirst)
                         {
@@ -568,9 +568,28 @@ int main()
                         continue;
                     }
 
-                    if (isHost && fps % 4 == 0)
+                    if (isHost && fps % 16 == 0)
                     {
-                        std::vector<char*> tmp = tank1.sendToServer();
+                        std::vector<char*> tmpvec = tank1.sendToServer();
+                        char* tmpchar = convertVectorToCharArray(tmpvec);
+                        double bufSize = tmpvec.size() * sizeof(double) + 1;
+                        send(client, convertToCharArray(bufSize), sizeof(double), NULL);
+                        send(client, tmpchar, (int)bufSize, NULL);
+
+                        tmpvec = tank2.sendToServer();
+                        tmpchar = convertVectorToCharArray(tmpvec);
+                        bufSize = tmpvec.size() * sizeof(double) + 1;
+                        send(client, convertToCharArray(bufSize), sizeof(double), NULL);
+                        send(client, tmpchar, (int)bufSize, NULL);
+
+                        tmpvec = field1.sendToServer();
+                        tmpchar = convertVectorToCharArray(tmpvec);
+                        bufSize = tmpvec.size() * sizeof(double) + 1;
+                        send(client, convertToCharArray(bufSize), sizeof(double), NULL);
+                        send(client, tmpchar, (int)bufSize, NULL);
+
+
+                        /*std::vector<char*> tmp = tank1.sendToServer();
                         for (int i = 0; i < tmp.size(); ++i)
                         {                           
                             send(client, tmp[i], sizeof(double), NULL);
@@ -586,7 +605,7 @@ int main()
                         for (int i = 0; i < tmp.size(); ++i)
                         {                            
                             send(client, tmp[i], sizeof(int), NULL);
-                        }
+                        }*/
 
                         send(client, convertToCharArray(field1.getEnemyCount()), sizeof(int), NULL);
                         send(client, convertToCharArray(field1.getPlayerLives()), sizeof(int), NULL);
@@ -594,11 +613,17 @@ int main()
 
                         for (int j = 0; j < tankAI.size(); ++j)
                         {
-                            tmp = tankAI[j].sendToServer();
+                           /* tmp = tankAI[j].sendToServer();
                             for (int i = 0; i < tmp.size(); ++i)
                             {
                                 send(client, tmp[i], sizeof(double), NULL);
-                            }
+                            }*/
+
+                            tmpvec = tankAI[j].sendToServer();
+                            char* tmpchar = convertVectorToCharArray(tmpvec);
+                            double bufSize = tmpvec.size() * sizeof(double) + 1;
+                            send(client, convertToCharArray(bufSize), sizeof(double), NULL);
+                            send(client, tmpchar, (int)bufSize, NULL);
                         }
                     }
                 }

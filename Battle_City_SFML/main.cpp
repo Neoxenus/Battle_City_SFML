@@ -545,12 +545,9 @@ int main()
                         tank1.control(window, field1, event, tankAI);
                     if(isClient)
                         tank2.control(window, field1, event, tankAI);
-                    if(!isClient)
-                        tank1.bullets_colision(field1);
-                    if(isHost)
-                        tank2.bullets_colision(field1);
+
                     field1.draw(window, texture_block, texture_base);
-                    tank1.draw(window, texture_all); // coord in tiles // spawn tank
+                    tank1.draw(window, texture_all, isClient); // coord in tiles // spawn tank
 
                     if(isHost || isClient) 
                         tank2.draw(window, texture_all, isClient);
@@ -558,7 +555,10 @@ int main()
                     for (auto& tank : tankAI)
                         if (tank.isVisible())
                             tank.draw(window, texture_all, isClient);
-
+                    if (!isClient)
+                        tank1.bullets_colision(field1);
+                    if (isHost)
+                        tank2.bullets_colision(field1);
                     timer = 0;
                     window.display();
 

@@ -297,8 +297,9 @@ int main()
                             isFirst = false;
                             tank2.setCoordX(constants::DEFAULT_PLAYER_COORD_X[1]);
                             tank2.setSubCoordX(constants::DEFAULT_PLAYER_COORD_X[1]);
+                            cl.exchange(field1, tank1, tank2, tankAI);
                         }
-                        cl.exchange(field1, tank1, tank2, tankAI);
+                        
                     }
 
                     while (window.pollEvent(event))

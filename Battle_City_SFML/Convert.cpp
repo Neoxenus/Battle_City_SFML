@@ -42,7 +42,7 @@ std::vector <std::string> ConvertFromCharArrayToStringVector(char* buf)
     for (int i = 0; i < sizeof(buf); i+=8)
     {
         tmp = "";
-        for (int j = i; j < i + 8 && buf != '\0'; ++j)
+        for (int j = i; j < i + 8 && buf[j] != '\0'; ++j)
         {
             tmp += buf[j];        
         }

@@ -1,5 +1,4 @@
 #include "SFML/Graphics.hpp"
-#include "Server.h"
 #include "Client.h"
 #include "Tank.h"
 #include <ctime>
